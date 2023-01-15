@@ -1,25 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
+import {Route, Routes, useLocation} from "react-router-dom";
+import Main from "./pages/Main";
+import Shop from "./pages/Shop";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import HeroSection from "./components/HeroSection/HeroSection";
+import React, {useEffect} from "react";
+import appendScript from "./appendScript";
+import Blog from "./pages/Blog";
+import Contact from "./pages/Contact";
+import Banner from "./components/Banner";
+import $ from "jquery";
+import ShopDetails from "./pages/ShopDetails";
+import ShopingCart from "./pages/ShopingCart";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    return (
+        <>
+            <Header/>
+            <HeroSection/>
+            <Banner/>
+            <Routes>
+                <Route path={"/"} element={<Main/>}/>
+                <Route path={"/shop-grid"} element={<Shop/>}/>
+                <Route path={"/blog"} element={<Blog/>}/>
+                <Route path={"/contact"} element={<Contact/>}/>
+                <Route path={"/shop-details"} element={<ShopDetails/>}/>
+                <Route pate={"/shoping-cart"} element={<ShopingCart/>}/>
+            </Routes>
+            <Footer/>
+        </>
+    );
 }
 
 export default App;
