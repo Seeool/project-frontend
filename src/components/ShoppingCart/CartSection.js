@@ -5,14 +5,29 @@ import {useCookies} from "react-cookie";
 
 function CartSection(props) {
     const [cookies, setCookie] = useCookies(['cart'])
+    console.log('CartSection 리렌더링')
 
-    console.log(cookies.cart)
+    let amount = []
+    if (cookies.cart !== undefined) {
+        amount = cookies.cart.split('/')
+    }
+    const set = new Set(amount) //중복값 제거과정
+    const arraySet = Array.from(set) //중복값 제거과정
+
+    let cartProducts = []
+    if (arraySet.length > 0) {
+            cartProducts = arraySet.map((id) => {
+            return {
+                id : id
+            }
+        })
+    }
+
     const [total, setTotal] = useState(0)
     const [renderChange, setRenderChange] = useState(0)
-    let subTotal = ''
+
     useEffect(() => {
-        console.log("총계 계산")
-        subTotal = document.querySelectorAll(".shoping__cart__total")
+        let subTotal = document.querySelectorAll(".shoping__cart__total")
         let sum = 0
         for (let i = 0; i < subTotal.length; i++) {
             sum += parseInt(subTotal[i].querySelector("span").innerHTML)
@@ -20,31 +35,29 @@ function CartSection(props) {
         setTotal(sum)
     },[renderChange])
 
-
-
-    const cartProducts = [
-        {
-            id: 1,
-            picUrl: 'img/cart/cart-1.jpg',
-            name: 'Vegetable’s Package',
-            price: '55.00',
-            quantity: 1,
-        },
-        {
-            id: 2,
-            picUrl: 'img/cart/cart-2.jpg',
-            name: 'Fresh Garden Vegetable',
-            price: '39.00',
-            quantity: 2,
-        },
-        {
-            id: 3,
-            picUrl: 'img/cart/cart-3.jpg',
-            name: 'Organic Bananas',
-            price: '69.00',
-            quantity: 3,
-        }
-    ]
+    // const cartProducts = [
+    //     {
+    //         id: 1,
+    //         picUrl: 'img/cart/cart-1.jpg',
+    //         name: 'Vegetable’s Package',
+    //         price: '55.00',
+    //         quantity: 1,
+    //     },
+    //     {
+    //         id: 2,
+    //         picUrl: 'img/cart/cart-2.jpg',
+    //         name: 'Fresh Garden Vegetable',
+    //         price: '39.00',
+    //         quantity: 2,
+    //     },
+    //     {
+    //         id: 3,
+    //         picUrl: 'img/cart/cart-3.jpg',
+    //         name: 'Organic Bananas',
+    //         price: '69.00',
+    //         quantity: 3,
+    //     }
+    // ]
     return (
         <>
             <div className="row">

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link, NavLink} from "react-router-dom";
 import styled from "styled-components";
+import {useCookies} from "react-cookie";
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -14,11 +15,19 @@ const inactive = {
     textDecoration: 'none'
 }
 const Header = () => {
+    const [cookies, setCookie] = useCookies(['cart'])
+
+    let amount = []
+    if (cookies.cart !== undefined) {
+        amount = cookies.cart.split('/')
+    }
+    const set = new Set(amount)
+
     return (
         <>
-        {/*<div id="preloder">*/}
-        {/*    <div className="loader"></div>*/}
-        {/*</div>*/}
+        <div id="preloder">
+            <div className="loader"></div>
+        </div>
         <header className="header">
             <div className="header__top">
                 <div className="container">
@@ -70,7 +79,7 @@ const Header = () => {
                         <div className="header__cart">
                             <ul>
                                 <li>
-                                    <span>장바구니 </span><StyledLink to="#"><i className="fa fa-shopping-bag" /> <span>3</span></StyledLink>
+                                    <span>장바구니 </span><StyledLink to="/shopping-cart"><i className="fa fa-shopping-bag" /> <span>{set.size}</span></StyledLink>
                                 </li>
                             </ul>
                         </div>

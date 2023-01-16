@@ -1,14 +1,23 @@
 import React, {useEffect, useRef, useState} from 'react';
+import {useCookies} from "react-cookie";
 
 const Product = (props) => {
 
-    const {type, name, price, picUrl} = props.product
+    const {id, type, name, price, picUrl} = props.product
     const handleShow = props.handleShow
-    const addToCart = () => {
+
+    const [cookies, setCookie] = useCookies(['cart'])
+    const addToCart = (e) => {
+        e.preventDefault()
         handleShow()
+        if(cookies.cart !== undefined) {
+            setCookie('cart', cookies.cart + '/' + id)
+        }
+        else {
+            setCookie('cart', id)
+        }
 
     }
-
     return (
         <>
             <div className={type + " col-lg-3 col-md-4 col-sm-6 mix"}>
@@ -19,7 +28,7 @@ const Product = (props) => {
                     >
                         <ul className="featured__item__pic__hover">
                             <li>
-                                <a className="addCartBtn" href="src/components#"  >
+                                <a className="addCartBtn" href="src/components#" onClick={addToCart}>
                                     <i className="fa fa-shopping-cart"></i>
                                     <input type={'hidden'} value={name}/>
                                 </a>
@@ -32,7 +41,6 @@ const Product = (props) => {
                     </div>
                 </div>
             </div>
-
         </>
     );
 };

@@ -45,21 +45,7 @@ const FeaturedProduct = () => {
 
     ]
 
-    const [cookies, setCookie] = useCookies(['cart'])
-    let addCartBtn = ''
     useEffect(() => {
-        addCartBtn = document.querySelectorAll(".addCartBtn")
-        for (let i=0;i<addCartBtn.length;i++) {
-            addCartBtn[i].addEventListener("click", (e) => {
-                e.preventDefault()
-
-                console.log(document.cookie.match('cart').input)
-
-                const name = addCartBtn[i].querySelector("input").value
-                setCookie('cart', name)
-
-            })
-        }
     }, []);
 
     return (
