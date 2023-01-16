@@ -5,7 +5,7 @@ function ProductList(props) {
     const products = [
         {
             id : 1,
-            picUrl : 'img/product/product-1.jpg',
+            picUrl : 'img/02.jpg',
             name : '상품 테스트1',
             price : '$30.00'
         },

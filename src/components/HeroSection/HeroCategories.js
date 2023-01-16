@@ -13,7 +13,7 @@ const HeroCategories = () => {
     }else {
         $('.hero__categories ul').show()
     }
-    useEffect(() => {
+    useEffect(() => { //렌더될때마다 새롭게 온클릭 이벤트를 할당시켜줘야해서???
         $('.hero__categories__all').on('click', function () {
             $('.hero__categories ul').slideToggle(400);
         });

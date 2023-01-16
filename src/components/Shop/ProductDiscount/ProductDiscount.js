@@ -5,7 +5,7 @@ function ProductDiscount(props) {
     const products = [
         {
             id : 1,
-            picUrl : 'img/product/discount/pd-1.jpg',
+            picUrl : 'img/02.jpg',
             ratio : '-20%',
             type : 'Dried Fruit',
             name : 'Raisin’n’nuts',

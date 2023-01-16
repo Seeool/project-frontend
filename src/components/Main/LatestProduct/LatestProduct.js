@@ -7,7 +7,7 @@ function LatestProduct(props) {
             id : 1,
             title : '테스트1',
             price : '$30',
-            picUrl : 'img/latest-product/lp-1.jpg'
+            picUrl : 'img/02.jpg'
         },
         {
             id : 2,

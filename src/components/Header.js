@@ -59,8 +59,8 @@ const Header = () => {
                                     <StyledLink to="#">Pages</StyledLink>
                                     <ul className="header__menu__dropdown">
                                         <li><StyledLink to="./shop-details">Shop Details</StyledLink></li>
-                                        <li><StyledLink to="./shoping-cart">Shoping Cart</StyledLink></li>
-                                        <li><StyledLink to="./checkout">Check Out</StyledLink></li>
+                                        <li><StyledLink to="./shopping-cart">Shopping Cart</StyledLink></li>
+                                        <li><StyledLink to="./blog-details">Blog Details</StyledLink></li>
                                     </ul>
                                 </li>
                             </ul>

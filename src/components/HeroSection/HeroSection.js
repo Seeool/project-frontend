@@ -10,7 +10,6 @@ const StyledLink = styled(Link)`
 `
 const HeroSection = (props) => {
     const location = useLocation()
-    console.log(location.pathname)
     let appendclass = "";
     if(location.pathname !== '/') {
         appendclass = 'hero-normal'

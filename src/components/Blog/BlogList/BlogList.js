@@ -8,7 +8,7 @@ function BlogList(props) {
             title: '테스트1 제목',
             date: 'May 4,2019',
             replyCount: 5,
-            picUrl: 'img/blog/blog-1.jpg'
+            picUrl: 'img/02.jpg'
         },
         {
             id: 2,
