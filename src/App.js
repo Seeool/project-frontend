@@ -12,7 +12,8 @@ import Contact from "./pages/Contact";
 import Banner from "./components/Banner";
 import $ from "jquery";
 import ShopDetails from "./pages/ShopDetails";
-import ShopingCart from "./pages/ShopingCart";
+import ShoppingCart from "./pages/ShoppingCart";
+import BlogDetails from "./pages/BlogDetails";
 
 
 function App() {
@@ -28,7 +29,8 @@ function App() {
                 <Route path={"/blog"} element={<Blog/>}/>
                 <Route path={"/contact"} element={<Contact/>}/>
                 <Route path={"/shop-details"} element={<ShopDetails/>}/>
-                <Route pate={"/shoping-cart"} element={<ShopingCart/>}/>
+                <Route path={"/shopping-cart"} element={<ShoppingCart/>}/>
+                <Route path={"/blog-details"} element={<BlogDetails/>}/>
             </Routes>
             <Footer/>
         </>

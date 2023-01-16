@@ -24,6 +24,15 @@ function Banner(props) {
         case "/shop-details" :
             name = '제품 상세'
             display = {display : 'block'}
+            break
+        case "/shopping-cart" :
+            name = '쇼핑 카트'
+            display = {display : 'block'}
+            break
+        case "/blog-details" :
+            name = '블로그'
+            display = {display : 'none'}
+            break
     }
     return (
         <section className="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg" style={display}>
