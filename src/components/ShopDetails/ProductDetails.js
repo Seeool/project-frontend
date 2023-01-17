@@ -36,9 +36,10 @@ function ProductDetails(props) {
     //     }
     const [product, setProduct] = useState({})
     const getProductt = async () => {
-        await axios.get("http://localhost:9000/api/product/1")
+        await axios.get("http://localhost:9000/api/product/10")
             .then(res => {
-                    setProduct(res.data)
+                res.data.avgGrade = '4.7'
+                setProduct(res.data)
             })
             .catch(e => console.log(e))
     }
@@ -54,12 +55,10 @@ function ProductDetails(props) {
         for (let i=0; i<integer; i++) {
             $(".product__details__rating").prepend('<i class="fa fa-star"></i>')
         }
-
     }
     useEffect(() => {
         getProductt()
-        stars()
-        console.log(product)
+        stars() // 왜 작동을 안하는지 아직 모르겠음 23/01/17 17:35
     },[])
 
     return (
