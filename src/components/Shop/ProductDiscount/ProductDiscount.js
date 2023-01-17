@@ -29,7 +29,7 @@ function ProductDiscount(props) {
                     <div className="product__discount__percent">-20%</div>
                     <ul className="product__item__pic__hover">
                         <li>
-                            <a href="javascript:void(0)" onClick={addToCart}><i className="fa fa-shopping-cart"></i></a>
+                            <a href="#" onClick={addToCart}><i className="fa fa-shopping-cart"></i></a>
                         </li>
                     </ul>
                 </div>

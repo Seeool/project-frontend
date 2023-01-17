@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Modal} from "react-bootstrap";
 import $ from 'jquery'
+import axios from "axios";
 
 function ProductDetails(props) {
     const [quantities, setQuantities] = useState(1)
@@ -20,19 +21,27 @@ function ProductDetails(props) {
         e.preventDefault()
         setShow(true);
     }
-    const product =
-        {
-            id : 1,
-            name : 'Vetgetable’s Package',
-            reviewCount : 18,
-            price : 50,
-            text : 'Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.\n' +
-                '                        Vestibulum ac diam sit amet quam vehicula elementum sed sit amet\n' +
-                '                        dui. Sed porttitor lectus nibh. Vestibulum ac diam sit amet quam\n' +
-                '                        vehicula elementum sed sit amet dui. Proin eget tortor risus.',
-            avgGrade : 4.2,
-            stock : 50
-        }
+    // const product =
+    //     {
+    //         id : 1,
+    //         name : 'Vetgetable’s Package',
+    //         reviewCount : 18,
+    //         price : 50,
+    //         text : 'Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.\n' +
+    //             '                        Vestibulum ac diam sit amet quam vehicula elementum sed sit amet\n' +
+    //             '                        dui. Sed porttitor lectus nibh. Vestibulum ac diam sit amet quam\n' +
+    //             '                        vehicula elementum sed sit amet dui. Proin eget tortor risus.',
+    //         avgGrade : 4.2,
+    //         stock : 50
+    //     }
+    const [product, setProduct] = useState({})
+    const getProductt = async () => {
+        await axios.get("http://localhost:9000/api/product/1")
+            .then(res => {
+                    setProduct(res.data)
+            })
+            .catch(e => console.log(e))
+    }
     const stars = () => {
         let integer = Math.floor(product.avgGrade)
         let decimal = product.avgGrade - Math.floor(product.avgGrade)
@@ -48,7 +57,9 @@ function ProductDetails(props) {
 
     }
     useEffect(() => {
+        getProductt()
         stars()
+        console.log(product)
     },[])
 
     return (
