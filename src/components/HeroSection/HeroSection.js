@@ -31,12 +31,8 @@ const HeroSection = (props) => {
     const navigate = useNavigate()
     const search = (e) => {
         e.preventDefault()
-        console.log(word)
-        console.log(type)
         navigate("/shop-grid?type="+type+"&word="+word)
     }
-    console.log(word)
-    console.log(type)
 
     return (
         <>

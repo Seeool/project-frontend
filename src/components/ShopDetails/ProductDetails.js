@@ -2,9 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {Button, Modal} from "react-bootstrap";
 import $ from 'jquery'
 import axios from "axios";
+import {useDispatch} from "react-redux";
+import {addProductWithQty} from "../../store/cartReducer";
+import {useParams} from "react-router-dom";
 
 function ProductDetails(props) {
     const [quantities, setQuantities] = useState(1)
+    const dispatch = useDispatch()
+
     const plusQuantities = () => {
         setQuantities(quantities + 1)
     }
@@ -19,6 +24,7 @@ function ProductDetails(props) {
     const handleClose = () => setShow(false);
     const handleShow = (e) => {
         e.preventDefault()
+        dispatch(addProductWithQty({id:5, qty:quantities}))
         setShow(true);
     }
     // const product =

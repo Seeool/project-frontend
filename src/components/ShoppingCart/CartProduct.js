@@ -1,38 +1,46 @@
 import React, {useEffect, useRef, useState} from 'react';
 import $ from 'jquery'
 import {useCookies} from "react-cookie";
+import {useDispatch} from "react-redux";
+import {addProduct, deleteProduct, minusProduct} from "../../store/cartReducer";
 
 function CartProduct(props) {
-    const {id} = props.cartProduct
+    const {id, qty} = props.cartProduct
     const [quantities, setQuantities] = useState(1)
     const [cookies, setCookie, removeCookie] = useCookies(['cart'])
+    const dispatch = useDispatch()
 
     //백엔드와의 통신으로 picUrl, name, price를 가져와야함
 
-    const plusQuantities = () => {
-        setQuantities(quantities + 1)
+    const plusQty = () => {
+        console.log("plusQty 실행")
+        dispatch(addProduct({id : id}))
         props.setRenderChange(props.renderChange + 1)
     }
-    const minusQuantities = () => {
-        if (quantities > 1) {
-            setQuantities(quantities - 1)
+    const minusQty = () => {
+        if (qty > 1) {
+            dispatch(minusProduct({id : id}))
             props.setRenderChange(props.renderChange + 1)
         }
     }
 
-    const set = new Set(cookies.cart.split('/'))
-    const close = () => {
-        // visibility.current.style.display = 'none'
-        setQuantities(0)
-        props.setRenderChange(props.renderChange + 1)
-        if (set.size === 1) {
-            removeCookie('cart')
-        } else {
-            setCookie('cart', cookies.cart.split('/').filter(arr => arr !== id).join('/'))
-        }
-    }
+    // const set = new Set(cookies.cart.split('/'))
+    // const close = () => {
+    //     // visibility.current.style.display = 'none'
+    //     setQuantities(0)
+    //     props.setRenderChange(props.renderChange + 1)
+    //     if (set.size === 1) {
+    //         removeCookie('cart')
+    //     } else {
+    //         setCookie('cart', cookies.cart.split('/').filter(arr => arr !== id).join('/'))
+    //     }
+    // }
+    //
+     const visibility = useRef()
 
-    const visibility = useRef()
+    const close = () => {
+        dispatch(deleteProduct({id: id}))
+    }
 
     return (
         <tr ref={visibility}>
@@ -47,14 +55,14 @@ function CartProduct(props) {
             <td className="shoping__cart__quantity">
                 <div className="quantity">
                     <div className="pro-qty">
-                        <span className="dec qtybtn" onClick={minusQuantities}>-</span>
-                        <input type="text" value={quantities} readOnly/>
-                        <span className="inc qtybtn" onClick={plusQuantities}>+</span>
+                        <span className="dec qtybtn" onClick={minusQty}>-</span>
+                        <input type="text" value={qty} readOnly/>
+                        <span className="inc qtybtn" onClick={plusQty}>+</span>
                     </div>
                 </div>
             </td>
             <td className="shoping__cart__total">
-                \<span>{50 * quantities}</span>
+                \<span>{50 * qty}</span>
             </td>
             <td className="shoping__cart__item__close">
                 <span className="icon_close" onClick={close}></span>

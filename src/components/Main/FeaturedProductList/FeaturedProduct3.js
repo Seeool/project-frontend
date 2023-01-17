@@ -1,20 +1,23 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useCookies} from "react-cookie";
 import {Link} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {addProduct} from "../../../store/cartReducer";
-
 
 const FeaturedProduct = (props) => {
 
     const {id, type, name, price, picUrl} = props.product
     const handleShow = props.handleShow
 
-    const dispatch = useDispatch()
+    const [cookies, setCookie] = useCookies(['cart'])
     const addToCart = (e) => {
         e.preventDefault()
         handleShow()
-        dispatch(addProduct({id : id}))
+        if(cookies.cart !== undefined) {
+            setCookie('cart', cookies.cart + '/' + id)
+        }
+        else {
+            setCookie('cart', id)
+        }
+
     }
     return (
         <>
@@ -26,10 +29,10 @@ const FeaturedProduct = (props) => {
                     >
                         <ul className="featured__item__pic__hover">
                             <li>
-                                <Link className="addCartBtn" onClick={addToCart}>
+                                <a className="addCartBtn" href="src/components#" onClick={addToCart}>
                                     <i className="fa fa-shopping-cart"></i>
                                     <input type={'hidden'} value={name}/>
-                                </Link>
+                                </a>
                             </li>
                         </ul>
                     </div>

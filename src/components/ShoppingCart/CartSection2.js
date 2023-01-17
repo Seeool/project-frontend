@@ -2,10 +2,6 @@ import React, {useEffect, useState} from 'react';
 import CartProduct from "./CartProduct";
 import {Link} from "react-router-dom";
 import {useCookies} from "react-cookie";
-import {useSelector} from "react-redux";
-import cartReducer from "../../store/cartReducer";
-import CartReducer from "../../store/cartReducer";
-
 
 function CartSection(props) {
     const [cookies, setCookie] = useCookies(['cart'])
@@ -26,9 +22,6 @@ function CartSection(props) {
             }
         })
     }
-
-    const {cart} = useSelector(store => store)
-
 
     const [total, setTotal] = useState(0)
     const [renderChange, setRenderChange] = useState(0)
@@ -81,7 +74,7 @@ function CartSection(props) {
                             </tr>
                             </thead>
                             <tbody>
-                            {cart.cart.map((cartProduct) => (
+                            {cartProducts.map((cartProduct) => (
                                 <CartProduct key={cartProduct.id} cartProduct={cartProduct} renderChange={renderChange} setRenderChange={setRenderChange}/>
                             ))}
                             </tbody>
