@@ -21,7 +21,7 @@
 5.  Service Section
 6.  Categories Section
 7.  Featured Section
-8.  Latest Product Section
+8.  Latest FeaturedProduct Section
 9.  Contact
 10.  Footer Style
 -------------------------------------------------------------------*/
@@ -636,7 +636,7 @@ ol {
 }
 
 .hero__search {
-	overflow: hidden;
+	/*overflow: hidden;*/
 	margin-bottom: 30px;
 }
 
@@ -654,8 +654,8 @@ ol {
 	font-size: 16px;
 	color: #1c1c1c;
 	font-weight: 700;
-	padding-left: 18px;
-	padding-top: 11px;
+	/*padding-left: 18px;*/
+	/*padding-top: 11px;*/
 	position: relative;
 }
 
@@ -946,7 +946,7 @@ ol {
 }
 
 /*---------------------
-  Latest Product
+  Latest FeaturedProduct
 -----------------------*/
 
 .latest-product {

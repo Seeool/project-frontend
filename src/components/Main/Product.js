@@ -1,9 +1,10 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
 const Product = (props) => {
-    const {picUrl, title, price} = props.product
+    const {id, picUrl, title, price} = props.product
     return (
-        <a href="src/components/Main/LatestProduct#" className="latest-product__item">
+        <Link to={`shop-details/${id}`} className="latest-product__item">
             <div className="latest-product__item__pic">
                 <img src={picUrl} alt=""/>
             </div>
@@ -11,7 +12,7 @@ const Product = (props) => {
                 <h6>{title}</h6>
                 <span>{price}</span>
             </div>
-        </a>
+        </Link>
     );
 };
 

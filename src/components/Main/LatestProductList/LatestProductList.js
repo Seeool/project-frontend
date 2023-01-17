@@ -1,7 +1,7 @@
 import React from 'react';
-import Product from "./Product";
+import Product from "../Product";
 
-function LatestProduct(props) {
+function LatestProductList(props) {
     const products = [
         {
             id : 1,
@@ -63,4 +63,4 @@ function LatestProduct(props) {
     );
 }
 
-export default LatestProduct;
+export default LatestProductList;

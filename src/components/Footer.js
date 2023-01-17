@@ -2,6 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 
 const Footer = () => {
+    console.log("Footer 렌더링됨")
   return (
       <footer className="footer spad">
           <div className="container">

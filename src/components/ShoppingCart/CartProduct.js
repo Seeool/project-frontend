@@ -22,7 +22,7 @@ function CartProduct(props) {
 
     const set = new Set(cookies.cart.split('/'))
     const close = () => {
-        visibility.current.style.display = 'none'
+        // visibility.current.style.display = 'none'
         setQuantities(0)
         props.setRenderChange(props.renderChange + 1)
         if (set.size === 1) {

@@ -101,7 +101,7 @@
     // });
 
     /*--------------------------
-        Latest Product Slider
+        Latest FeaturedProduct Slider
     ----------------------------*/
     $(".latest-product__slider").owlCarousel({
         loop: true,
@@ -116,10 +116,10 @@
     });
 
     /*-----------------------------
-        Product Discount Slider
+        FeaturedProduct Discount Slider
     -------------------------------*/
     $(".product__discount__slider").owlCarousel({
-        loop: true,
+        loop: false,
         margin: 0,
         items: 3,
         dots: true,
@@ -147,7 +147,7 @@
     });
 
     /*---------------------------------
-        Product Details Pic Slider
+        FeaturedProduct Details Pic Slider
     ----------------------------------*/
     $(".product__details__pic__slider").owlCarousel({
         loop: true,
@@ -183,10 +183,10 @@
     /*--------------------------
         Select
     ----------------------------*/
-    $("select").niceSelect();
+    // $("select").niceSelect();
 
     /*------------------
-		Single Product
+		Single FeaturedProduct
 	--------------------*/
     $('.product__details__pic__slider img').on('click', function () {
 

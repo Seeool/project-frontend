@@ -7,7 +7,7 @@ function ProductFilter(props) {
                 <div className="col-lg-4 col-md-5">
                     <div className="filter__sort">
                         <span>Sort By</span>
-                        <select>
+                        <select className="form-control-sm" style={{marginLeft: '5px'}}>
                             <option value="0">인기</option>
                             <option value="1">가격(오름차순)</option>
                             <option value="1">가격(내림차순)</option>

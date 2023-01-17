@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
-import FeaturedProduct from "../components/Main/FeaturedProduct/FeaturedProduct";
+import FeaturedProductList from "../components/Main/FeaturedProductList/FeaturedProductList";
 import LatestProductSection from "../components/Main/LatestProductSection";
-import MainPageBlog from "../components/Main/MainPageBlog/MainPageBlog";
+import MainPageBlogList from "../components/Main/MainPageBlog/MainPageBlogList";
 import appendScript from "../appendScript";
 
 const Main = () => {
@@ -11,9 +11,9 @@ const Main = () => {
 
     return (
         <>
-            <FeaturedProduct/>
+            <FeaturedProductList/>
             <LatestProductSection/>
-            <MainPageBlog/>
+            <MainPageBlogList/>
         </>
     );
 };

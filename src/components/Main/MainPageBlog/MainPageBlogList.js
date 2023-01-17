@@ -1,7 +1,7 @@
 import React from 'react';
-import Blogs from "./Blogs";
+import Blog from "./Blog";
 
-function MainPageBlog(props) {
+function MainPageBlogList(props) {
     const blogs = [
         {
             id: 1,
@@ -37,7 +37,7 @@ function MainPageBlog(props) {
                 </div>
                 <div className="row">
                     {blogs.map((blog) => (
-                        <Blogs key={blog.id} blog={blog}/>
+                        <Blog key={blog.id} blog={blog}/>
                     ))}
                 </div>
             </div>
@@ -45,4 +45,4 @@ function MainPageBlog(props) {
     );
 }
 
-export default MainPageBlog;
+export default MainPageBlogList;

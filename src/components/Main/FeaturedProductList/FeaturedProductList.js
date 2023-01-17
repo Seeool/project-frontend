@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import Product from "./Product";
+import FeaturedProduct from "./FeaturedProduct";
 import {Button, Modal} from "react-bootstrap";
 import {useCookies} from "react-cookie";
 
 
-const FeaturedProduct = () => {
-
+const FeaturedProductList = () => {
+    console.log("Main FeaturedProduct리스트 렌더링됨")
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = (e) => {
@@ -70,7 +70,7 @@ const FeaturedProduct = () => {
                     </div>
                     <div className="row featured__filter">
                         {products.map((product) => (
-                            <Product key={product.id} product={product} handleShow={handleShow}/>
+                            <FeaturedProduct key={product.id} product={product} handleShow={handleShow}/>
                         ))}
                     </div>
                 </div>
@@ -87,4 +87,4 @@ const FeaturedProduct = () => {
     );
 };
 
-export default FeaturedProduct;
+export default FeaturedProductList;

@@ -1,12 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
-import {Link, useLocation} from "react-router-dom";
-import $ from 'jquery'
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import HeroCatogories from "./HeroCategories";
-import app from "../../App";
+import {FormSelect} from "react-bootstrap";
+
 
 const StyledLink = styled(Link)`
   text-decoration: none;
+`
+const StyledSelect = styled("select")`
+  width: 100%;
+  height: 48px;
 `
 const HeroSection = (props) => {
     const location = useLocation()
@@ -14,6 +18,25 @@ const HeroSection = (props) => {
     if(location.pathname !== '/') {
         appendclass = 'hero-normal'
     }
+
+    const [word, setWord] = useState('');
+    const [type, setType] = useState('')
+    const handleWord = (e) => {
+        setWord(e.target.value)
+    }
+    const handleType = (e) => {
+        setType(e.target.value)
+    }
+
+    const navigate = useNavigate()
+    const search = (e) => {
+        e.preventDefault()
+        console.log(word)
+        console.log(type)
+        navigate("/shop-grid?type="+type+"&word="+word)
+    }
+    console.log(word)
+    console.log(type)
 
     return (
         <>
@@ -26,13 +49,15 @@ const HeroSection = (props) => {
                         <div className="col-lg-9">
                             <div className="hero__search">
                                 <div className="hero__search__form">
-                                    <form action="src/components#">
-                                        <div className="hero__search__categories">
-                                            All Categories
-                                            <span className="arrow_carrot-down"></span>
+                                    <form action="/shop-grid" method={"get"}>
+                                        <div className={"hero__search__categories"}>
+                                            <StyledSelect className="form-control" onChange={handleType}>
+                                                <option value={"all"}>All Categories</option>
+                                                <option value={"meat"}>Fresh-Meat</option>
+                                            </StyledSelect>
                                         </div>
-                                        <input type="text" placeholder="What do yo u need?"/>
-                                        <button type="submit" className="site-btn">SEARCH</button>
+                                        <input type="text" placeholder="제품 검색" value={word} onChange={handleWord}/>
+                                        <button type="button" className="site-btn" onClick={search}>검색</button>
                                     </form>
                                 </div>
                                 <div className="hero__search__phone">
@@ -45,6 +70,8 @@ const HeroSection = (props) => {
                                     </div>
                                 </div>
                             </div>
+                            <br />
+                            <br />
                             {location.pathname === '/' ?
                                 <div className="hero__item set-bg" data-setbg="img/hero/banner.jpg">
                                 <div className="hero__text">

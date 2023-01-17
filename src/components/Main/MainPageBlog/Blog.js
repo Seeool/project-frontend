@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Blogs(props) {
+function Blog(props) {
     const {picUrl, date, replyCount, title} = props.blog
     return (
         <div className="col-lg-4 col-md-4 col-sm-6">
@@ -20,4 +20,4 @@ function Blogs(props) {
     );
 }
 
-export default Blogs;
+export default Blog;

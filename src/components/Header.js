@@ -15,6 +15,7 @@ const inactive = {
     textDecoration: 'none'
 }
 const Header = () => {
+    console.log("Header 렌더링됨")
     const [cookies, setCookie] = useCookies(['cart'])
 
     let amount = []

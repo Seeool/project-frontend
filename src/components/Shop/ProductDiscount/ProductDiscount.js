@@ -1,37 +1,44 @@
 import React from 'react';
-import Product from "./Product";
+import {useCookies} from "react-cookie";
+import {Link} from "react-router-dom";
 
 function ProductDiscount(props) {
-    const products = [
-        {
-            id : 1,
-            picUrl : 'img/02.jpg',
-            ratio : '-20%',
-            type : 'Dried Fruit',
-            name : 'Raisin’n’nuts',
-            salePrice : '$30.00',
-            price : '36'
-        },
-        {
-            id : 2,
-            picUrl : 'img/product/discount/pd-2.jpg',
-            ratio : '-20%',
-            type : 'Dried Fruit',
-            name : 'Raisin’n’nuts',
-            salePrice : '$30.00',
-            price : '36'
+    const {id, picUrl, ratio, type, name, salePrice, price} = props.product
+
+    //useParams를 이용해 페이지처리??
+    const handleShow = props.handleShow
+    const [cookies, setCookie] = useCookies(['cart'])
+    const addToCart = (e) => {
+        e.preventDefault()
+        handleShow()
+        if(cookies.cart !== undefined) {
+            setCookie('cart', cookies.cart + '/' + id)
         }
-    ]
+        else {
+            setCookie('cart', id)
+        }
+    }
+
     return (
-        <div className="product__discount">
-            <div className="section-title product__discount__title">
-                <h2>특별 할인</h2>
-            </div>
-            <div className="row">
-                <div className="product__discount__slider owl-carousel">
-                    {products.map((product) => (
-                        <Product key={product.id} product={product} />
-                    ))}
+        <div className="col-lg-4">
+            <div className="product__discount__item">
+                <div
+                    className="product__discount__item__pic set-bg"
+                    data-setbg={picUrl}
+                >
+                    <div className="product__discount__percent">-20%</div>
+                    <ul className="product__item__pic__hover">
+                        <li>
+                            <a href="javascript:void(0)" onClick={addToCart}><i className="fa fa-shopping-cart"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <div className="product__discount__item__text">
+                    <span>Dried Fruit</span>
+                    <h5><Link to={`/shop-details/${id}`}>{name}</Link></h5>
+                    <div className="product__item__price">
+                        $30.00 <span>$36.00</span>
+                    </div>
                 </div>
             </div>
         </div>
