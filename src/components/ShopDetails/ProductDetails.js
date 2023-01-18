@@ -4,12 +4,13 @@ import $ from 'jquery'
 import axios from "axios";
 import {useDispatch} from "react-redux";
 import {addProductWithQty} from "../../store/cartSlice";
-import {useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 
 function ProductDetails(props) {
     const [quantities, setQuantities] = useState(1)
     const dispatch = useDispatch()
-
+    const params = new URLSearchParams(useLocation().search)
+    const id = params.get('pid')
     const plusQuantities = () => {
         setQuantities(quantities + 1)
     }
@@ -21,7 +22,7 @@ function ProductDetails(props) {
 
     const [product, setProduct] = useState({})
     const getProduct = async () => {
-        await axios.get("http://localhost:9000/api/product/10")
+        await axios.get(`http://localhost:9000/api/product/${id}`)
             .then(res => {
                 res.data.avgGrade = '4.7'
                 setProduct(res.data)
@@ -82,6 +83,23 @@ function ProductDetails(props) {
                             <span>약 1~2일 </span>
                         </li>
                     </ul>
+                </div>
+            </div>
+            <div className="col-lg-12">
+                <div className="product__details__tab">
+                    <ul className="nav nav-tabs" role="tablist">
+                        <li className="nav-item">
+                            제품 설명
+                        </li>
+                    </ul>
+                    <div className="tab-content">
+                        <div className="tab-pane active" id="tabs-1" role="tabpanel">
+                            <div className="product__details__tab__desc">
+                                <h6>Products Infomation</h6>
+                                <p>제품 설명 글</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <Modal size="sm" centered show={show} onHide={handleClose}>

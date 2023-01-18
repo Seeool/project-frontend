@@ -35,7 +35,7 @@ function ProductDiscount(props) {
                 </div>
                 <div className="product__discount__item__text">
                     <span>Dried Fruit</span>
-                    <h5><Link to={`/shop-details/${id}`}>{name}</Link></h5>
+                    <h5><Link to={`/shop-details?pid=${id}`}>{name}</Link></h5>
                     <div className="product__item__price">
                         $30.00 <span>$36.00</span>
                     </div>

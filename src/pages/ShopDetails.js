@@ -1,10 +1,13 @@
 import React, {useEffect} from 'react';
 import ProductPic from "../components/ShopDetails/ProductPic";
 import ProductDetails from "../components/ShopDetails/ProductDetails";
-import ProductDescription from "../components/ShopDetails/ProductDescription";
+import ProductReviews from "../components/ShopDetails/ProductReviews";
 import appendScript from "../appendScript";
+import {useParams} from "react-router-dom";
 
 function ShopDetails(props) {
+    const {pid} = useParams()
+    console.log(pid)
     useEffect(() => {
         appendScript("./js/main.js")
     },[])
@@ -14,11 +17,10 @@ function ShopDetails(props) {
                 <div className="row">
                     <ProductPic/>
                     <ProductDetails/>
-                    <ProductDescription/>
+                    <ProductReviews/>
                 </div>
             </div>
         </section>
-
     );
 }
 

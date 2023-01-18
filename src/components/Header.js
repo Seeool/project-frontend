@@ -18,13 +18,6 @@ const inactive = {
 }
 const Header = () => {
     console.log("Header 렌더링됨")
-    const [cookies, setCookie] = useCookies(['cart'])
-
-    // let amount = []
-    // if (cookies.cart !== undefined) {
-    //     amount = cookies.cart.split('/')
-    // }
-    // const set = new Set(amount)
 
     const {cart} = useSelector(store => store)
     console.log(cart)

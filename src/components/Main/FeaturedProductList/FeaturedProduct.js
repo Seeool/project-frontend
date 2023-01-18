@@ -3,27 +3,28 @@ import {useCookies} from "react-cookie";
 import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {addProduct} from "../../../store/cartSlice";
+import appendScript from "../../../appendScript";
 
 
 const FeaturedProduct = (props) => {
     const [cookies, setCookie] = useCookies(['cart'])
 
-    const {id, type, name, price, picUrl} = props.product
+    const {pid, category, name, price} = props.product
     const handleShow = props.handleShow
 
     const dispatch = useDispatch()
     const addToCart = (e) => {
         e.preventDefault()
         handleShow()
-        dispatch(addProduct({id : id, name : name, price : price}))
+        dispatch(addProduct({id : pid, name : name, price : price}))
     }
     return (
         <>
-            <div className={type + " col-lg-3 col-md-4 col-sm-6 mix"}>
+            <div className={category + " col-lg-2 col-md-4 col-sm-6 mix"}>
                 <div className="featured__item">
                     <div
                         className="featured__item__pic set-bg"
-                        data-setbg={picUrl}
+                        data-setbg={'./img/02.jpg'}
                     >
                         <ul className="featured__item__pic__hover">
                             <li>
@@ -35,7 +36,7 @@ const FeaturedProduct = (props) => {
                         </ul>
                     </div>
                     <div className="featured__item__text">
-                        <h6><Link to={`/shop-details/${id}`}>{name}</Link></h6>
+                        <h6><Link to={`/shop-details?pid=${pid}`}>{name}</Link></h6>
                         <h5>\{price}</h5>
                     </div>
                 </div>

@@ -31,7 +31,7 @@ function Product(props) {
                     </ul>
                 </div>
                 <div className="product__item__text">
-                    <h6><Link to={`/shop-details/${id}`}>{name}</Link></h6>
+                    <h6><Link to={`/shop-details?pid=${id}`}>{name}</Link></h6>
                     <h5>{price}</h5>
                 </div>
             </div>

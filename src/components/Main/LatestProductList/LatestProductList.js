@@ -40,6 +40,7 @@ function LatestProductList(props) {
             picUrl : 'img/latest-product/lp-1.jpg'
         }
     ]
+
     return (
         <div className="col-lg-6 col-md-6">
             <div className="latest-product__text">

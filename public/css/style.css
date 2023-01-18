@@ -30,10 +30,9 @@
 /* Template default CSS
 /*----------------------------------------*/
 
-
-
 html,
 body {
+	min-width: 100%;
 	height: 100%;
 	font-family: "Cairo", sans-serif;
 	-webkit-font-smoothing: antialiased;
@@ -860,7 +859,7 @@ ol {
 }
 
 .featured__item__pic {
-	height: 270px;
+	height: 160px;
 	position: relative;
 	overflow: hidden;
 	background-position: center center;

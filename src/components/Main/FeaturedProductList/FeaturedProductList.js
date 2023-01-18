@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import FeaturedProduct from "./FeaturedProduct";
 import {Button, Modal} from "react-bootstrap";
-import {useCookies} from "react-cookie";
-
+import axios from "axios";
+import appendScript from "../../../appendScript";
 
 const FeaturedProductList = () => {
     console.log("Main FeaturedProduct리스트 렌더링됨")
@@ -13,37 +13,25 @@ const FeaturedProductList = () => {
         setShow(true);
     }
 
-    const products = [
-        {
-            id: 1,
-            type: 'oranges',
-            name: '테스트 육류',
-            price: '30.00',
-            picUrl: 'img/02.jpg'
-        },
-        {
-            id: 2,
-            type: 'fresh-meat',
-            name: '테스트 프레쉬미트',
-            price: '40.00',
-            picUrl: 'img/featured/feature-2.jpg'
-        },
-        {
-            id: 3,
-            type: 'vegetables',
-            name: '테스트 채소',
-            price: '50.00',
-            picUrl: 'img/featured/feature-3.jpg'
-        },
-        {
-            id: 4,
-            type: 'fastfood',
-            name: '테스트 패스트푸드',
-            price: '60.00',
-            picUrl: 'img/featured/feature-4.jpg'
-        }
+    const [products, setProducts] = useState([])
+    const [types, setTypes] = useState([])
+    const getProducts = async () => {
+        console.log("axios 시작")
+        await axios.get("http://localhost:9000/api/product/featuredList")
+            .then(res => {
+                let typesSet = new Set(Array.from(res.data.map((product) => {
+                    return product.category
+                })).sort())
+                setTypes(Array.from(typesSet))
+                setProducts(res.data)
+                console.log("데이터 set 완료")
+            })
+            .catch(e => alert(e))
+    }
 
-    ]
+    useEffect(() => {
+        getProducts()
+    },[])
 
     return (
         <>
@@ -57,17 +45,16 @@ const FeaturedProductList = () => {
                             <div className="featured__controls">
                                 <ul>
                                     <li className="active" data-filter="*">All</li>
-                                    <li data-filter=".oranges">Oranges</li>
-                                    <li data-filter=".fresh-meat">Fresh Meat</li>
-                                    <li data-filter=".vegetables">Vegetables</li>
-                                    <li data-filter=".fastfood">Fastfood</li>
+                                    {types.map((type) => (
+                                        <li key={type} data-filter={`.${type}`}>{type}</li>
+                                    ))}
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div className="row featured__filter">
                         {products.map((product) => (
-                            <FeaturedProduct key={product.id} product={product} handleShow={handleShow}/>
+                            <FeaturedProduct key={product.pid} product={product} handleShow={handleShow}/>
                         ))}
                     </div>
                 </div>

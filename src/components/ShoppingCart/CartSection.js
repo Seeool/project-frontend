@@ -25,29 +25,6 @@ function CartSection(props) {
         setTotal(sum)
     },[renderChange])
 
-    // const cartProducts = [
-    //     {
-    //         id: 1,
-    //         picUrl: 'img/cart/cart-1.jpg',
-    //         name: 'Vegetable’s Package',
-    //         price: '55.00',
-    //         quantity: 1,
-    //     },
-    //     {
-    //         id: 2,
-    //         picUrl: 'img/cart/cart-2.jpg',
-    //         name: 'Fresh Garden Vegetable',
-    //         price: '39.00',
-    //         quantity: 2,
-    //     },
-    //     {
-    //         id: 3,
-    //         picUrl: 'img/cart/cart-3.jpg',
-    //         name: 'Organic Bananas',
-    //         price: '69.00',
-    //         quantity: 3,
-    //     }
-    // ]
     return (
         <>
             <div className="row">
