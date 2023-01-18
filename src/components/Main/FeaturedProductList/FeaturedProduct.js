@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {addProduct} from "../../../store/cartSlice";
 import appendScript from "../../../appendScript";
+import $ from 'jquery'
 
 
 const FeaturedProduct = (props) => {
@@ -16,32 +17,31 @@ const FeaturedProduct = (props) => {
     const addToCart = (e) => {
         e.preventDefault()
         handleShow()
-        dispatch(addProduct({id : pid, name : name, price : price}))
+        dispatch(addProduct({id: pid, name: name, price: price}))
     }
+
     return (
-        <>
-            <div className={category + " col-lg-2 col-md-4 col-sm-6 mix"}>
-                <div className="featured__item">
-                    <div
-                        className="featured__item__pic set-bg"
-                        data-setbg={'./img/02.jpg'}
-                    >
-                        <ul className="featured__item__pic__hover">
-                            <li>
-                                <Link className="addCartBtn" onClick={addToCart}>
-                                    <i className="fa fa-shopping-cart"></i>
-                                    <input type={'hidden'} value={name}/>
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className="featured__item__text">
-                        <h6><Link to={`/shop-details?pid=${pid}`}>{name}</Link></h6>
-                        <h5>\{price}</h5>
-                    </div>
+        <div className={category + " col-lg-2 col-md-4 col-sm-6 mix"}>
+            <div className="featured__item">
+                <div
+                    className="featured__item__pic set-bg"
+                    style={{backgroundImage : `url("./img/02.jpg")`}}
+                >
+                    <ul className="featured__item__pic__hover">
+                        <li>
+                            <Link className="addCartBtn" onClick={addToCart}>
+                                <i className="fa fa-shopping-cart"></i>
+                                <input type={'hidden'} value={name}/>
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+                <div className="featured__item__text">
+                    <h6><Link to={`/shop-details?pid=${pid}`}>{name}</Link></h6>
+                    <h5>\{price}</h5>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

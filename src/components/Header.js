@@ -27,9 +27,9 @@ const Header = () => {
     })
     return (
         <>
-        <div id="preloder">
-            <div className="loader"></div>
-        </div>
+        {/*<div id="preloder">*/}
+        {/*    <div className="loader"></div>*/}
+        {/*</div>*/}
         <header className="header">
             <div className="header__top">
                 <div className="container">

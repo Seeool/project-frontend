@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
 function Blog(props) {
     const {picUrl, date, replyCount, title} = props.blog
@@ -13,7 +14,7 @@ function Blog(props) {
                         <li><i className="fa fa-calendar-o"></i> {date}</li>
                         <li><i className="fa fa-comment-o"></i> {replyCount}</li>
                     </ul>
-                    <h5><a href="src/components/Main/MainPageBlog#">{title}</a></h5>
+                    <h5><Link to="/blog">{title}</Link></h5>
                 </div>
             </div>
         </div>

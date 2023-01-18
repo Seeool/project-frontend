@@ -1,4 +1,12 @@
 import React from 'react';
+import styled from "styled-components";
+const StyledTextarea = styled.textarea`
+  width : 100%;
+  height: 500px;
+  border : none;
+  resize: none;
+  
+`
 
 function BlogSection(props) {
     const {title, text, picUrl, writer, writer_picUrl} = props.blog
@@ -8,7 +16,7 @@ function BlogSection(props) {
                 <div className="blog__details__text">
                     <img src={picUrl} alt="" />
                         <h3>{title}</h3>
-                        <p>{text}</p>
+                        <StyledTextarea readOnly>{text}</StyledTextarea>
                 </div>
                 <div className="blog__details__content">
                     <div className="row">

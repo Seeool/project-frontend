@@ -1,11 +1,46 @@
-import React from 'react';
+import React, {createRef, useEffect, useRef} from 'react';
 import styled from "styled-components";
-import {Link} from "react-router-dom";
+import {Link, useLocation, useSearchParams} from "react-router-dom";
 import Product from "./Product";
+import $ from 'jquery'
+
 const StyledLink = styled(Link)`
   text-decoration: none;
+  padding-left: 10px;
 `
 function ShopSideBar(props) {
+    const params = new URLSearchParams(useLocation().search)
+    console.log(params)
+    const refs = Array.from({ length: 12 }).map(() => createRef());
+    let categoryName = params.get('category')
+    const categories = ['','fruits','freshmeat','mealkit','instance','bean','rice','bakery','source','milk','vegetables','wellbeing']
+
+    useEffect(() => {
+        console.log(categoryName)
+        if(!categoryName) {
+            refs.map((ref) => {
+                ref.current.style.backgroundColor = 'white'
+                ref.current.style.color = 'black'
+            })
+            refs[0].current.style.backgroundColor = '#7fad39'
+            refs[0].current.style.color = 'white'
+        }
+        for (let i = 1; i < 12; i++) {
+            if(categoryName === categories[i]) {
+                refs.map((ref) => {
+                    ref.current.style.backgroundColor = 'white'
+                    ref.current.style.color = 'black'
+                })
+                refs[i].current.style.backgroundColor = '#7fad39'
+                refs[i].current.style.color = 'white'
+            }
+        }
+    },[params])
+
+    const [serchParams, setSearchParams] = useSearchParams();
+    console.log(serchParams.toString())
+    console.log(serchParams.get('category'))
+
     const products = [
         {
             id : 1,
@@ -49,19 +84,19 @@ function ShopSideBar(props) {
             <div className="sidebar">
                 <div className="sidebar__item">
                     <h4>카테고리</h4>
-                    <ul>
-                        <li><StyledLink to="/shop-grid">전체</StyledLink></li>
-                        <li><StyledLink to="/shop-grid?category=fruits">과일</StyledLink></li>
-                        <li><StyledLink to="/shop-grid?category=freshmeat">정육/계란</StyledLink></li>
-                        <li><StyledLink to="/shop-grid?category=mealkit">밀키트</StyledLink></li>
-                        <li><StyledLink to="/shop-grid?category=instance">냉장/냉동/간편식</StyledLink></li>
-                        <li><StyledLink to="/shop-grid?category=bean">통조림/즉석밥/면</StyledLink></li>
-                        <li><StyledLink to="/shop-grid?category=rice">쌀/잡곡</StyledLink></li>
-                        <li><StyledLink to="/shop-grid?category=bakery">베이커리</StyledLink></li>
-                        <li><StyledLink to="/shop-grid?category=source">장/양념/소스</StyledLink></li>
-                        <li><StyledLink to="/shop-grid?category=milk">우유/유제품</StyledLink></li>
-                        <li><StyledLink to="/shop-grid?category=vegetables">채소</StyledLink></li>
-                        <li><StyledLink to="/shop-grid?category=wellbeing">건강식품</StyledLink></li>
+                    <ul className="sidebar__categories">
+                        <li><StyledLink to="/shop-grid" ref={refs[0]}>전체</StyledLink></li>
+                        <li><StyledLink to="/shop-grid?category=fruits" ref={refs[1]}>과일</StyledLink></li>
+                        <li><StyledLink to="/shop-grid?category=freshmeat" ref={refs[2]}>정육/계란</StyledLink></li>
+                        <li><StyledLink to="/shop-grid?category=mealkit" ref={refs[3]}>밀키트</StyledLink></li>
+                        <li><StyledLink to="/shop-grid?category=instance" ref={refs[4]}>냉장/냉동/간편식</StyledLink></li>
+                        <li><StyledLink to="/shop-grid?category=bean" ref={refs[5]}>통조림/즉석밥/면</StyledLink></li>
+                        <li><StyledLink to="/shop-grid?category=rice" ref={refs[6]}>쌀/잡곡</StyledLink></li>
+                        <li><StyledLink to="/shop-grid?category=bakery" ref={refs[7]}>베이커리</StyledLink></li>
+                        <li><StyledLink to="/shop-grid?category=source" ref={refs[8]}>장/양념/소스</StyledLink></li>
+                        <li><StyledLink to="/shop-grid?category=milk" ref={refs[9]}>우유/유제품</StyledLink></li>
+                        <li><StyledLink to="/shop-grid?category=vegetables" ref={refs[10]}>채소</StyledLink></li>
+                        <li><StyledLink to="/shop-grid?category=wellbeing" ref={refs[11]}>건강식품</StyledLink></li>
                     </ul>
                 </div>
                 <div className="sidebar__item">

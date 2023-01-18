@@ -1606,6 +1606,12 @@ ol {
 	text-align: center;
 	padding-top: 15px;
 }
+.product__item__text span {
+	font-size: 14px;
+	color: #b2b2b2;
+	display: block;
+	margin-bottom: 4px;
+}
 
 .product__item__text h6 {
 	margin-bottom: 10px;

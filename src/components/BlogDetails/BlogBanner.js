@@ -4,7 +4,7 @@ function BlogBanner(props) {
     const {id, title, writer, date, replyCount, category} = props.blog
 
     return (
-        <section className="blog-details-hero set-bg" data-setbg="img/blog/details/details-hero.jpg">
+        <section className="blog-details-hero set-bg" style={{backgroundImage : 'url("img/blog/details/details-hero.jpg")'}} >
             <div className="container">
                 <div className="row">
                     <div className="col-lg-12">

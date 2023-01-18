@@ -1,41 +1,45 @@
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Link, useLocation} from "react-router-dom";
+import $ from 'jquery'
 
 function Banner(props) {
     const location = useLocation()
-    let name = ""
-    let display = ""
-    switch(location.pathname) {
-        case "/" :
-            display = {display : 'none'}
-            break
-        case "/shop-grid" :
-            name = '쇼핑'
-            display = {display : 'block'}
-            break
-        case "/blog" :
-            name = '블로그'
-            display = {display : 'block'}
-            break
-        case "/contact" :
-            name = 'Contact'
-            display = {display : 'block'}
-            break
-        case "/shop-details" :
-            name = '제품 상세'
-            display = {display : 'block'}
-            break
-        case "/shopping-cart" :
-            name = '쇼핑 카트'
-            display = {display : 'block'}
-            break
-        case "/blog-details" :
-            name = '블로그'
-            display = {display : 'none'}
-            break
-    }
+    const ref = useRef(null)
+    const [name, setName] = useState('')
+    useEffect(() => {
+        switch(location.pathname) {
+            case "/" :
+                $('.breadcrumb-section').hide()
+                break
+            case "/shop-grid" :
+                setName('쇼핑')
+                $('.breadcrumb-section').show()
+                break
+            case "/blog" :
+                setName('블로그')
+                $('.breadcrumb-section').show()
+                break
+            case "/contact" :
+                setName('Contact')
+                $('.breadcrumb-section').show()
+                break
+            case "/shop-details" :
+                setName('제품 상세')
+                $('.breadcrumb-section').show()
+                break
+            case "/shopping-cart" :
+                setName('쇼핑 카트')
+                $('.breadcrumb-section').show()
+                break
+            case "/blog-details" :
+                setName('블로그')
+                $('.breadcrumb-section').hide()
+                break
+        }
+    },[location])
+
     return (
-        <section className="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg" style={display}>
+        <section className="breadcrumb-section set-bg" style={{backgroundImage : 'url("img/breadcrumb.jpg")', display : 'none'}} ref={ref}>
             <div className="container">
                 <div className="row">
                     <div className="col-lg-12 text-center">

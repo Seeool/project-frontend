@@ -24,6 +24,7 @@ function CartProduct(props) {
 
     const close = () => {
         dispatch(deleteProduct({id: id}))
+        props.setRenderChange(props.renderChange + 1)
     }
 
     return (
