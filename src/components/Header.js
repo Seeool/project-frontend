@@ -3,7 +3,7 @@ import {Link, NavLink} from "react-router-dom";
 import styled from "styled-components";
 import {useCookies} from "react-cookie";
 import {useSelector} from "react-redux";
-import cartReducer from "../store/cartReducer";
+import cartReducer from "../store/cartSlice";
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -20,11 +20,11 @@ const Header = () => {
     console.log("Header 렌더링됨")
     const [cookies, setCookie] = useCookies(['cart'])
 
-    let amount = []
-    if (cookies.cart !== undefined) {
-        amount = cookies.cart.split('/')
-    }
-    const set = new Set(amount)
+    // let amount = []
+    // if (cookies.cart !== undefined) {
+    //     amount = cookies.cart.split('/')
+    // }
+    // const set = new Set(amount)
 
     const {cart} = useSelector(store => store)
     console.log(cart)
@@ -32,11 +32,6 @@ const Header = () => {
     cart.cart.forEach((product) => {
         sum += product.qty
     })
-    // useEffect(() => {
-    //     state.cart.cart.forEach((product => {
-    //
-    //     }))
-    // },[])
     return (
         <>
         <div id="preloder">

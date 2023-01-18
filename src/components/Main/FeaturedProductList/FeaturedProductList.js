@@ -18,35 +18,32 @@ const FeaturedProductList = () => {
             id: 1,
             type: 'oranges',
             name: '테스트 육류',
-            price: '$30.00',
+            price: '30.00',
             picUrl: 'img/02.jpg'
         },
         {
             id: 2,
             type: 'fresh-meat',
             name: '테스트 프레쉬미트',
-            price: '$40.00',
+            price: '40.00',
             picUrl: 'img/featured/feature-2.jpg'
         },
         {
             id: 3,
             type: 'vegetables',
             name: '테스트 채소',
-            price: '$50.00',
+            price: '50.00',
             picUrl: 'img/featured/feature-3.jpg'
         },
         {
             id: 4,
             type: 'fastfood',
             name: '테스트 패스트푸드',
-            price: '$60.00',
+            price: '60.00',
             picUrl: 'img/featured/feature-4.jpg'
         }
 
     ]
-
-    useEffect(() => {
-    }, []);
 
     return (
         <>

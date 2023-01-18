@@ -2,10 +2,11 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useCookies} from "react-cookie";
 import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {addProduct} from "../../../store/cartReducer";
+import {addProduct} from "../../../store/cartSlice";
 
 
 const FeaturedProduct = (props) => {
+    const [cookies, setCookie] = useCookies(['cart'])
 
     const {id, type, name, price, picUrl} = props.product
     const handleShow = props.handleShow
@@ -14,7 +15,7 @@ const FeaturedProduct = (props) => {
     const addToCart = (e) => {
         e.preventDefault()
         handleShow()
-        dispatch(addProduct({id : id}))
+        dispatch(addProduct({id : id, name : name, price : price}))
     }
     return (
         <>
@@ -35,7 +36,7 @@ const FeaturedProduct = (props) => {
                     </div>
                     <div className="featured__item__text">
                         <h6><Link to={`/shop-details/${id}`}>{name}</Link></h6>
-                        <h5>{price}</h5>
+                        <h5>\{price}</h5>
                     </div>
                 </div>
             </div>
