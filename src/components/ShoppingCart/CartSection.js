@@ -3,32 +3,15 @@ import CartProduct from "./CartProduct";
 import {Link} from "react-router-dom";
 import {useCookies} from "react-cookie";
 import {useSelector} from "react-redux";
-import cartReducer from "../../store/cartReducer";
-import CartReducer from "../../store/cartReducer";
+import cartReducer from "../../store/cartSlice";
+import CartReducer from "../../store/cartSlice";
 
 
 function CartSection(props) {
     const [cookies, setCookie] = useCookies(['cart'])
     console.log('CartSection 리렌더링')
 
-    let amount = []
-    if (cookies.cart !== undefined) {
-        amount = cookies.cart.split('/')
-    }
-    const set = new Set(amount) //중복값 제거과정
-    const arraySet = Array.from(set) //중복값 제거과정
-
-    let cartProducts = []
-    if (arraySet.length > 0) {
-            cartProducts = arraySet.map((id) => {
-            return {
-                id : id
-            }
-        })
-    }
-
     const {cart} = useSelector(store => store)
-
 
     const [total, setTotal] = useState(0)
     const [renderChange, setRenderChange] = useState(0)

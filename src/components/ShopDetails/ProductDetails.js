@@ -3,7 +3,7 @@ import {Button, Modal} from "react-bootstrap";
 import $ from 'jquery'
 import axios from "axios";
 import {useDispatch} from "react-redux";
-import {addProductWithQty} from "../../store/cartReducer";
+import {addProductWithQty} from "../../store/cartSlice";
 import {useParams} from "react-router-dom";
 
 function ProductDetails(props) {
@@ -19,35 +19,21 @@ function ProductDetails(props) {
         }
     }
 
-    const [show, setShow] = useState(false);
-
-    const handleClose = () => setShow(false);
-    const handleShow = (e) => {
-        e.preventDefault()
-        dispatch(addProductWithQty({id:5, qty:quantities}))
-        setShow(true);
-    }
-    // const product =
-    //     {
-    //         id : 1,
-    //         name : 'Vetgetable’s Package',
-    //         reviewCount : 18,
-    //         price : 50,
-    //         text : 'Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.\n' +
-    //             '                        Vestibulum ac diam sit amet quam vehicula elementum sed sit amet\n' +
-    //             '                        dui. Sed porttitor lectus nibh. Vestibulum ac diam sit amet quam\n' +
-    //             '                        vehicula elementum sed sit amet dui. Proin eget tortor risus.',
-    //         avgGrade : 4.2,
-    //         stock : 50
-    //     }
     const [product, setProduct] = useState({})
-    const getProductt = async () => {
+    const getProduct = async () => {
         await axios.get("http://localhost:9000/api/product/10")
             .then(res => {
                 res.data.avgGrade = '4.7'
                 setProduct(res.data)
             })
             .catch(e => console.log(e))
+    }
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = (e) => {
+        e.preventDefault()
+        dispatch(addProductWithQty({id: product.id, name : product.name, price : product.price, qty:quantities}))
+        setShow(true);
     }
     const stars = () => {
         let integer = Math.floor(product.avgGrade)
@@ -63,7 +49,7 @@ function ProductDetails(props) {
         }
     }
     useEffect(() => {
-        getProductt()
+        getProduct()
         stars() // 왜 작동을 안하는지 아직 모르겠음 23/01/17 17:35
     },[])
 
