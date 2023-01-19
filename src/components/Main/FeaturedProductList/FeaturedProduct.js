@@ -10,14 +10,14 @@ import $ from 'jquery'
 const FeaturedProduct = (props) => {
     const [cookies, setCookie] = useCookies(['cart'])
 
-    const {pid, category, name, price} = props.product
+    const {pid, category, name, price, fileNames} = props.product
     const handleShow = props.handleShow
 
     const dispatch = useDispatch()
     const addToCart = (e) => {
         e.preventDefault()
         handleShow()
-        dispatch(addProduct({id: pid, name: name, price: price}))
+        dispatch(addProduct({id: pid, name: name, price: price, fileNames: fileNames}))
     }
 
     return (
@@ -25,7 +25,7 @@ const FeaturedProduct = (props) => {
             <div className="featured__item">
                 <div
                     className="featured__item__pic set-bg"
-                    style={{backgroundImage : `url("./img/02.jpg")`}}
+                    style={{backgroundImage : `url(${fileNames[0]})`}}
                 >
                     <ul className="featured__item__pic__hover">
                         <li>

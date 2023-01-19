@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Product from "./Product";
 import {Button, Modal} from "react-bootstrap";
+import axios from "axios";
 
 function ProductList(props) {
     console.log("Shop-grid 상품리스트 렌더링")
@@ -11,38 +12,25 @@ function ProductList(props) {
         setShow(true);
     }
 
-    const products = [
-        {
-            pid: 1,
-            picUrl: 'img/02.jpg',
-            name: '상품 테스트1',
-            price: '$30.00'
-        },
-        {
-            pid: 2,
-            picUrl: 'img/product/product-2.jpg',
-            name: '상품 테스트2',
-            price: '$30.00'
-        },
-        {
-            pid: 3,
-            picUrl: 'img/product/product-3.jpg',
-            name: '상품 테스트3',
-            price: '$30.00'
-        },
-        {
-            pid: 4,
-            picUrl: 'img/product/product-4.jpg',
-            name: '상품 테스트4',
-            price: '$30.00'
-        },
-        {
-            pid: 5,
-            picUrl: 'img/product/product-5.jpg',
-            name: '상품 테스트4',
-            price: '$30.00'
+    const [products, setProducts] = useState([])
+    const [types, setTypes] = useState([])
+    const getProducts = async () => {
+        try {
+            const response = await axios.get("http://localhost:9000/api/product/list")
+            const data = response.data
+            setProducts(data)
+            let typesSet = new Set(Array.from(data.map((product) => {
+                return product.category
+            })).sort())
+            setTypes(Array.from(typesSet))
+        } catch (err) {
+            alert(err)
         }
-    ]
+
+    }
+    useEffect(() => {
+        getProducts()
+    },[])
     return (
         <>
             <div className="row">

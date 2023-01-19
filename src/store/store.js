@@ -4,11 +4,11 @@ import {persistReducer} from "redux-persist";
 import cartSlice from "./cartSlice";
 
 const reducers = combineReducers({
-    cart : cartSlice.reducer
+    cart : cartSlice.reducer //이 이름이 실제로 컴포넌트에서 쓸 이름
 })
 
 const persistConfig = {
-    key : 'cart',
+    key : 'keyName',
     storage
 }
 

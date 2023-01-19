@@ -8,13 +8,13 @@ const initialState = {
 }
 
 const cartSlice = createSlice({
-    name : 'cart',
+    name : 'sliceName',
     initialState,
     reducers : {
         addProduct(state, action) {
             let inCart = state.cart.find((product) => product.id === action.payload.id)
             if (inCart === undefined) {
-                state.cart = [...state.cart, {id : action.payload.id, name : action.payload.name, price : action.payload.price, qty : 1}]
+                state.cart = [...state.cart, {id : action.payload.id, name : action.payload.name, price : action.payload.price, qty : 1, fileNames : action.payload.fileNames}]
             }
             else {
                 inCart.qty++
@@ -30,7 +30,7 @@ const cartSlice = createSlice({
         addProductWithQty(state, action) {
             let inCart = state.cart.find((product) => product.id === action.payload.id)
             if (inCart === undefined) {
-                state.cart = [...state.cart, {id : action.payload.id, name : action.payload.name, price : action.payload.price, qty : action.payload.qty}]
+                state.cart = [...state.cart, {id : action.payload.id, name : action.payload.name, price : action.payload.price, qty : action.payload.qty, fileNames : action.payload.fileNames}]
             }
             else {
                 inCart.qty += action.payload.qty

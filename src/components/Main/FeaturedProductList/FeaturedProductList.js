@@ -34,7 +34,6 @@ const FeaturedProductList = () => {
     }
     useEffect(() => {
         getProducts()
-
     },[])
 
     useEffect(() => {

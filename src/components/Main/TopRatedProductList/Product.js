@@ -1,16 +1,21 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Link} from "react-router-dom";
+import $ from "jquery";
 
 const Product = (props) => {
-    const {pid, name, price, fileNames} = props.product
+    const {pid, name, price, reviewAvg, fileNames} = props.product
+
+    console.log(fileNames)
+    let aaa = reviewAvg
 
     return (
         <Link to={`shop-details?pid=${pid}`} className="latest-product__item">
             <div className="latest-product__item__pic">
-                <img src={fileNames[0]} alt=""/>
+                <img src={fileNames} alt=""/>
             </div>
             <div className="latest-product__item__text">
                 <h5>{name}</h5>
+                <span><i className="fa fa-star" style={{color: '#EDBB0E'}}></i>{reviewAvg}</span>
                 <span>\{price}</span>
             </div>
         </Link>

@@ -1,8 +1,9 @@
-import React, {createRef, useEffect, useRef} from 'react';
+import React, {createRef, useEffect, useRef, useState} from 'react';
 import styled from "styled-components";
 import {Link, useLocation, useSearchParams} from "react-router-dom";
 import Product from "./Product";
 import $ from 'jquery'
+import axios, {get} from "axios";
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -28,57 +29,30 @@ function ShopSideBar(props) {
         for (let i = 1; i < 12; i++) {
             if(categoryName === categories[i]) {
                 refs.map((ref) => {
+                    ref.current.style.transition = '0.2s'
                     ref.current.style.backgroundColor = 'white'
                     ref.current.style.color = 'black'
                 })
+                refs[i].current.style.transition = '0.2s'
                 refs[i].current.style.backgroundColor = '#7fad39'
                 refs[i].current.style.color = 'white'
             }
         }
     },[params])
 
-    const [serchParams, setSearchParams] = useSearchParams();
-    console.log(serchParams.toString())
-    console.log(serchParams.get('category'))
-
-    const products = [
-        {
-            id : 1,
-            title : '테스트1',
-            price : '$30',
-            picUrl : 'img/02.jpg'
-        },
-        {
-            id : 2,
-            title : '테스트2',
-            price : '$30',
-            picUrl : 'img/latest-product/lp-2.jpg'
-        },
-        {
-            id : 3,
-            title : '테스트3',
-            price : '$30',
-            picUrl : 'img/latest-product/lp-3.jpg'
-        },
-        {
-            id : 4,
-            title : '테스트4',
-            price : '$30',
-            picUrl : 'img/latest-product/lp-2.jpg'
-        },
-        {
-            id : 5,
-            title : '테스트5',
-            price : '$30',
-            picUrl : 'img/latest-product/lp-3.jpg'
-        },
-        {
-            id : 6,
-            title : '테스트6',
-            price : '$30',
-            picUrl : 'img/latest-product/lp-1.jpg'
+    const [products, setProducts] = useState([])
+    const getProducts = async () => {
+        try {
+            const response = await axios.get("http://localhost:9000/api/product/latestList")
+            setProducts(response.data)
+            console.log(response.data)
+        }catch (e) {
+            alert(e)
         }
-    ]
+    }
+    useEffect(() => {
+        getProducts()
+    },[])
     return (
         <div className="col-lg-3 col-md-5">
             <div className="sidebar">
@@ -106,13 +80,13 @@ function ShopSideBar(props) {
                             <div className="latest-prdouct__slider__item">
                                 {products.map((product, index) => {
                                     if(index < 3)
-                                        return(<Product key={product.id} product={product}/> )
+                                        return(<Product key={product.pid} product={product}/> )
                                 })}
                             </div>
                             <div className="latest-prdouct__slider__item">
                                 {products.map((product, index) => {
                                     if(index > 2)
-                                        return(<Product key={product.id} product={product}/> )
+                                        return(<Product key={product.pid} product={product}/> )
                                 })}
                             </div>
                         </div>

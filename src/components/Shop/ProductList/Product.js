@@ -1,11 +1,10 @@
 import React from 'react';
-import {useCookies} from "react-cookie";
 import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {addProduct} from "../../../store/cartSlice";
 
 function Product(props) {
-    const {pid, picUrl, name, price} = props.product
+    const {pid, name, price, fileNames, category} = props.product
     const handleShow = props.handleShow
     //useParams를 이용해 페이지처리??
 
@@ -13,7 +12,7 @@ function Product(props) {
     const addToCart = (e) => {
         e.preventDefault()
         handleShow()
-        dispatch(addProduct({id: pid, name: name, price: price}))
+        dispatch(addProduct({id: pid, name: name, price: price, fileNames: fileNames}))
     }
 
     return (
@@ -21,7 +20,7 @@ function Product(props) {
             <div className="product__item">
                 <div
                     className="product__item__pic set-bg"
-                    style={{backgroundImage : `url(${picUrl})`}}
+                    style={{backgroundImage : `url(${fileNames[0]})`}}
                 >
                     <ul className="product__item__pic__hover">
                         <li>
@@ -30,9 +29,9 @@ function Product(props) {
                     </ul>
                 </div>
                 <div className="product__item__text">
-                    <span>Dried Fruit</span>
+                    <span>{category}</span>
                     <h6><Link to={`/shop-details?pid=${pid}`}>{name}</Link></h6>
-                    <h5>{price}</h5>
+                    <h5>\{price}</h5>
                 </div>
             </div>
         </div>

@@ -1,6 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ProductDiscount from "./ProductDiscount";
 import {Button, Modal} from "react-bootstrap";
+import axios from "axios";
+import appendScript from "../../../appendScript";
+import ReactOwlCarousel from "react-owl-carousel";
 
 function ProductDiscountList(props) {
     console.log("할인상품리스트 렌더링")
@@ -10,44 +13,22 @@ function ProductDiscountList(props) {
         console.log("handleshow 실행")
         setShow(true);
     }
-    const products = [
-        {
-            pid: 1,
-            picUrl: 'img/02.jpg',
-            ratio: '-20%',
-            type: 'Dried Fruit',
-            name: '할인상품1',
-            salePrice: '$30.00',
-            price: '36'
-        },
-        {
-            pid: 2,
-            picUrl: 'img/product/discount/pd-2.jpg',
-            ratio: '-20%',
-            type: 'Dried Fruit',
-            name: '할인상품2',
-            salePrice: '$30.00',
-            price: '36'
-        },
-        {
-            pid: 3,
-            picUrl: 'img/product/discount/pd-3.jpg',
-            ratio: '-20%',
-            type: 'Dried Fruit',
-            name: '할인상품3',
-            salePrice: '$30.00',
-            price: '36'
-        },
-        {
-            pid: 4,
-            picUrl: 'img/product/discount/pd-4.jpg',
-            ratio: '-20%',
-            type: 'Dried Fruit',
-            name: '할인상품4',
-            salePrice: '$30.00',
-            price: '36'
+
+    const [products, setProducts] = useState([])
+    const getProducts = async () => {
+        try {
+            const response = await axios.get("http://localhost:9000/api/product/discoutList")
+            setProducts(response.data)
+            console.log(response.data)
+        }catch (e) {
+            alert(e)
         }
-    ]
+    }
+    useEffect(() => {
+        getProducts()
+
+    },[])
+
     return (
         <>
             <div className="product__discount">

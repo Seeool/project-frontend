@@ -4,13 +4,14 @@ import $ from 'jquery'
 import axios from "axios";
 import {useDispatch} from "react-redux";
 import {addProductWithQty} from "../../store/cartSlice";
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation, useParams, useSearchParams} from "react-router-dom";
 
 function ProductDetails(props) {
     const [quantities, setQuantities] = useState(1)
     const dispatch = useDispatch()
-    const params = new URLSearchParams(useLocation().search)
-    const id = params.get('pid')
+    // const params = new URLSearchParams(useLocation().search)
+    const [params, setParams] = useSearchParams()
+    const pid = params.get('pid')
     const plusQuantities = () => {
         setQuantities(quantities + 1)
     }
@@ -22,9 +23,8 @@ function ProductDetails(props) {
 
     const [product, setProduct] = useState({})
     const getProduct = async () => {
-        await axios.get(`http://localhost:9000/api/product/${id}`)
+        await axios.get(`http://localhost:9000/api/product/${pid}`)
             .then(res => {
-                res.data.avgGrade = '4.7'
                 setProduct(res.data)
             })
             .catch(e => console.log(e))
@@ -33,12 +33,12 @@ function ProductDetails(props) {
     const handleClose = () => setShow(false);
     const handleShow = (e) => {
         e.preventDefault()
-        dispatch(addProductWithQty({id: product.id, name : product.name, price : product.price, qty:quantities}))
+        dispatch(addProductWithQty({id: product.pid, name : product.name, price : product.price, qty:quantities}))
         setShow(true);
     }
     const stars = () => {
-        let integer = Math.floor(product.avgGrade)
-        let decimal = product.avgGrade - Math.floor(product.avgGrade)
+        let integer = Math.floor(product.reviewAvg)
+        let decimal = product.reviewAvg - Math.floor(product.reviewAvg)
         if (decimal >= 0.5) {
             $(".product__details__rating").prepend('<i class="fa fa-star"></i>')
         }
@@ -51,8 +51,10 @@ function ProductDetails(props) {
     }
     useEffect(() => {
         getProduct()
-        stars() // 왜 작동을 안하는지 아직 모르겠음 23/01/17 17:35
     },[])
+    useEffect(() => {
+        stars()
+    },[product])
 
     return (
         <>
@@ -60,6 +62,7 @@ function ProductDetails(props) {
                 <div className="product__details__text">
                     <h3>{product.name}</h3>
                     <div className="product__details__rating">
+                        <span>{product.reviewAvg}</span>
                         <span>({product.reviewCount} reviews)</span>
                     </div>
                     <div className="product__details__price">${product.price}</div>

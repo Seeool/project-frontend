@@ -5,16 +5,15 @@ import {useDispatch} from "react-redux";
 import {addProduct} from "../../../store/cartSlice";
 
 function ProductDiscount(props) {
-    const {pid, picUrl, ratio, type, name, salePrice, price} = props.product
+    const {pid, fileNames, dcRatio, category, name, originPrice, price} = props.product
 
-    //useParams를 이용해 페이지처리??
     const handleShow = props.handleShow
 
     const dispatch = useDispatch()
     const addToCart = (e) => {
         e.preventDefault()
         handleShow()
-        dispatch(addProduct({id: pid, name: name, price: price}))
+        dispatch(addProduct({id: pid, name: name, price: price, fileNames: fileNames}))
     }
 
     return (
@@ -22,9 +21,9 @@ function ProductDiscount(props) {
             <div className="product__discount__item">
                 <div
                     className="product__discount__item__pic set-bg"
-                    style={{backgroundImage : `url(${picUrl})`}}
+                    style={{backgroundImage : `url(${fileNames[0]})`}}
                 >
-                    <div className="product__discount__percent">-20%</div>
+                    <div className="product__discount__percent">-{dcRatio}%</div>
                     <ul className="product__item__pic__hover">
                         <li>
                             <a href="#" onClick={addToCart}><i className="fa fa-shopping-cart"></i></a>
@@ -32,10 +31,10 @@ function ProductDiscount(props) {
                     </ul>
                 </div>
                 <div className="product__discount__item__text">
-                    <span>Dried Fruit</span>
+                    <span>{category}</span>
                     <h5><Link to={`/shop-details?pid=${pid}`}>{name}</Link></h5>
                     <div className="product__item__price">
-                        $30.00 <span>$36.00</span>
+                        \{price} <span>{originPrice}</span>
                     </div>
                 </div>
             </div>

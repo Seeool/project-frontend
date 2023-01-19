@@ -83,7 +83,7 @@
         Latest FeaturedProduct Slider
     ----------------------------*/
     $(".latest-product__slider").owlCarousel({
-        loop: true,
+        loop: false,
         margin: 0,
         items: 1,
         dots: false,
@@ -91,7 +91,7 @@
         navText: ["<span class='fa fa-angle-left'><span/>", "<span class='fa fa-angle-right'><span/>"],
         smartSpeed: 1200,
         autoHeight: false,
-        autoplay: true
+        autoplay: false
     });
 
     /*-----------------------------

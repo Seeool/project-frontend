@@ -3,12 +3,13 @@ import $ from 'jquery'
 import {useCookies} from "react-cookie";
 import {useDispatch} from "react-redux";
 import {addProduct, deleteProduct, minusProduct} from "../../store/cartSlice";
+import {Link} from "react-router-dom";
 
 function CartProduct(props) {
-    const {id, name, price, qty} = props.cartProduct
+    const {id, name, price, qty, fileNames} = props.cartProduct
     const dispatch = useDispatch()
 
-    //백엔드와의 통신으로 picUrl, name, price를 가져와야함
+    console.log("파일이름 확인하기"+fileNames)
 
     const plusQty = () => {
         console.log("plusQty 실행")
@@ -30,8 +31,10 @@ function CartProduct(props) {
     return (
         <tr>
             <td className="shoping__cart__item">
-                <img src='/img/02.jpg' alt=""/>
-                <h5>{name}</h5>
+                <Link to={`/shop-details?pid=${id}`}>
+                    <img src={fileNames} alt=""/>
+                    <h5>{name}</h5>
+                </Link>
             </td>
             <td className="shoping__cart__price">
                 \{price}
