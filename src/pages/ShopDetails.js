@@ -1,5 +1,4 @@
 import React, {useEffect, useRef} from 'react';
-import ProductPic from "../components/ShopDetails/ProductPic";
 import ProductDetails from "../components/ShopDetails/ProductDetails";
 import ProductReviews from "../components/ShopDetails/ProductReviews";
 import appendScript from "../appendScript";
@@ -17,7 +16,6 @@ function ShopDetails(props) {
         <section ref={scrollRef} className="product-details spad">
             <div className="container">
                 <div className="row">
-                    <ProductPic/>
                     <ProductDetails/>
                     <ProductReviews/>
                 </div>

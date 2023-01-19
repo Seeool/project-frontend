@@ -25,17 +25,17 @@ const HeroCategories = () => {
                 <span>카테고리</span>
             </div>
             <ul>
-                <li><StyledLink to="/shop-grid?category=fruits">과일</StyledLink></li>
-                <li><StyledLink to="/shop-grid?category=freshmeat">정육/계란</StyledLink></li>
-                <li><StyledLink to="/shop-grid?category=mealkit">밀키트</StyledLink></li>
-                <li><StyledLink to="/shop-grid?category=instance">냉장/냉동/간편식</StyledLink></li>
-                <li><StyledLink to="/shop-grid?category=bean">통조림/즉석밥/면</StyledLink></li>
-                <li><StyledLink to="/shop-grid?category=rice">쌀/잡곡</StyledLink></li>
-                <li><StyledLink to="/shop-grid?category=bakery">베이커리</StyledLink></li>
-                <li><StyledLink to="/shop-grid?category=source">장/양념/소스</StyledLink></li>
-                <li><StyledLink to="/shop-grid?category=milk">우유/유제품</StyledLink></li>
-                <li><StyledLink to="/shop-grid?category=vegetables">채소</StyledLink></li>
-                <li><StyledLink to="/shop-grid?category=wellbeing">건강식품</StyledLink></li>
+                <li><StyledLink to="/shop-grid?category=1">과일</StyledLink></li>
+                <li><StyledLink to="/shop-grid?category=2">정육/계란</StyledLink></li>
+                <li><StyledLink to="/shop-grid?category=3">밀키트</StyledLink></li>
+                <li><StyledLink to="/shop-grid?category=4">냉장/냉동/간편식</StyledLink></li>
+                <li><StyledLink to="/shop-grid?category=5">통조림/즉석밥/면</StyledLink></li>
+                <li><StyledLink to="/shop-grid?category=6">쌀/잡곡</StyledLink></li>
+                <li><StyledLink to="/shop-grid?category=7">베이커리</StyledLink></li>
+                <li><StyledLink to="/shop-grid?category=8">장/양념/소스</StyledLink></li>
+                <li><StyledLink to="/shop-grid?category=9">우유/유제품</StyledLink></li>
+                <li><StyledLink to="/shop-grid?category=10">채소</StyledLink></li>
+                <li><StyledLink to="/shop-grid?category=11">건강식품</StyledLink></li>
             </ul>
         </div>
     );

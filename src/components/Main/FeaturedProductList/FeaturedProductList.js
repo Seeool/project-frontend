@@ -2,9 +2,7 @@ import React, {useEffect, useState} from 'react';
 import FeaturedProduct from "./FeaturedProduct";
 import {Button, Modal} from "react-bootstrap";
 import axios from "axios";
-import appendScript from "../../../appendScript";
 import $ from 'jquery'
-import mixitup from 'mixitup'
 
 const FeaturedProductList = () => {
     console.log("Main FeaturedProduct리스트 렌더링")
@@ -17,16 +15,17 @@ const FeaturedProductList = () => {
 
 
     const [products, setProducts] = useState([])
-    const [types, setTypes] = useState([])
+    const [categories, setCategories] = useState([])
+    const categoryNames = ["과일","정육/계란","밀키트","냉장/냉동/간편식","통조림/즉석밥/면","쌀/잡곡","베이커리","장/양념/소스","우유/유제품","채소","건강식품"]
     const getProducts = async () => {
         try {
             const response = await axios.get("http://localhost:9000/api/product/featuredList")
             const data = response.data
             setProducts(data)
-            let typesSet = new Set(Array.from(data.map((product) => {
+            let categorySet = new Set(Array.from(data.map((product) => {
                 return product.category
             })).sort())
-            setTypes(Array.from(typesSet))
+            setCategories(Array.from(categorySet))
         } catch (err) {
             alert(err)
         }
@@ -43,13 +42,12 @@ const FeaturedProductList = () => {
             let filter = $(this).data('filter')
             console.log(filter)
             if ($(this).data('filter') === '*') {
-                $('.featured__filter').find('.mix').show()
+                $('.featured__filter').find('.mix').fadeIn()
             }
             else {
                 $('.featured__filter').find('.mix').hide()
-                $('.featured__filter').find(filter).show()
+                $('.featured__filter').find(filter).fadeIn()
             }
-
         });
     },[products])
 
@@ -60,13 +58,13 @@ const FeaturedProductList = () => {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="section-title">
-                                <h2>인기 상품</h2>
+                                <h2>인기 상품 TOP12</h2>
                             </div>
                             <div className="featured__controls">
                                 <ul>
-                                    <li className="active" data-filter="*">All</li>
-                                    {types.map((type) => (
-                                        <li key={type} data-filter={`.${type}`}>{type}</li>
+                                    <li className="active" data-filter="*">전체</li>
+                                    {categories.map((category) => (
+                                        <li key={category} data-filter={`.${category}`}>{categoryNames[category]}</li>
                                     ))}
                                 </ul>
                             </div>

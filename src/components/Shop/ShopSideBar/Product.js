@@ -11,7 +11,7 @@ const Product = (props) => {
             </div>
             <div className="latest-product__item__text">
                 <h5>{name}</h5>
-                <span>\{price}</span>
+                <span>{price}원</span>
             </div>
         </Link>
     );

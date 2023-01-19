@@ -4,7 +4,7 @@ import {useDispatch} from "react-redux";
 import {addProduct} from "../../../store/cartSlice";
 
 function Product(props) {
-    const {pid, name, price, fileNames, category} = props.product
+    const {pid, name, price, fileNames} = props.product
     const handleShow = props.handleShow
     //useParams를 이용해 페이지처리??
 
@@ -29,9 +29,8 @@ function Product(props) {
                     </ul>
                 </div>
                 <div className="product__item__text">
-                    <span>{category}</span>
                     <h6><Link to={`/shop-details?pid=${pid}`}>{name}</Link></h6>
-                    <h5>\{price}</h5>
+                    <h5>{price}원</h5>
                 </div>
             </div>
         </div>

@@ -5,7 +5,7 @@ import {useDispatch} from "react-redux";
 import {addProduct} from "../../../store/cartSlice";
 
 function ProductDiscount(props) {
-    const {pid, fileNames, dcRatio, category, name, originPrice, price} = props.product
+    const {pid, fileNames, dcRatio, name, originPrice, price} = props.product
 
     const handleShow = props.handleShow
 
@@ -31,10 +31,9 @@ function ProductDiscount(props) {
                     </ul>
                 </div>
                 <div className="product__discount__item__text">
-                    <span>{category}</span>
                     <h5><Link to={`/shop-details?pid=${pid}`}>{name}</Link></h5>
                     <div className="product__item__price">
-                        \{price} <span>{originPrice}</span>
+                        {price}원 <span>{originPrice}원</span>
                     </div>
                 </div>
             </div>

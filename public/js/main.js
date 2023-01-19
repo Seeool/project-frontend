@@ -11,68 +11,40 @@
 
 (function ($) {
 
-    /*------------------
-        Preloader
-    --------------------*/
-    // $(window).on('load', function () {
     $(".loader").fadeOut();
     $("#preloder").delay(200).fadeOut("slow");
-
-    /*------------------
-        Gallery filter
-    --------------------*/
-    // $('.featured__controls li').on('click', function () {
-    //     $('.featured__controls li').removeClass('active');
-    //     $(this).addClass('active');
-    // });
-    // if ($('.featured__filter').length > 0) {
-    //     var containerEl = document.querySelector('.featured__filter');
-    //     var mixer = mixitup(containerEl);
-    // }
     //
-    // /*------------------
-    //     Background Set
-    // --------------------*/
-
-    // $('.set-bg').each(function () {
-    //     var bg = $(this).data('setbg');
-    //     $(this).css('background-image', 'url(' + bg + ')');
+    // $(".categories__slider").owlCarousel({
+    //     loop: true,
+    //     margin: 0,
+    //     items: 4,
+    //     dots: false,
+    //     nav: true,
+    //     navText: ["<span class='fa fa-angle-left'><span/>", "<span class='fa fa-angle-right'><span/>"],
+    //     animateOut: 'fadeOut',
+    //     animateIn: 'fadeIn',
+    //     smartSpeed: 1200,
+    //     autoHeight: false,
+    //     autoplay: true,
+    //     responsive: {
+    //
+    //         0: {
+    //             items: 1,
+    //         },
+    //
+    //         480: {
+    //             items: 2,
+    //         },
+    //
+    //         768: {
+    //             items: 3,
+    //         },
+    //
+    //         992: {
+    //             items: 4,
+    //         }
+    //     }
     // });
-
-    /*-----------------------
-        Categories Slider
-    ------------------------*/
-    $(".categories__slider").owlCarousel({
-        loop: true,
-        margin: 0,
-        items: 4,
-        dots: false,
-        nav: true,
-        navText: ["<span class='fa fa-angle-left'><span/>", "<span class='fa fa-angle-right'><span/>"],
-        animateOut: 'fadeOut',
-        animateIn: 'fadeIn',
-        smartSpeed: 1200,
-        autoHeight: false,
-        autoplay: true,
-        responsive: {
-
-            0: {
-                items: 1,
-            },
-
-            480: {
-                items: 2,
-            },
-
-            768: {
-                items: 3,
-            },
-
-            992: {
-                items: 4,
-            }
-        }
-    });
 
 
     // $('.hero__categories__all').on('click', function () {
@@ -82,48 +54,48 @@
     /*--------------------------
         Latest FeaturedProduct Slider
     ----------------------------*/
-    $(".latest-product__slider").owlCarousel({
-        loop: false,
-        margin: 0,
-        items: 1,
-        dots: false,
-        nav: true,
-        navText: ["<span class='fa fa-angle-left'><span/>", "<span class='fa fa-angle-right'><span/>"],
-        smartSpeed: 1200,
-        autoHeight: false,
-        autoplay: false
-    });
+    // $(".latest-product__slider").owlCarousel({
+    //     loop: false,
+    //     margin: 0,
+    //     items: 1,
+    //     dots: false,
+    //     nav: true,
+    //     navText: ["<span class='fa fa-angle-left'><span/>", "<span class='fa fa-angle-right'><span/>"],
+    //     smartSpeed: 1200,
+    //     autoHeight: false,
+    //     autoplay: false
+    // });
 
     /*-----------------------------
         FeaturedProduct Discount Slider
     -------------------------------*/
-    $(".product__discount__slider").owlCarousel({
-        loop: false,
-        margin: 0,
-        items: 3,
-        dots: true,
-        smartSpeed: 1200,
-        autoHeight: false,
-        autoplay: true,
-        responsive: {
-
-            320: {
-                items: 1,
-            },
-
-            480: {
-                items: 2,
-            },
-
-            768: {
-                items: 2,
-            },
-
-            992: {
-                items: 3,
-            }
-        }
-    });
+    // $(".product__discount__slider").owlCarousel({
+    //     loop: false,
+    //     margin: 0,
+    //     items: 3,
+    //     dots: true,
+    //     smartSpeed: 1200,
+    //     autoHeight: false,
+    //     autoplay: true,
+    //     responsive: {
+    //
+    //         320: {
+    //             items: 1,
+    //         },
+    //
+    //         480: {
+    //             items: 2,
+    //         },
+    //
+    //         768: {
+    //             items: 2,
+    //         },
+    //
+    //         992: {
+    //             items: 3,
+    //         }
+    //     }
+    // });
 
     /*---------------------------------
         FeaturedProduct Details Pic Slider
