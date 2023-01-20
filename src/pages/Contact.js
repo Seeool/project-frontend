@@ -6,9 +6,6 @@ import Map from "../components/Contact/Map";
 import appendScript from "../appendScript";
 
 function Contact(props) {
-    useEffect(() => {
-        appendScript("./js/main.js")
-    },[])
     return (
         <>
 

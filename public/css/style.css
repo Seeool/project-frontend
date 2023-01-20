@@ -647,7 +647,7 @@ ol {
 	float: left;
 }
 
-.hero__search__form form .hero__search__categories {
+.hero__search__form .hero__search__categories {
 	width: 30%;
 	float: left;
 	font-size: 16px;
@@ -658,7 +658,7 @@ ol {
 	position: relative;
 }
 
-.hero__search__form form .hero__search__categories:after {
+.hero__search__form .hero__search__categories:after {
 	position: absolute;
 	right: 0;
 	top: 14px;
@@ -669,13 +669,13 @@ ol {
 	content: "";
 }
 
-.hero__search__form form .hero__search__categories span {
+.hero__search__form .hero__search__categories span {
 	position: absolute;
 	right: 14px;
 	top: 14px;
 }
 
-.hero__search__form form input {
+.hero__search__form input {
 	width: 70%;
 	border: none;
 	height: 48px;
@@ -684,11 +684,11 @@ ol {
 	padding-left: 20px;
 }
 
-.hero__search__form form input::placeholder {
+.hero__search__form input::placeholder {
 	color: #b2b2b2;
 }
 
-.hero__search__form form button {
+.hero__search__form button {
 	position: absolute;
 	right: 0;
 	top: -1px;
@@ -1656,6 +1656,13 @@ ol {
 
 .product__pagination a:hover,
 .blog__pagination a:hover {
+	background: #7fad39;
+	border-color: #7fad39;
+	color: #ffffff;
+}
+
+.product__pagination a.active,
+.blog__pagination a.active {
 	background: #7fad39;
 	border-color: #7fad39;
 	color: #ffffff;

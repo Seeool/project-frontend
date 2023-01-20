@@ -7,12 +7,6 @@ import appendScript from "../appendScript";
 import {useParams, useSearchParams} from "react-router-dom";
 
 function Shop(props) {
-    const [serchParams, setSearchParams] = useSearchParams();
-    console.log(serchParams.toString())
-
-    useEffect(() => {
-        appendScript("./js/main.js")
-    },[])
     return (
         <>
             <section className="product spad">

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styled from "styled-components";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import HeroCatogories from "./HeroCategories";
@@ -19,19 +19,23 @@ const HeroSection = (props) => {
         appendclass = 'hero-normal'
     }
 
-    const [word, setWord] = useState('');
-    const [type, setType] = useState('')
+    const [keyword, setKetword] = useState('');
+    const [category, setCategory] = useState('')
     const handleWord = (e) => {
-        setWord(e.target.value)
+        setKetword(e.target.value)
     }
     const handleType = (e) => {
-        setType(e.target.value)
+        setCategory(e.target.value)
     }
-
     const navigate = useNavigate()
+    const enterPress = e => {
+        if (e.key === 'Enter') {
+            navigate("/shop-grid?category="+category+"&keyword="+keyword)
+        }
+    };
     const search = (e) => {
         e.preventDefault()
-        navigate("/shop-grid?type="+type+"&word="+word)
+        navigate("/shop-grid?category="+category+"&keyword="+keyword)
     }
 
     return (
@@ -45,16 +49,26 @@ const HeroSection = (props) => {
                         <div className="col-lg-9">
                             <div className="hero__search">
                                 <div className="hero__search__form">
-                                    <form action="/shop-grid" method={"get"}>
+
                                         <div className={"hero__search__categories"}>
                                             <StyledSelect className="form-control" onChange={handleType}>
-                                                <option value={"all"}>All Categories</option>
-                                                <option value={"meat"}>Fresh-Meat</option>
+                                                <option value={""}>전체</option>
+                                                <option value={"0"}>과일</option>
+                                                <option value={"1"}>정육/계란</option>
+                                                <option value={"2"}>밀키트</option>
+                                                <option value={"3"}>냉장/냉동/간편식</option>
+                                                <option value={"4"}>통조림/즉석밥/면</option>
+                                                <option value={"5"}>쌀/잡곡</option>
+                                                <option value={"6"}>베이커리</option>
+                                                <option value={"7"}>장/양념/소스</option>
+                                                <option value={"8"}>우유/유제품</option>
+                                                <option value={"9"}>채소</option>
+                                                <option value={"10"}>건강식품</option>
                                             </StyledSelect>
                                         </div>
-                                        <input type="text" placeholder="제품 검색" value={word} onChange={handleWord}/>
+                                        <input type="text" placeholder="제품 검색" value={keyword} onChange={handleWord} onKeyDown={enterPress}/>
                                         <button type="button" className="site-btn" onClick={search}>검색</button>
-                                    </form>
+
                                 </div>
                                 <div className="hero__search__phone">
                                     <div className="hero__search__phone__icon">

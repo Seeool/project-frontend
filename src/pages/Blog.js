@@ -6,9 +6,6 @@ import BlogList from "../components/Blog/BlogList/BlogList";
 import appendScript from "../appendScript";
 
 const Blog = () => {
-    useEffect(() => {
-        appendScript("./js/main.js")
-    },[])
     return (
         <>
 

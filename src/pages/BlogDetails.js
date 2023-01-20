@@ -5,9 +5,6 @@ import appendScript from "../appendScript";
 import BlogSection from "../components/BlogDetails/BlogSection";
 
 function BlogDetails(props) {
-    useEffect(() => {
-        appendScript("./js/main.js")
-    }, [])
     const blog = {
         id : 1,
         title : 'The Moment You Need To Remove Garlic From The Menu',

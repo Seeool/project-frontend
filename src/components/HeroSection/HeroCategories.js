@@ -25,17 +25,17 @@ const HeroCategories = () => {
                 <span>카테고리</span>
             </div>
             <ul>
-                <li><StyledLink to="/shop-grid?category=1">과일</StyledLink></li>
-                <li><StyledLink to="/shop-grid?category=2">정육/계란</StyledLink></li>
-                <li><StyledLink to="/shop-grid?category=3">밀키트</StyledLink></li>
-                <li><StyledLink to="/shop-grid?category=4">냉장/냉동/간편식</StyledLink></li>
-                <li><StyledLink to="/shop-grid?category=5">통조림/즉석밥/면</StyledLink></li>
-                <li><StyledLink to="/shop-grid?category=6">쌀/잡곡</StyledLink></li>
-                <li><StyledLink to="/shop-grid?category=7">베이커리</StyledLink></li>
-                <li><StyledLink to="/shop-grid?category=8">장/양념/소스</StyledLink></li>
-                <li><StyledLink to="/shop-grid?category=9">우유/유제품</StyledLink></li>
-                <li><StyledLink to="/shop-grid?category=10">채소</StyledLink></li>
-                <li><StyledLink to="/shop-grid?category=11">건강식품</StyledLink></li>
+                <li><StyledLink to="/shop-grid?category=0">과일</StyledLink></li>
+                <li><StyledLink to="/shop-grid?category=1">정육/계란</StyledLink></li>
+                <li><StyledLink to="/shop-grid?category=2">밀키트</StyledLink></li>
+                <li><StyledLink to="/shop-grid?category=3">냉장/냉동/간편식</StyledLink></li>
+                <li><StyledLink to="/shop-grid?category=4">통조림/즉석밥/면</StyledLink></li>
+                <li><StyledLink to="/shop-grid?category=5">쌀/잡곡</StyledLink></li>
+                <li><StyledLink to="/shop-grid?category=6">베이커리</StyledLink></li>
+                <li><StyledLink to="/shop-grid?category=7">장/양념/소스</StyledLink></li>
+                <li><StyledLink to="/shop-grid?category=8">우유/유제품</StyledLink></li>
+                <li><StyledLink to="/shop-grid?category=9">채소</StyledLink></li>
+                <li><StyledLink to="/shop-grid?category=10">건강식품</StyledLink></li>
             </ul>
         </div>
     );

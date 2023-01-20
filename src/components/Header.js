@@ -20,7 +20,6 @@ const Header = () => {
     console.log("Header 렌더링됨")
 
     const {cart} = useSelector(store => store)
-    console.log(cart)
     let sum = 0
     cart.cart.forEach((product) => {
         sum += product.qty

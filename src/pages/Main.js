@@ -5,11 +5,6 @@ import MainPageBlogList from "../components/Main/MainPageBlog/MainPageBlogList";
 import appendScript from "../appendScript";
 
 const Main = () => {
-    useEffect(() => {
-        appendScript("./js/main.js")
-        console.log("main.js 리로드")
-    },[])
-
     return (
         <>
             <FeaturedProductList/>

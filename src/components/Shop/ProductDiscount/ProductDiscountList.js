@@ -20,8 +20,11 @@ function ProductDiscountList(props) {
     const [params, setParams] = useSearchParams()
     const getProducts = async () => {
         try {
-            const category = params.get('category')
-            const response = await axios.get(`http://localhost:9000/api/product/discoutList?category=${category}`)
+            let category = params.get('category')
+            let keyword = params.get('keyword')
+            if (category == null) {category = ''}
+            if (keyword == null) {keyword = ''}
+            const response = await axios.get(`http://localhost:9000/api/product/discoutList?category=${category}&keyword=${keyword}`)
             setProducts(response.data)
         }catch (e) {
             alert(e)
@@ -42,6 +45,7 @@ function ProductDiscountList(props) {
                     <h2>할인중</h2>
                 </div>
                 <div className="row">
+                    {products.length < 1 ? <h2>할인중인 상품이 없어요...</h2> : null}
                     <ReactOwlCarousel margin={0} items={3} dots={true} className={"product__discount__slider"}>
                         {products.map((product) => (
                             <ProductDiscount key={product.pid} product={product} handleShow={handleShow}/>
