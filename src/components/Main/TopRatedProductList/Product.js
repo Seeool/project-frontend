@@ -12,7 +12,7 @@ const Product = (props) => {
             <div className="latest-product__item__text">
                 <h5>{name}</h5>
                 <span><i className="fa fa-star" style={{color: '#EDBB0E'}}></i>{reviewAvg.toFixed(1)}</span>
-                <span>\{price}</span>
+                <span>{price}원</span>
             </div>
         </Link>
     );

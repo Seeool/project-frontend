@@ -17,7 +17,7 @@ const Product = (props) => {
             <div className="latest-product__item__text">
                 <h5>{name}</h5>
                 <span>{year}년{month}월</span>
-                <span>\{price}</span>
+                <span>{price}원</span>
             </div>
         </Link>
     );

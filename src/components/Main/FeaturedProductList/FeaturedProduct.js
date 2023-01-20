@@ -8,9 +8,7 @@ import $ from 'jquery'
 
 
 const FeaturedProduct = (props) => {
-    const [cookies, setCookie] = useCookies(['cart'])
-
-    const {pid, category, name, price, fileNames} = props.product
+    const {pid, category, name, price, fileNames, discount, dcRatio, originPrice} = props.product
     const handleShow = props.handleShow
 
     const dispatch = useDispatch()
@@ -19,7 +17,6 @@ const FeaturedProduct = (props) => {
         handleShow()
         dispatch(addProduct({id: pid, name: name, price: price, fileNames: fileNames}))
     }
-
     return (
         <div className={category + " col-lg-2 col-md-4 col-sm-6 mix"}>
             <div className="featured__item">
@@ -27,6 +24,7 @@ const FeaturedProduct = (props) => {
                     className="featured__item__pic set-bg"
                     style={{backgroundImage : `url(${fileNames[0]})`}}
                 >
+                    {discount ? <div className="product__discount__percent">-{dcRatio}%</div> : null}
                     <ul className="featured__item__pic__hover">
                         <li>
                             <Link className="addCartBtn" onClick={addToCart}>
@@ -38,10 +36,11 @@ const FeaturedProduct = (props) => {
                 </div>
                 <div className="featured__item__text">
                     <h6><Link to={`/shop-details?pid=${pid}`}>{name}</Link></h6>
-                    <h5>\{price}</h5>
+                    <h5>{price}원</h5>
                 </div>
             </div>
         </div>
+
     );
 };
 
