@@ -44,7 +44,6 @@ function ShopSideBar(props) {
         try {
             const response = await axios.get("http://localhost:9000/api/product/latestList")
             setProducts(response.data)
-            console.log(response.data)
         }catch (e) {
             alert(e)
         }

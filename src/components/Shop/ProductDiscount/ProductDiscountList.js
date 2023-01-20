@@ -7,12 +7,10 @@ import ReactOwlCarousel from "react-owl-carousel";
 import {useSearchParams} from "react-router-dom";
 
 function ProductDiscountList(props) {
-    console.log("할인상품리스트 렌더링")
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = (e) => {
-        console.log("handleshow 실행")
         setShow(true);
     }
 

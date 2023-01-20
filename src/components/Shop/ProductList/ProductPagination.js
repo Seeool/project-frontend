@@ -3,7 +3,6 @@ import $ from 'jquery'
 
 const ProductPagination = (props) => {
     const {start, page, end, movePage, nextPage, prevPage, next, prev } = props
-    const [rerender, setRerender] = useState(false)
 
     let array = []
     for (let i = start; i <= end; i++) {
@@ -19,11 +18,6 @@ const ProductPagination = (props) => {
         if (next) {nextBtn.current.style.display = 'inline-block'}
         else {nextBtn.current.style.display = 'none'}
     },[start])
-
-    useEffect(() => {
-        console.log(refs[page])
-    }, []);
-
 
     return (
         <div className="product__pagination">

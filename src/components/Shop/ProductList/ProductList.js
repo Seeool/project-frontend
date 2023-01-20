@@ -29,11 +29,19 @@ function ProductList(props) {
         try {
             let category = params.get('category')
             let keyword = params.get('keyword')
-            if (category == null) {category = ''}
-            if (keyword == null) {keyword = ''}
+            if (category == null) {
+                category = ''
+            }
+            if (keyword == null) {
+                keyword = ''
+            }
             const response = await axios.get(`http://localhost:9000/api/product/list?category=${category}&keyword=${keyword}&sort=${sort}&page=${page}`)
             const data = response.data
-            setProducts(data.dtoList)
+            if (data.dtoList === null) {
+                setProducts([])
+            } else {
+                setProducts(data.dtoList)
+            }
             setSize(data.size)
             setPrev(data.prev)
             setNext(data.next)
@@ -69,7 +77,7 @@ function ProductList(props) {
     //상품을 목록변경(쿼리스트링변경), 페이지, 분류가 변할때마다 새로 불러와야함
     useEffect(() => {
         getProducts()
-    },[params, page, sort])
+    }, [params, page, sort])
 
     //목록변경(쿼리스트링변경)시 페이지를 1로 초기화해야함
     useEffect(() => {
@@ -95,20 +103,24 @@ function ProductList(props) {
                     </div>
                     <div className="col-lg-4 col-md-4">
                         <div className="filter__found">
-                            <h6><span>{total}</span> 개의 상품이 있습니다.</h6>
+                            {total > 0 ? <h6><span>{total}</span> 개의 상품이 있습니다.</h6> : <h6><span>상품이 없습니다</span></h6> }
+                            
                         </div>
                     </div>
                 </div>
             </div>
-            <ProductPagination start={start} page={page} end={end} prev={prev} next={next} movePage={movePage} nextPage={nextPage} prevPage={prevPage}/>
-            <br />
+            {products.length > 0 ?
+                <ProductPagination start={start} page={page} end={end} prev={prev} next={next} movePage={movePage}
+                                   nextPage={nextPage} prevPage={prevPage}/> : null}
+            <br/>
             <div className="row">
-                {products.map((product) => (
+                {products.length > 0 ? products.map((product) => (
                     <Product key={product.pid} product={product} handleShow={handleShow}/>
-                ))}
+                )) : null}
             </div>
-            <ProductPagination start={start} page={page} end={end} prev={prev} next={next} movePage={movePage} nextPage={nextPage} prevPage={prevPage}/>
-
+            {products.length > 0 ?
+                <ProductPagination start={start} page={page} end={end} prev={prev} next={next} movePage={movePage}
+                                   nextPage={nextPage} prevPage={prevPage}/> : null}
             <Modal size="sm" centered show={show} onHide={handleClose}>
                 <Modal.Body><h5>장바구니에 담았습니다</h5></Modal.Body>
                 <Modal.Footer>
