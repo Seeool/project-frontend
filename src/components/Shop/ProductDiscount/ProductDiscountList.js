@@ -22,7 +22,7 @@ function ProductDiscountList(props) {
             let keyword = params.get('keyword')
             if (category == null) {category = ''}
             if (keyword == null) {keyword = ''}
-            const response = await axios.get(`http://172.30.1.1:9000/api/product/discoutList?category=${category}&keyword=${keyword}`)
+            const response = await axios.get(`/api/product/discoutList?category=${category}&keyword=${keyword}`)
             setProducts(response.data)
         }catch (e) {
             alert(e)

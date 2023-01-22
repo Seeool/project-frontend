@@ -41,7 +41,7 @@ function ShopSideBar(props) {
     const [products, setProducts] = useState([])
     const getProducts = async () => {
         try {
-            const response = await axios.get("http://172.30.1.1:9000/api/product/latestList")
+            const response = await axios.get("/api/product/latestList")
             setProducts(response.data)
         }catch (e) {
             alert(e)
