@@ -35,7 +35,7 @@ function ProductList(props) {
             if (keyword == null) {
                 keyword = ''
             }
-            const response = await axios.get(`http://localhost:9000/api/product/list?category=${category}&keyword=${keyword}&sort=${sort}&page=${page}`)
+            const response = await axios.get(`http://172.30.1.1:9000/api/product/list?category=${category}&keyword=${keyword}&sort=${sort}&page=${page}`)
             const data = response.data
             if (data.dtoList === null) {
                 setProducts([])
@@ -111,7 +111,7 @@ function ProductList(props) {
             </div>
             {products.length > 0 ?
                 <ProductPagination start={start} page={page} end={end} prev={prev} next={next} movePage={movePage}
-                                   nextPage={nextPage} prevPage={prevPage}/> : null}
+                                   nextPage={nextPage} prevPage={prevPage} products={products}/> : null}
             <br/>
             <div className="row">
                 {products.length > 0 ? products.map((product) => (
@@ -120,7 +120,7 @@ function ProductList(props) {
             </div>
             {products.length > 0 ?
                 <ProductPagination start={start} page={page} end={end} prev={prev} next={next} movePage={movePage}
-                                   nextPage={nextPage} prevPage={prevPage}/> : null}
+                                   nextPage={nextPage} prevPage={prevPage} products={products}/> : null}
             <Modal size="sm" centered show={show} onHide={handleClose}>
                 <Modal.Body><h5>장바구니에 담았습니다</h5></Modal.Body>
                 <Modal.Footer>

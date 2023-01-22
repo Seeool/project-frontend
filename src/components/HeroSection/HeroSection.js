@@ -80,8 +80,6 @@ const HeroSection = (props) => {
                                     </div>
                                 </div>
                             </div>
-                            <br />
-                            <br />
                             {location.pathname === '/' ?
                                 <div className="hero__item set-bg" style={{backgroundImage : 'url("img/hero/banner.jpg")'}} >
                                 <div className="hero__text">

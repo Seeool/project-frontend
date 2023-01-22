@@ -12,7 +12,7 @@ function Product(props) {
     const addToCart = (e) => {
         e.preventDefault()
         handleShow()
-        dispatch(addProduct({id: pid, name: name, price: price, fileNames: fileNames}))
+        dispatch(addProduct({id: pid, name: name, price: price, fileNames: fileNames[0]}))
     }
 
     return (

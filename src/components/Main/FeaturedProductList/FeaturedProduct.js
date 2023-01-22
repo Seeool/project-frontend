@@ -15,7 +15,7 @@ const FeaturedProduct = (props) => {
     const addToCart = (e) => {
         e.preventDefault()
         handleShow()
-        dispatch(addProduct({id: pid, name: name, price: price, fileNames: fileNames}))
+        dispatch(addProduct({id: pid, name: name, price: price, fileNames: fileNames[0]}))
     }
     return (
         <div className={category + " col-lg-2 col-md-4 col-sm-6 mix"}>

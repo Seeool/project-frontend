@@ -100,15 +100,15 @@
     /*---------------------------------
         FeaturedProduct Details Pic Slider
     ----------------------------------*/
-    $(".product__details__pic__slider").owlCarousel({
-        loop: true,
-        margin: 20,
-        items: 4,
-        dots: true,
-        smartSpeed: 1200,
-        autoHeight: false,
-        autoplay: true
-    });
+    // $(".product__details__pic__slider").owlCarousel({
+    //     loop: true,
+    //     margin: 20,
+    //     items: 4,
+    //     dots: true,
+    //     smartSpeed: 1200,
+    //     autoHeight: false,
+    //     autoplay: true
+    // });
 
     /*-----------------------
 		Price Range Slider

@@ -3,7 +3,7 @@ import $ from 'jquery'
 import {useSearchParams} from "react-router-dom";
 
 const ProductPagination = (props) => {
-    const {start, page, end, prev, next, movePage, nextPage, prevPage, products } = props
+    const {start, page, end, prev, next, movePage, nextPage, prevPage, reviews } = props
 
     let array = []
     for (let i = 0; i <= end - start; i++) {
@@ -22,7 +22,6 @@ const ProductPagination = (props) => {
     }
 
     useEffect(() => {
-        console.log()
         if (prev) {prevBtn.current.style.display = 'inline-block'}
         else {prevBtn.current.style.display = 'none'}
         if (next) {nextBtn.current.style.display = 'inline-block'}
@@ -31,7 +30,7 @@ const ProductPagination = (props) => {
             ref.current.classList.remove('active')
         })
         refs[page-start]?.current.classList.add('active')
-    }, [products])
+    }, [reviews])
 
 
     return (

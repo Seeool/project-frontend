@@ -14,7 +14,6 @@ function ShopSideBar(props) {
     const params = new URLSearchParams(useLocation().search)
     const refs = Array.from({ length: 12 }).map(() => createRef());
     let categoryName = params.get('category')
-    const categories = ['','과일','정육/계란','밀키트','냉장/냉동/간편식','통조림/즉석밥/면','쌀/잡곡','베이커리','장/양념/소스','우유/유제품','채소','건강식품']
 
     useEffect(() => {
         if(!categoryName) {
@@ -42,7 +41,7 @@ function ShopSideBar(props) {
     const [products, setProducts] = useState([])
     const getProducts = async () => {
         try {
-            const response = await axios.get("http://localhost:9000/api/product/latestList")
+            const response = await axios.get("http://172.30.1.1:9000/api/product/latestList")
             setProducts(response.data)
         }catch (e) {
             alert(e)

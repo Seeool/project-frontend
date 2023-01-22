@@ -42,9 +42,9 @@ function CartProduct(props) {
             <td className="shoping__cart__quantity">
                 <div className="quantity">
                     <div className="pro-qty">
-                        <span className="dec qtybtn" onClick={minusQty}>-</span>
+                        <button onClick={minusQty}><a className="dec qtybtn">-</a></button>
                         <input type="text" value={qty} readOnly/>
-                        <span className="inc qtybtn" onClick={plusQty}>+</span>
+                        <button onClick={plusQty}><a className="inc qtybtn">+</a></button>
                     </div>
                 </div>
             </td>

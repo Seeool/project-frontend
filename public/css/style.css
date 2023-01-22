@@ -172,6 +172,7 @@ ol {
 	letter-spacing: 2px;
 }
 
+
 .site-btn {
 	font-size: 14px;
 	color: #ffffff;
@@ -635,7 +636,7 @@ ol {
 }
 
 .hero__search {
-	/*overflow: hidden;*/
+	overflow: hidden;
 	margin-bottom: 30px;
 }
 
@@ -1700,7 +1701,9 @@ ol {
 }
 
 .product__details__pic__item img {
-	min-width: 100%;
+	width: 540px;
+	height: 540px;
+	object-fit: cover;
 }
 
 .product__details__pic__slider img {
@@ -1829,6 +1832,20 @@ ol {
 	display: inline-block;
 }
 
+.pro-qty .detailqtybtn {
+	width: 25px;
+	font-size: 16px;
+	color: #6f6f6f;
+	cursor: pointer;
+	display: inline-block;
+}
+
+
+.pro-qty button {
+	border: none;
+	background:#f5f5f5 ;
+}
+
 .product__details__tab {
 	padding-top: 85px;
 }
@@ -1885,7 +1902,7 @@ ol {
 .product__details__tab .product__details__tab__desc h6 {
 	font-weight: 700;
 	color: #333333;
-	margin-bottom: 26px;
+	margin-bottom: 5px;
 }
 
 .product__details__tab .product__details__tab__desc p {
@@ -2939,5 +2956,6 @@ ol {
 	font-size: 18px;
 	letter-spacing: 2px;
 }
+
 
 
