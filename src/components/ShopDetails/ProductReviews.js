@@ -18,7 +18,7 @@ function ProductReviews(props) {
     const [page, setPage] = useState(1);
     const getReviews = async () => {
         try {
-            const response = await axios.get(`/api/review/${pid}?page=${page}&size=${size}`)
+            const response = await axios.get(`http://localhost:9000/api/review/${pid}?page=${page}&size=${size}`)
             const data = response.data
             console.log(data)
             if (data.dtoList === null) {

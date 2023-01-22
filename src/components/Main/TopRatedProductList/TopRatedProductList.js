@@ -8,7 +8,7 @@ function TopRatedProductList(props) {
     const [products, setProducts] = useState([])
     const getProducts = async () => {
         try {
-            const response = await axios.get("/api/product/topRatedList")
+            const response = await axios.get("http://localhost:9000/api/product/topRatedList")
             setProducts(response.data)
             console.log(response.data)
         }catch (e) {

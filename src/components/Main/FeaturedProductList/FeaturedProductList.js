@@ -19,7 +19,7 @@ const FeaturedProductList = () => {
     const categoryNames = ["과일","정육/계란","밀키트","냉장/냉동/간편식","통조림/즉석밥/면","쌀/잡곡","베이커리","장/양념/소스","우유/유제품","채소","건강식품"]
     const getProducts = async () => {
         try {
-            const response = await axios.get("/api/product/featuredList")
+            const response = await axios.get("http://localhost:9000/api/product/featuredList")
             const data = response.data
             setProducts(data)
             let categorySet = new Set(Array.from(data.map((product) => {

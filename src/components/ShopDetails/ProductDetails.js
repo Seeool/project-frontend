@@ -33,7 +33,7 @@ function ProductDetails(props) {
     const [fileNames, setfileNames] = useState([])
     const getProduct = async () => {
         try {
-            const response = await axios.get(`/api/product/${pid}`)
+            const response = await axios.get(`http://localhost:9000/api/product/${pid}`)
             console.log(response.data)
             console.log(response.data.fileNames)
             setProduct(response.data)

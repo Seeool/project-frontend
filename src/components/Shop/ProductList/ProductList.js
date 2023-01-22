@@ -35,7 +35,7 @@ function ProductList(props) {
             if (keyword == null) {
                 keyword = ''
             }
-            const response = await axios.get(`/api/product/list?category=${category}&keyword=${keyword}&sort=${sort}&page=${page}`)
+            const response = await axios.get(`http://localhost:9000/api/product/list?category=${category}&keyword=${keyword}&sort=${sort}&page=${page}`)
             const data = response.data
             if (data.dtoList === null) {
                 setProducts([])
