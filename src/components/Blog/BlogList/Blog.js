@@ -1,12 +1,12 @@
 import React from 'react';
 
 function Blog(props) {
-    const {title, date, replyCount, picUrl} = props.blog
+    const {title, date, replyCount, fileName} = props.blog
     return (
         <div className="col-lg-6 col-md-6 col-sm-6">
             <div className="blog__item">
                 <div className="blog__item__pic">
-                    <img src={picUrl} alt=""/>
+                    <img src={fileName} alt=""/>
                 </div>
                 <div className="blog__item__text">
                     <ul>

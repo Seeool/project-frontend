@@ -36,11 +36,11 @@ const ProductPagination = (props) => {
 
     return (
         <div className="product__pagination">
-            <a ref={prevBtn} href="#" onClick={prevPage} >이전</a>
+            <a ref={prevBtn} href="#" onClick={prevPage} ><i className="fa fa-long-arrow-left"></i></a>
             {array.map((i) => (
                 <a ref={refs[i]} href="#" key={i} onClick={movePage}>{i + start}</a>
             ))}
-            <a ref={nextBtn}  href="#" onClick={nextPage} >다음</a>
+            <a ref={nextBtn}  href="#" onClick={nextPage} ><i className="fa fa-long-arrow-right"></i></a>
         </div>
     );
 };

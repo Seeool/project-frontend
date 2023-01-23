@@ -5,6 +5,7 @@ import axios from "axios";
 import {Link, useSearchParams} from "react-router-dom";
 import $ from 'jquery'
 import ProductPagination from "./ProductPagination";
+import appendScript from "../../../appendScript";
 
 function ProductList(props) {
     console.log("Shop-grid 상품리스트 렌더링")
@@ -25,6 +26,9 @@ function ProductList(props) {
     const [total, setTotal] = useState()
     const [page, setPage] = useState(1);
     const [sort, setSort] = useState(0)
+
+    const scrollRef = useRef()
+
     const getProducts = async () => {
         try {
             let category = params.get('category')
@@ -63,17 +67,21 @@ function ProductList(props) {
         $(e.target).siblings().removeClass("active")
         $(e.target).addClass("active")
         setPage(e.target.innerHTML)
+        scrollRef.current.scrollIntoView({behavior : 'smooth'})
     }
     const nextPage = (e) => {
         e.stopPropagation()
         e.preventDefault()
+        scrollRef.current.scrollIntoView({behavior: 'smooth'})
         setPage(end + 1)
     }
     const prevPage = (e) => {
         e.stopPropagation()
         e.preventDefault()
+        scrollRef.current.scrollIntoView({behavior: 'smooth'})
         setPage(start - 1)
     }
+
     //상품을 목록변경(쿼리스트링변경), 페이지, 분류가 변할때마다 새로 불러와야함
     useEffect(() => {
         getProducts()
@@ -86,7 +94,7 @@ function ProductList(props) {
 
     return (
         <>
-            <div className="filter__item">
+            <div ref={scrollRef} className="filter__item">
                 <div className="row">
                     <div className="col-lg-4 col-md-5">
                         <div className="filter__sort">
@@ -104,7 +112,6 @@ function ProductList(props) {
                     <div className="col-lg-4 col-md-4">
                         <div className="filter__found">
                             {total > 0 ? <h6><span>{total}</span> 개의 상품이 있습니다.</h6> : <h6><span>상품이 없습니다</span></h6> }
-                            
                         </div>
                     </div>
                 </div>

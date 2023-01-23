@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import axios from "axios";
 import {useSearchParams} from "react-router-dom";
 import $ from "jquery";
@@ -16,6 +16,9 @@ function ProductReviews(props) {
     const [start, setStart] = useState()
     const [total, setTotal] = useState()
     const [page, setPage] = useState(1);
+
+    const scrollRef = useRef()
+
     const getReviews = async () => {
         try {
             const response = await axios.get(`http://localhost:9000/api/review/${pid}?page=${page}&size=${size}`)
@@ -37,52 +40,55 @@ function ProductReviews(props) {
         }
     }
 
-        const movePage = (e) => {
-            e.preventDefault()
-            e.stopPropagation()
-            $(e.target).siblings().removeClass("active")
-            $(e.target).addClass("active")
-            setPage(e.target.innerHTML)
-        }
-        const nextPage = (e) => {
-            e.stopPropagation()
-            e.preventDefault()
-            setPage(end + 1)
-        }
-        const prevPage = (e) => {
-            e.stopPropagation()
-            e.preventDefault()
-            setPage(start - 1)
-        }
-
-        useEffect(() => {
-            getReviews()
-        }, [page])
-
-        return (
-            <>
-                <div className="col-lg-12">
-                    <div className="product__details__tab">
-                        <ul className="nav nav-tabs" role="tablist">
-                            <li className="nav-item">
-                                리뷰
-                            </li>
-                        </ul>
-                        <div className="tab-pane" id="tabs-3" role="tabpanel">
-                            <div className="product__details__tab__desc">
-                                {reviews.length > 0 ? reviews.map(review => (
-                                    <Review key={review.rno} review={review}/>
-                                )) : <h6 style={{textAlign: 'center'}}>리뷰가 없습니다</h6>}
-                            </div>
-                        </div>
-                        {reviews.length > 0 ? <ReviewPagination start={start} page={page} end={end} prev={prev} next={next}
-                                                                movePage={movePage} nextPage={nextPage} prevPage={prevPage}
-                                                                reviews={reviews}/> : ''}
-                    </div>
-                </div>
-            </>
-        );
+    const movePage = (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        $(e.target).siblings().removeClass("active")
+        $(e.target).addClass("active")
+        scrollRef.current.scrollIntoView({behavior: 'smooth'})
+        setPage(e.target.innerHTML)
+    }
+    const nextPage = (e) => {
+        e.stopPropagation()
+        e.preventDefault()
+        scrollRef.current.scrollIntoView({behavior: 'smooth'})
+        setPage(end + 1)
+    }
+    const prevPage = (e) => {
+        e.stopPropagation()
+        e.preventDefault()
+        scrollRef.current.scrollIntoView({behavior: 'smooth'})
+        setPage(start - 1)
     }
 
+    useEffect(() => {
+        getReviews()
+    }, [page])
 
-    export default ProductReviews;
+    return (
+        <>
+            <div ref={scrollRef} className="col-lg-12">
+                <div className="product__details__tab">
+                    <ul className="nav nav-tabs" role="tablist">
+                        <li className="nav-item">
+                            리뷰 ({total}건)
+                        </li>
+                    </ul>
+                    <div className="tab-pane" id="tabs-3" role="tabpanel">
+                        <div className="product__details__tab__desc">
+                            {reviews.length > 0 ? reviews.map(review => (
+                                <Review key={review.reviewNo} review={review}/>
+                            )) : <h6 style={{textAlign: 'center'}}>리뷰가 없습니다</h6>}
+                        </div>
+                    </div>
+                    {reviews.length > 0 ? <ReviewPagination start={start} page={page} end={end} prev={prev} next={next}
+                                                            movePage={movePage} nextPage={nextPage} prevPage={prevPage}
+                                                            reviews={reviews}/> : ''}
+                </div>
+            </div>
+        </>
+    );
+}
+
+
+export default ProductReviews;

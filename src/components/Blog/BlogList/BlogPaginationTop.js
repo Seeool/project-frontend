@@ -2,8 +2,8 @@ import React, {createRef, useEffect, useRef, useState} from 'react';
 import $ from 'jquery'
 import {useSearchParams} from "react-router-dom";
 
-const ProductPagination = (props) => {
-    const {start, page, end, prev, next, movePage, nextPage, prevPage, reviews } = props
+const ProductPaginationTop = (props) => {
+    const {start, page, end, prev, next, movePage, nextPage, prevPage, blogs } = props
 
     let array = []
     for (let i = 0; i <= end - start; i++) {
@@ -30,10 +30,11 @@ const ProductPagination = (props) => {
             ref.current.classList.remove('active')
         })
         refs[page-start]?.current.classList.add('active')
-    }, [reviews])
+    }, [blogs])
 
 
     return (
+        <div className="col-lg-12">
         <div className="product__pagination">
             <a ref={prevBtn} href="#" onClick={prevPage} ><i className="fa fa-long-arrow-left"></i></a>
             {array.map((i) => (
@@ -41,7 +42,8 @@ const ProductPagination = (props) => {
             ))}
             <a ref={nextBtn}  href="#" onClick={nextPage} ><i className="fa fa-long-arrow-right"></i></a>
         </div>
+        </div>
     );
 };
 
-export default ProductPagination;
+export default ProductPaginationTop;
