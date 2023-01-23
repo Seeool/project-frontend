@@ -21,20 +21,23 @@ function BlogList(props) {
     const [sort, setSort] = useState(0)
     const scrollRef = useRef()
     const getBlogs = async () => {
-        let type = params.get('type')
-        if (type === null) {type = ''}
         let category = params.get('category')
         if (category === null) {category = ''}
         let keyword = params.get('keyword')
         if (keyword === null) {keyword = ''}
-        const response = await axios.get(`http://localhost:9000/api/blog/list?type=${type}&category=${category}&keyword=${keyword}&sort=${sort}&page=${page}&size=${size}`)
+        console.log("keyword : ",keyword)
+        console.log("category: ",category)
+        console.log("sort : ",sort)
+        console.log("page : ",page)
+        console.log("size : ",size)
+        const response = await axios.get(`http://localhost:9000/api/blog/list?category=${category}&keyword=${keyword}&sort=${sort}&page=${page}`)
         const data = response.data
         if (data.dtoList === null) {
             setBlogs([])
         } else {
             setBlogs(data.dtoList)
         }
-        setSize(data.size)
+        console.log(data)
         setPrev(data.prev)
         setNext(data.next)
         setEnd(data.end)
@@ -64,8 +67,14 @@ function BlogList(props) {
     }
 
     useEffect(() => {
+        console.log("getBlogs 실행")
         getBlogs()
     },[params, page, sort])
+
+    //목록변경(쿼리스트링변경)시 페이지를 1로 초기화해야함
+    useEffect(() => {
+        setPage(1)
+    }, [params]);
 
     return (
         <>

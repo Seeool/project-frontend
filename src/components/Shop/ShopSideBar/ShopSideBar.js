@@ -16,27 +16,14 @@ function ShopSideBar(props) {
     let categoryName = params.get('category')
 
     useEffect(() => {
-        if(!categoryName) {
-            refs.map((ref) => {
-                ref.current.style.backgroundColor = 'white'
-                ref.current.style.color = 'black'
-            })
-            refs[11].current.style.backgroundColor = '#7fad39'
-            refs[11].current.style.color = 'white'
+        refs.map(ref => {
+            ref.current.classList.remove('active')
+        })
+        if(categoryName === null) {
+            refs[11]?.current.classList.add('active')
         }
-        for (let i = 0; i < 11; i++) {
-            if(parseInt(categoryName) === i) {
-                refs.map((ref) => {
-                    ref.current.style.transition = '0.2s'
-                    ref.current.style.backgroundColor = 'white'
-                    ref.current.style.color = 'black'
-                })
-                refs[i].current.style.transition = '0.2s'
-                refs[i].current.style.backgroundColor = '#7fad39'
-                refs[i].current.style.color = 'white'
-            }
-        }
-    },[params])
+        refs[categoryName]?.current.classList.add('active')
+    }, [params])
 
     const [products, setProducts] = useState([])
     const getProducts = async () => {
@@ -62,18 +49,18 @@ function ShopSideBar(props) {
                 <div className="sidebar__item">
                     <h4>카테고리</h4>
                     <ul className="sidebar__categories">
-                        <li><StyledLink to="/shop-grid" ref={refs[11]}>전체</StyledLink></li>
-                        <li><StyledLink to="/shop-grid?category=0" ref={refs[0]}>과일</StyledLink></li>
-                        <li><StyledLink to="/shop-grid?category=1" ref={refs[1]}>정육/계란</StyledLink></li>
-                        <li><StyledLink to="/shop-grid?category=2" ref={refs[2]}>밀키트</StyledLink></li>
-                        <li><StyledLink to="/shop-grid?category=3" ref={refs[3]}>냉장/냉동/간편식</StyledLink></li>
-                        <li><StyledLink to="/shop-grid?category=4" ref={refs[4]}>통조림/즉석밥/면</StyledLink></li>
-                        <li><StyledLink to="/shop-grid?category=5" ref={refs[5]}>쌀/잡곡</StyledLink></li>
-                        <li><StyledLink to="/shop-grid?category=6" ref={refs[6]}>베이커리</StyledLink></li>
-                        <li><StyledLink to="/shop-grid?category=7" ref={refs[7]}>장/양념/소스</StyledLink></li>
-                        <li><StyledLink to="/shop-grid?category=8" ref={refs[8]}>우유/유제품</StyledLink></li>
-                        <li><StyledLink to="/shop-grid?category=9" ref={refs[9]}>채소</StyledLink></li>
-                        <li><StyledLink to="/shop-grid?category=10" ref={refs[10]}>건강식품</StyledLink></li>
+                        <li ref={refs[11]}><StyledLink to="/shop-grid">전체</StyledLink></li>
+                        <li ref={refs[0]}><StyledLink to="/shop-grid?category=0">과일</StyledLink></li>
+                        <li ref={refs[1]}><StyledLink to="/shop-grid?category=1">정육/계란</StyledLink></li>
+                        <li ref={refs[2]}><StyledLink to="/shop-grid?category=2">밀키트</StyledLink></li>
+                        <li ref={refs[3]}><StyledLink to="/shop-grid?category=3">냉장/냉동/간편식</StyledLink></li>
+                        <li ref={refs[4]}><StyledLink to="/shop-grid?category=4">통조림/즉석밥/면</StyledLink></li>
+                        <li ref={refs[5]}><StyledLink to="/shop-grid?category=5">쌀/잡곡</StyledLink></li>
+                        <li ref={refs[6]}><StyledLink to="/shop-grid?category=6">베이커리</StyledLink></li>
+                        <li ref={refs[7]}><StyledLink to="/shop-grid?category=7">장/양념/소스</StyledLink></li>
+                        <li ref={refs[8]}><StyledLink to="/shop-grid?category=8">우유/유제품</StyledLink></li>
+                        <li ref={refs[9]}><StyledLink to="/shop-grid?category=9">채소</StyledLink></li>
+                        <li ref={refs[10]}><StyledLink to="/shop-grid?category=10">건강식품</StyledLink></li>
                     </ul>
                 </div>
                 <div className="sidebar__item">

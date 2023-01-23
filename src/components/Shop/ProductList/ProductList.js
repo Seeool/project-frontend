@@ -46,7 +46,6 @@ function ProductList(props) {
             } else {
                 setProducts(data.dtoList)
             }
-            setSize(data.size)
             setPrev(data.prev)
             setNext(data.next)
             setEnd(data.end)

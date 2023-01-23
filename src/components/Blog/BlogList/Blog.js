@@ -1,7 +1,12 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
 function Blog(props) {
-    const {title, date, replyCount, fileName} = props.blog
+    const {bid, title, regDate, replyCount, fileName} = props.blog
+    const date = new Date(regDate)
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+    const day = date.getDate()
     return (
         <div className="col-lg-6 col-md-6 col-sm-6">
             <div className="blog__item">
@@ -10,13 +15,13 @@ function Blog(props) {
                 </div>
                 <div className="blog__item__text">
                     <ul>
-                        <li><i className="fa fa-calendar-o"></i> {date}</li>
+                        <li><i className="fa fa-calendar-o"></i> {year}년 {month}월 {day}일</li>
                         <li><i className="fa fa-comment-o"></i> {replyCount}</li>
                     </ul>
-                    <h5><a href="src/components/Blog/BlogList#">{title}</a></h5>
-                    <a href="src/components/Blog/BlogList#" className="blog__btn"
-                    >READ MORE <span className="arrow_right"></span
-                    ></a>
+                    <h5>{title}</h5>
+                    <Link to={`/blog-details?bid=${bid}`} className="blog__btn"
+                    >읽어보기 <span className="arrow_right"></span
+                    ></Link>
                 </div>
             </div>
         </div>

@@ -29,7 +29,6 @@ function ProductReviews(props) {
             } else {
                 setReviews(data.dtoList)
             }
-            setSize(data.size)
             setPrev(data.prev)
             setNext(data.next)
             setEnd(data.end)

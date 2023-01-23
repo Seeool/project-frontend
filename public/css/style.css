@@ -1122,6 +1122,22 @@ ol {
 	display: block;
 }
 
+.sidebar__item ul li:hover {
+	background-color: #7fad39;
+	transition: 0.2s;
+}
+.sidebar__item ul li:hover a {
+	color: white;
+}
+.sidebar__item ul li.active {
+	background-color: #7fad39;
+	transition: 0.2s;
+}
+.sidebar__item ul li.active a {
+	color: white;
+}
+
+
 .sidebar__item .latest-product__text {
 	position: relative;
 }
@@ -2360,6 +2376,9 @@ ol {
 
 .blog__item__text h5 {
 	margin-bottom: 12px;
+	font-size: 20px;
+	color: #1c1c1c;
+	font-weight: 700;
 }
 
 .blog__item__text h5 a {
@@ -2427,7 +2446,23 @@ ol {
 	list-style: none;
 }
 
+.blog__sidebar__item ul li:hover {
+	transition: 0.2s;
+	background-color: #7fad39;
+}
+.blog__sidebar__item ul li:hover a {
+	color: white;
+}
+
+.blog__sidebar__item ul li.active {
+	transition: 0.2s;
+	background-color: #7fad39;
+}
+.blog__sidebar__item ul li.active a {
+	color: white;
+}
 .blog__sidebar__item ul li a {
+	display: block;
 	font-size: 16px;
 	color: #666666;
 	line-height: 48px;
@@ -2436,10 +2471,6 @@ ol {
 	-ms-transition: all, 0.3s;
 	-o-transition: all, 0.3s;
 	transition: all, 0.3s;
-}
-
-.blog__sidebar__item ul li a:hover {
-	color: #7fad39;
 }
 
 .blog__sidebar__search {
