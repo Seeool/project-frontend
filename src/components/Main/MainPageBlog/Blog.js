@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from "react-router-dom";
 
 function Blog(props) {
-    const {title, fileName, regDate, replyCount} = props.blog
+    const {bid, title, fileName, regDate, replyCount} = props.blog
     const date = new Date(regDate)
     const year = date.getFullYear()
     const month = date.getMonth() + 1
@@ -18,7 +18,7 @@ function Blog(props) {
                         <li><i className="fa fa-calendar-o"></i> {year}년 {month}월 {day}일</li>
                         <li><i className="fa fa-comment-o"></i> {replyCount}</li>
                     </ul>
-                    <h5><Link to="/blog">{title}</Link></h5>
+                    <h5><Link to={`/blog-details?bid=${bid}`}>{title}</Link></h5>
                 </div>
             </div>
         </div>

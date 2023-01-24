@@ -67,7 +67,6 @@ function ShopSideBar(props) {
                     <div className="latest-product__text">
                         <h4>신상품</h4>
                         <ReactOwlCarousel className={"latest-product__slider owl-carousel"} margin={0} items={1} nav={true} smartSpeed={1200}>
-                        {/*<div className="latest-product__slider owl-carousel">*/}
                             <div className="latest-prdouct__slider__item">
                                 {products.map((product, index) => {
                                     if(index < 3)
@@ -80,7 +79,6 @@ function ShopSideBar(props) {
                                         return(<Product key={product.pid} product={product}/> )
                                 })}
                             </div>
-                        {/*</div>*/}
                         </ReactOwlCarousel>
                     </div>
                 </div>

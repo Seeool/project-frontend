@@ -1034,6 +1034,12 @@ ol {
 	color: #252525;
 	font-weight: 700;
 }
+.latest-product__item__text span.regDate {
+	font-size: 12px;
+	display: block;
+	color: #6f6f6f;
+	font-weight: 700;
+}
 
 /*---------------------
   Form BLog
@@ -2620,6 +2626,7 @@ ol {
 }
 
 .blog__details__text img {
+	width: 100%;
 	margin-bottom: 30px;
 }
 
@@ -2657,6 +2664,10 @@ ol {
 }
 
 .blog__details__author__text span {
+	font-size: 16px;
+	color: #6f6f6f;
+}
+.blog__details__author__text textarea {
 	font-size: 16px;
 	color: #6f6f6f;
 }
