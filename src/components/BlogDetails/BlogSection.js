@@ -7,6 +7,7 @@ const StyledTextarea = styled.textarea`
   resize: none;
   font-size: 16px;
   color: #6f6f6f;
+  overflow: hidden;
 `
 
 function BlogSection(props) {
@@ -27,7 +28,6 @@ function BlogSection(props) {
     const textarea = useRef();
     console.log(textarea)
     const handleResizeHeight = () => {
-        console.log("핸들리사이즈하이트 동작")
         textarea.current.style.height = 'auto'; //height 초기화
         textarea.current.style.height = textarea.current.scrollHeight + 'px';
     };

@@ -11,7 +11,7 @@ function CartSection(props) {
     const [cookies, setCookie] = useCookies(['cart'])
     console.log('CartSection 리렌더링')
 
-    const {cart} = useSelector(store => store)
+    const {cart} = useSelector(store => store.cart)
 
     const [total, setTotal] = useState(0)
     const [renderChange, setRenderChange] = useState(0)
@@ -41,7 +41,7 @@ function CartSection(props) {
                             </tr>
                             </thead>
                             <tbody>
-                            {cart.cart.map((cartProduct) => (
+                            {cart.map((cartProduct) => (
                                 <CartProduct key={cartProduct.id} cartProduct={cartProduct} renderChange={renderChange} setRenderChange={setRenderChange}/>
                             ))}
                             </tbody>

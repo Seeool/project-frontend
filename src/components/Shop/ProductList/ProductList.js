@@ -2,7 +2,7 @@ import React, {createRef, useEffect, useRef, useState} from 'react';
 import Product from "./Product";
 import {Button, Modal} from "react-bootstrap";
 import axios from "axios";
-import {Link, useSearchParams} from "react-router-dom";
+import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import $ from 'jquery'
 import ProductPagination from "./ProductPagination";
 import appendScript from "../../../appendScript";

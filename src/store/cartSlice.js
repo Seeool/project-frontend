@@ -1,8 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
 
-
-
-
 const initialState = {
     cart : [], // {id : pid, qty : 수량} 형식의 객체 모음
 }

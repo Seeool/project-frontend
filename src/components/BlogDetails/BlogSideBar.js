@@ -69,7 +69,7 @@ function BlogSideBar(props) {
         <div className="col-lg-4 col-md-5">
             <div className="blog__sidebar">
                 <div className="blog__sidebar__search">
-                    <form action="src/components#">
+                    <form>
                         <input type="text" placeholder="블로그 검색" value={keyword} onChange={handleWord} onKeyDown={enterPress}/>
                         <button onClick={search}>
                             <span className="icon_search"></span>
