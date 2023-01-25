@@ -5,13 +5,10 @@ import {addProduct} from "../../../store/cartSlice";
 
 function Product(props) {
     const {pid, name, price, fileNames} = props.product
-    const handleShow = props.handleShow
-    //useParams를 이용해 페이지처리??
 
     const dispatch = useDispatch()
     const addToCart = (e) => {
         e.preventDefault()
-        handleShow()
         dispatch(addProduct({id: pid, name: name, price: price, fileNames: fileNames[0]}))
     }
 

@@ -5,17 +5,8 @@ import axios from "axios";
 import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import $ from 'jquery'
 import ProductPagination from "./ProductPagination";
-import appendScript from "../../../appendScript";
 
 function ProductList(props) {
-    console.log("Shop-grid 상품리스트 렌더링")
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = (e) => {
-        console.log("handleshow 실행")
-        setShow(true);
-    }
-
     const [params, setParams] = useSearchParams()
     const [products, setProducts] = useState([])
     const [size, setSize] = useState()
@@ -121,20 +112,12 @@ function ProductList(props) {
             <br/>
             <div className="row">
                 {products.length > 0 ? products.map((product) => (
-                    <Product key={product.pid} product={product} handleShow={handleShow}/>
+                    <Product key={product.pid} product={product} />
                 )) : null}
             </div>
             {products.length > 0 ?
                 <ProductPagination start={start} page={page} end={end} prev={prev} next={next} movePage={movePage}
                                    nextPage={nextPage} prevPage={prevPage} products={products}/> : null}
-            <Modal size="sm" centered show={show} onHide={handleClose}>
-                <Modal.Body><h5>장바구니에 담았습니다</h5></Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
         </>
     );
 }

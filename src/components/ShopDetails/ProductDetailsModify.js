@@ -189,7 +189,7 @@ function ProductDetails(props) {
                 <Modal.Body><h5>장바구니에 담았습니다</h5></Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
-                        Close
+                       닫기
                     </Button>
                 </Modal.Footer>
             </Modal>

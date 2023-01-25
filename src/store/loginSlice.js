@@ -3,7 +3,7 @@ import {createSlice} from "@reduxjs/toolkit";
 import cartSlice from "./cartSlice";
 
 const initialState = {
-    loginModalShow : false,
+    showLoginModal : false,
     loginStep : 1,
     mid : undefined,
     fileName : undefined,
@@ -14,8 +14,8 @@ const loginSlice = createSlice({
     name : 'login',
     initialState,
     reducers : {
-        setLoginModalShow : (state, action) => ({
-            loginModalShow : action.payload
+        setLoginShow : (state, action) => ({
+            showLoginModal : action.payload
         }),
 
         loginNextStep : (state, action) => ({
@@ -34,5 +34,5 @@ const loginSlice = createSlice({
     }
 
 })
-export const {setLoginModalShow, loginNextStep, loginPrevStep, loginResetStep, setSignup} = loginSlice.actions;
+export const {setLoginShow, loginNextStep, loginPrevStep, loginResetStep, setSignup} = loginSlice.actions;
 export default loginSlice;

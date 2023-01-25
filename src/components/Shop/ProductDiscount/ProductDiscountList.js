@@ -1,19 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import ProductDiscount from "./ProductDiscount";
-import {Button, Modal} from "react-bootstrap";
 import axios from "axios";
-import appendScript from "../../../appendScript";
 import ReactOwlCarousel from "react-owl-carousel";
 import {useSearchParams} from "react-router-dom";
 
 function ProductDiscountList(props) {
-    const [show, setShow] = useState(false);
-
-    const handleClose = () => setShow(false);
-    const handleShow = (e) => {
-        setShow(true);
-    }
-
     const [products, setProducts] = useState([])
     const [params, setParams] = useSearchParams()
     const getProducts = async () => {
@@ -46,19 +37,11 @@ function ProductDiscountList(props) {
                     {products.length < 1 ? <h2>할인중인 상품이 없어요...</h2> : null}
                     <ReactOwlCarousel margin={0} dots={true} responsive={{0: {items: 1}, 990: {items :2}, 1200: {items : 3} }} className={"product__discount__slider"}>
                         {products.map((product) => (
-                            <ProductDiscount key={product.pid} product={product} handleShow={handleShow}/>
+                            <ProductDiscount key={product.pid} product={product} />
                         ))}
                     </ReactOwlCarousel>
                 </div>
             </div>
-            <Modal size="sm" centered show={show} onHide={handleClose}>
-                <Modal.Body><h5>장바구니에 담았습니다</h5></Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
         </>
     );
 }

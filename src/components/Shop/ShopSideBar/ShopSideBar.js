@@ -19,7 +19,7 @@ function ShopSideBar(props) {
         refs.map(ref => {
             ref.current.classList.remove('active')
         })
-        if(categoryName === null) {
+        if(categoryName === null || categoryName === "") {
             refs[11]?.current.classList.add('active')
         }
         refs[categoryName]?.current.classList.add('active')

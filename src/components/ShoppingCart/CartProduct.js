@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import $ from 'jquery'
 import {useCookies} from "react-cookie";
 import {useDispatch} from "react-redux";
-import {addProduct, deleteProduct, minusProduct} from "../../store/cartSlice";
+import {addProduct, deleteProduct, minusProduct, plusProduct} from "../../store/cartSlice";
 import {Link} from "react-router-dom";
 
 function CartProduct(props) {
@@ -13,7 +13,7 @@ function CartProduct(props) {
 
     const plusQty = () => {
         console.log("plusQty 실행")
-        dispatch(addProduct({id : id}))
+        dispatch(plusProduct({id : id}))
         props.setRenderChange(props.renderChange + 1)
     }
     const minusQty = () => {

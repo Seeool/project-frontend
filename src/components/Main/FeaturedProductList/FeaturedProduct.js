@@ -3,20 +3,19 @@ import {useCookies} from "react-cookie";
 import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {addProduct} from "../../../store/cartSlice";
-import appendScript from "../../../appendScript";
 import $ from 'jquery'
 
 
 const FeaturedProduct = (props) => {
     const {pid, category, name, price, fileNames, discount, dcRatio, originPrice} = props.product
-    const handleShow = props.handleShow
 
     const dispatch = useDispatch()
     const addToCart = (e) => {
         e.preventDefault()
-        handleShow()
         dispatch(addProduct({id: pid, name: name, price: price, fileNames: fileNames[0]}))
     }
+    const ref = useRef()
+
     return (
         <div className={category + " col-lg-2 col-md-4 col-sm-6 mix"}>
             <div className="featured__item">
