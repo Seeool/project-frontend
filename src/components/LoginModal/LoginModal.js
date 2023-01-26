@@ -3,9 +3,10 @@ import {Button, Form, Modal} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import {closeModal} from "../../store/cartSlice";
 import styled from "styled-components";
-import {setAccessToken, setIsLogin, setLoginShow} from "../../store/loginSlice";
+import {setLogin, setLoginShow} from "../../store/loginSlice";
 import {setJoinShow} from "../../store/joinSlice";
 import axios from "axios";
+import {setAccount} from "../../store/userSlice";
 
 const DivFlex = styled.div`
   display: flex;
@@ -15,7 +16,7 @@ const DivFlex = styled.div`
 
 const LoginModal = () => {
     const showLoginModal = useSelector(store => store.login.showLoginModal)
-    const token = useSelector(store => store.login)
+    const token = useSelector(store => store.login.accessToken)
 
     const dispatch = useDispatch()
     const handleClose = (e) => {
@@ -25,22 +26,24 @@ const LoginModal = () => {
         dispatch(setLoginShow(false))
         dispatch(setJoinShow(true))
     }
-    const [account, setAccount] = useState({
+    const [loginInfo, setLoginInfo] = useState({
         id : '',
         pw : ''
     })
     const handleAccount = e => {
-        setAccount({...account, [e.target.name] : e.target.value})
+        setLoginInfo({...loginInfo, [e.target.name] : e.target.value})
     }
 
     const login = async () => {
         try {
             axios.defaults.withCredentials = true;
-            const response = await axios.post("http://localhost:9000/loginProc", account)
+            const response = await axios.post("http://localhost:9000/loginProc", loginInfo)
             const accessToken = response.data.accessToken;
-            const refreshToken = response.data.refreshToken;
-            axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken
-            dispatch(setAccessToken(accessToken), setLoginShow(false), setIsLogin(true))
+            // axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken
+            dispatch(setLogin(accessToken))
+
+            const account = await axios.get("http://localhost:9000/api/member/me", {headers: {Authorization: "Bearer " + accessToken}})
+            dispatch(setAccount(account.data))
 
         }catch (err)  {
             console.log(err.response.data)
@@ -48,6 +51,10 @@ const LoginModal = () => {
                 alert("아이디 혹은 비밀번호를 확인해주세요")
             }
         }
+    }
+
+    const fetchAccount = async () => {
+
     }
 
     return (
@@ -65,7 +72,7 @@ const LoginModal = () => {
                         <Form.Control
                             type="text"
                             name={"id"}
-                            value={account.id}
+                            value={loginInfo.id}
                             onChange={handleAccount}
                             autoFocus
                         />
@@ -75,7 +82,7 @@ const LoginModal = () => {
                         <Form.Control
                             type="password"
                             name={"pw"}
-                            value={account.pw}
+                            value={loginInfo.pw}
                             onChange={handleAccount}
                         />
                     </Form.Group>

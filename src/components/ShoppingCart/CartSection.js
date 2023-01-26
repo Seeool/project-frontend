@@ -2,9 +2,10 @@ import React, {useEffect, useState} from 'react';
 import CartProduct from "./CartProduct";
 import {Link} from "react-router-dom";
 import {useCookies} from "react-cookie";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import cartReducer from "../../store/cartSlice";
 import CartReducer from "../../store/cartSlice";
+import {setLoginShow} from "../../store/loginSlice";
 
 
 function CartSection(props) {
@@ -15,6 +16,17 @@ function CartSection(props) {
 
     const [total, setTotal] = useState(0)
     const [renderChange, setRenderChange] = useState(0)
+
+    const isLogin = useSelector(store => store.login.isLogin)
+    const dispatch = useDispatch()
+    const goToOrder = async () => {
+        if (!isLogin) {
+            dispatch(setLoginShow(true))
+        }
+        else {
+
+        }
+    }
 
     useEffect(() => {
         let subTotal = document.querySelectorAll(".shoping__cart__total")
@@ -61,7 +73,7 @@ function CartSection(props) {
                         <ul>
                             <li>합계 <span>\{total}</span></li>
                         </ul>
-                        <a href="#" className="primary-btn">결제하기</a>
+                        <a href="#" className="primary-btn" onClick={goToOrder}>결제하기</a>
                     </div>
                 </div>
             </div>

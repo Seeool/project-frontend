@@ -2,11 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {Link, NavLink} from "react-router-dom";
 import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
-import {Button, CloseButton, Form, Modal, Row} from "react-bootstrap";
 import CartModal from "./ShoppingCart/CartModal";
 import LoginModal from "./LoginModal/LoginModal";
-import {setLoginShow} from "../store/loginSlice";
+import {setIsLogin, setLogin, setLoginShow, setLogout} from "../store/loginSlice";
 import JoinModal from "./LoginModal/JoinModal";
+import axios, {get} from "axios";
+import {persistor} from "../index";
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -27,8 +28,30 @@ const Header = () => {
     cart.forEach((product) => {
         sum += product.qty
     })
-
+    const isLogin = useSelector(store => store.login.isLogin)
+    const name = useSelector(store => store.user.name)
+    const accessToken = useSelector(store => store.login.accessToken)
     const dispatch = useDispatch()
+
+    const purge = async () => {
+        await persistor.purge();
+    }
+
+    const getTest = async () => {
+        try {
+            axios.defaults.withCredentials = true;
+            const response = await axios.get("http://localhost:9000/api/member/me", {headers: {Authorization: "Bearer " + accessToken}})
+            console.log(response.data)
+
+        }catch (e) {
+            if(e.response.data.msg === "Expired Token") {
+                const getNewToken = await axios.get("http://localhost:9000/api/token/getAccessToken")
+                const accessToken = getNewToken.data.accessToken;
+                dispatch(setLogin(accessToken))
+                return getTest()
+            }
+        }
+    }
 
 
     return (
@@ -43,15 +66,21 @@ const Header = () => {
                             <div className="col-lg-6 col-md-6">
                                 <div className="header__top__left">
                                     <ul>
-                                        <li><i className="fa fa-envelope"/> Admin@email.com</li>
-                                        <li>~~~님 즐거운 쇼핑 되세요</li>
+                                        <li>문의 : <i className="fa fa-envelope"/> Admin@email.com</li>
+                                        {isLogin
+                                        ? <li>{name}님 즐거운 쇼핑 되세요</li>
+                                        : ''}
                                     </ul>
                                 </div>
                             </div>
                             <div className="col-lg-6 col-md-6">
                                 <div className="header__top__right">
                                     <div className="header__top__right__auth">
-                                        <a href="#" onClick={() => dispatch(setLoginShow(true))}><i className="fa fa-user"/> 로그인</a>
+                                        <a href="#" onClick={getTest}>테스트</a>
+                                        {isLogin
+                                        ? <a href="#" onClick={purge}><i className="fa fa-user"/> 로그아웃</a>
+                                        : <a href="#" onClick={() => dispatch(setLoginShow(true))}><i className="fa fa-user"/> 로그인</a>
+                                        }
                                     </div>
                                 </div>
                             </div>

@@ -1,12 +1,13 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {PURGE} from "redux-persist/es/constants";
 
 const initialState = {
     showLoginModal : false,
     isLogin : false,
-    loginStep : 1,
+    accessToken : undefined,
     mid : undefined,
+    name : undefined,
     fileName : undefined,
-    accessToken : undefined
 }
 
 const loginSlice = createSlice({
@@ -16,29 +17,21 @@ const loginSlice = createSlice({
         setLoginShow : (state, action) => ({
             showLoginModal : action.payload,
         }),
-        setIsLogin : (state, action) => ({
-            isLogin: true
+        setLogin : (state, action) => ({
+            ...state,
+            showLoginModal : false,
+            isLogin: true,
+            accessToken: action.payload
         }),
 
-        loginNextStep : (state, action) => ({
-            loginStep : state.loginStep + 1
-        }),
 
-        loginPrevStep : (state, action) => ({
-            loginStep : state.loginStep - 1
-        }),
+        setLogout : () => initialState,
 
-        loginResetStep : () => initialState,
-
-        setAccessToken : (state, action) => ({
-           accessToken : action.payload
-        }),
-
-        setSignup : (state, {payload : {key, value}}) => ({
-            ...state, [key]:value
-        })
+    },
+    extraReducers: (builder) => {
+        builder.addCase(PURGE, () => initialState);
     }
 
 })
-export const {setLoginShow, setIsLogin, loginNextStep, loginPrevStep, loginResetStep, setSignup, setAccessToken} = loginSlice.actions;
+export const {setLoginShow, setLogin, setAccount, setLogout} = loginSlice.actions;
 export default loginSlice;

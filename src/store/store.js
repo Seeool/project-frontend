@@ -5,6 +5,7 @@ import {persistReducer} from "redux-persist";
 import cartSlice from "./cartSlice";
 import loginSlice from "./loginSlice";
 import joinSlice from "./joinSlice";
+import userSlice from "./userSlice";
 
 const cartPersistConfig = {
     key : 'cart',
@@ -14,10 +15,15 @@ const loginPersistConfig = {
     key : 'login',
     storage : sessionStorage
 }
+const userPersistConfig = {
+    key : 'user',
+    storage : sessionStorage
+}
 
 const rootReducers = combineReducers({
     cart : persistReducer(cartPersistConfig, cartSlice.reducer), //이 이름이 실제로 컴포넌트에서 쓸 이름
     login : persistReducer(loginPersistConfig, loginSlice.reducer),
+    user : persistReducer(userPersistConfig, userSlice.reducer),
     join : joinSlice.reducer
 })
 
