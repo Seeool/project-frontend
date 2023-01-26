@@ -12,8 +12,9 @@ const JoinModal = () => {
         id : '',
         pw : '',
         pw2 : '',
-        phone : '',
+        name : '',
         email : '',
+        phone : '',
         address : '',
     })
 
@@ -69,6 +70,12 @@ const JoinModal = () => {
                         <Form.Label>비밀번호 확인</Form.Label>
                         <Form.Control
                             type="password" name={"pw2"} value={account.pw2} onChange={handleAccount}
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>이름</Form.Label>
+                        <Form.Control
+                            type="text" name={"name"} value={account.name} onChange={handleAccount}
                         />
                     </Form.Group>
                     <Form.Group className="mb-3">

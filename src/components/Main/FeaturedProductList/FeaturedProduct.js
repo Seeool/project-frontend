@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useCookies} from "react-cookie";
 import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {addProduct} from "../../../store/cartSlice";
+import cartSlice, {addProduct} from "../../../store/cartSlice";
 import $ from 'jquery'
 
 

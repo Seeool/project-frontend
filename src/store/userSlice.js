@@ -1,3 +1,4 @@
+import React from 'react';
 import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
@@ -16,9 +17,6 @@ const loginSlice = createSlice({
         setLoginShow : (state, action) => ({
             showLoginModal : action.payload,
         }),
-        setIsLogin : (state, action) => ({
-            isLogin: true
-        }),
 
         loginNextStep : (state, action) => ({
             loginStep : state.loginStep + 1
@@ -31,7 +29,7 @@ const loginSlice = createSlice({
         loginResetStep : () => initialState,
 
         setAccessToken : (state, action) => ({
-           accessToken : action.payload
+            accessToken : action.payload
         }),
 
         setSignup : (state, {payload : {key, value}}) => ({
@@ -40,5 +38,5 @@ const loginSlice = createSlice({
     }
 
 })
-export const {setLoginShow, setIsLogin, loginNextStep, loginPrevStep, loginResetStep, setSignup, setAccessToken} = loginSlice.actions;
+export const {setLoginShow, loginNextStep, loginPrevStep, loginResetStep, setSignup, setAccessToken} = loginSlice.actions;
 export default loginSlice;
