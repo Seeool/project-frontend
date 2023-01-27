@@ -8,6 +8,7 @@ import {setIsLogin, setLogin, setLoginShow, setLogout} from "../store/loginSlice
 import JoinModal from "./LoginModal/JoinModal";
 import axios, {get} from "axios";
 import {persistor} from "../index";
+import {setAccount} from "../store/userSlice";
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -39,33 +40,42 @@ const Header = () => {
         await persistor.purge();
     }
 
-    const getTest = async () => {
-        const authHeader = {"Authorization" : `Bearer ${accessToken}`}
+    const getNewToken = async () => {
         try {
             axios.defaults.withCredentials = true;
-            const response = await axios.get("http://localhost:9000/api/member/me", {headers: authHeader})
+            const response = await axios.get("http://localhost:9000/api/token/getAccessToken")
+            const accessToken = response.data.accessToken;
+            axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken
+            dispatch(setLogin(accessToken))
+
+            const account = await axios.get("http://localhost:9000/api/member/me", )
+            dispatch(setAccount(account.data))
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
+    const showLoginModal = (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        dispatch(setLoginShow(true))
+    }
+    const logout = async (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        try {
+            console.log("로그아웃실행")
+            axios.defaults.withCredentials = true;
+            const response = await axios.post("http://localhost:9000/logoutProc")
+            purge()
         }catch (e) {
-            if(e.response.data.msg === "Expired Token") {
-                try {
-                    await getNewToken()
-                    const response = await axios.get("http://localhost:9000/api/member/me")
-                }catch (e) {
-                    console.log(e)
-                }
-            }
-            else {
-                console.log(e.response.data.msg)
-            }
+            console.log(e)
         }
     }
 
-    const getNewToken = async () => {
-        axios.defaults.withCredentials = true;
-        const response = await axios.get("http://localhost:9000/api/token/getAccessToken")
-        const accessToken = response.data.accessToken;
-        axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken
-        dispatch(setLogin(accessToken))
-    }
+    useEffect(() => {
+        getNewToken()
+    },[])
 
 
     return (
@@ -90,10 +100,9 @@ const Header = () => {
                             <div className="col-lg-6 col-md-6">
                                 <div className="header__top__right">
                                     <div className="header__top__right__auth">
-                                        {/*<a href="#" onClick={getTest}>테스트</a>*/}
                                         {isLogin
-                                        ? <a href="#" onClick={purge}><i className="fa fa-user"/> 로그아웃</a>
-                                        : <a href="#" onClick={() => dispatch(setLoginShow(true))}><i className="fa fa-user"/> 로그인</a>
+                                        ? <a href="/" onClick={logout}><i className="fa fa-user"/> 로그아웃</a>
+                                        : <a href="/" onClick={showLoginModal}><i className="fa fa-user"/> 로그인</a>
                                         }
                                     </div>
                                 </div>

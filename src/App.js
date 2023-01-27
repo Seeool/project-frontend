@@ -12,7 +12,9 @@ import ShopDetails from "./pages/ShopDetails";
 import ShoppingCart from "./pages/ShoppingCart";
 import BlogDetails from "./pages/BlogDetails";
 import ShopDetailsModify from "./pages/ShopDetailsModify";
-import OauthLogin from "./pages/OauthLogin";
+import NaverOauthLogin from "./pages/SocialLoginRedirect/NaverOauthLogin";
+import KakaoOauthLogin from "./pages/SocialLoginRedirect/KakaoOauthLogin";
+import GoogleOauthLogin from "./pages/SocialLoginRedirect/GoogleOauthLogin";
 
 
 
@@ -32,7 +34,9 @@ function App() {
                 <Route path={"/shop-details-modify"} element={<ShopDetailsModify/>}/>
                 <Route path={"/shopping-cart"} element={<ShoppingCart/>}/>
                 <Route path={"/blog-details"} element={<BlogDetails/>}/>
-                <Route path={"/oauth"} element={<OauthLogin />}/>
+                <Route path={"/oauthNaver/"} element={<NaverOauthLogin />}/>
+                <Route path={"/oauthKakao/"} element={<KakaoOauthLogin />}/>
+                <Route path={"/oauthGoogle/"} element={<GoogleOauthLogin />}/>
             </Routes>
             <Footer/>
         </>

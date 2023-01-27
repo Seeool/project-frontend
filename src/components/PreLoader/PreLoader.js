@@ -1,13 +1,13 @@
 import React from 'react';
 import styled, {keyframes} from "styled-components";
-const PPPP = styled.div`
+const Wrapper = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
   z-index: 999999;
-  background: #000;
+  background: rgba(0,0,0,0.0);
 `
 const animation = keyframes`
   0% {
@@ -29,7 +29,7 @@ const animation = keyframes`
     border-left-color: transparent;
   }
 `
-const LLLL = styled.div`
+const Spinner = styled.div`
   width: 40px;
   height: 40px;
   position: absolute;
@@ -44,9 +44,9 @@ const LLLL = styled.div`
 const PreLoader = () => {
     return (
         <>
-        <PPPP>
-            <LLLL />
-        </PPPP>
+        <Wrapper>
+            <Spinner />
+        </Wrapper>
         </>
     )
 };

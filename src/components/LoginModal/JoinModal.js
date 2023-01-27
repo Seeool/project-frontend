@@ -6,6 +6,7 @@ import {setJoinShow} from "../../store/joinSlice";
 import styled from "styled-components";
 import styles from "./style.module.css"
 import axios from "axios";
+import PreLoader from "../PreLoader/PreLoader";
 
 const ErrorSpan = styled.span`
   color: darkred;
@@ -14,6 +15,7 @@ const ErrorSpan = styled.span`
 `
 
 const JoinModal = () => {
+    const [isLoading, setIsLoading] = useState(false)
     const showJoinModal = useSelector(store => store.join.showJoinModal)
     const dispatch = useDispatch()
     const [joinFailure, setJoinFailure] = useState(false)
@@ -62,9 +64,12 @@ const JoinModal = () => {
 
     const joinForm = async () => {
         try {
+            setIsLoading(true)
             axios.defaults.withCredentials = true;
             const response = await axios.post("http://localhost:9000/memberJoin", account)
             setJoinSuccessModalShow(true)
+            setIsLoading(false)
+            setAccount({})
             handleClose()
         } catch (e) {
             if (e.response.data === "exist") {
@@ -72,6 +77,11 @@ const JoinModal = () => {
                 setJoinFailure(true)
                 setJoinFailModalShow(true)
             }
+            if (e.response.data === "notvalid") {
+                setJoinFailure(true)
+                setJoinFailModalShow(true)
+            }
+            setIsLoading(false)
         }
     }
 
@@ -287,6 +297,7 @@ const JoinModal = () => {
                 </Modal.Footer>
             </Modal>
 
+            {isLoading ? <PreLoader/> : ''}
         </>
     );
 };
