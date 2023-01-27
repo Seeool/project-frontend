@@ -11,7 +11,9 @@ import Banner from "./components/Banner";
 import ShopDetails from "./pages/ShopDetails";
 import ShoppingCart from "./pages/ShoppingCart";
 import BlogDetails from "./pages/BlogDetails";
-import {useRef} from "react";
+import ShopDetailsModify from "./pages/ShopDetailsModify";
+import OauthLogin from "./pages/OauthLogin";
+
 
 
 function App() {
@@ -27,8 +29,10 @@ function App() {
                 <Route path={"/blog"} element={<Blog/>}/>
                 <Route path={"/contact"} element={<Contact/>}/>
                 <Route path={"/shop-details"} element={<ShopDetails/>}/>
+                <Route path={"/shop-details-modify"} element={<ShopDetailsModify/>}/>
                 <Route path={"/shopping-cart"} element={<ShoppingCart/>}/>
                 <Route path={"/blog-details"} element={<BlogDetails/>}/>
+                <Route path={"/oauth"} element={<OauthLogin />}/>
             </Routes>
             <Footer/>
         </>

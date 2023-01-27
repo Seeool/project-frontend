@@ -1,0 +1,8 @@
+.joinForm {
+    display: none;
+}
+.active {
+    color: darkred;
+    font-size: 12px;
+    display: inline;
+}

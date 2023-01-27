@@ -1,33 +1,28 @@
 import React, {useEffect, useRef} from 'react';
-import ProductDetails from "../components/ShopDetails/ProductDetails";
 import ProductReviews from "../components/ShopDetails/ProductReviews";
 import appendScript from "../appendScript";
-import {Link, useParams, useSearchParams} from "react-router-dom";
-import {Button} from "react-bootstrap";
-import styled from "styled-components";
+import {Link, useNavigate, useParams, useSearchParams} from "react-router-dom";
+import ProductDetailsModify from "../components/ShopDetails/ProductDetailsModify";
 import {useSelector} from "react-redux";
 
-const ModifyBtnDiv = styled.div`
-  float: right;
-  
-`
 function ShopDetails(props) {
     const scrollRef = useRef()
     const [params, setParams] = useSearchParams()
     const pid = params.get("pid")
     const userRole = useSelector(store => store.user.userRole)
+    const navigate = useNavigate()
 
     useEffect(() => {
+        if (userRole !== "ADMIN" && userRole !== "MANAGER") {
+            navigate(`/shop-details?pid=${pid}`)
+        }
         scrollRef.current.scrollIntoView({behivor : 'smooth'})
     },[])
     return (
         <section ref={scrollRef} className="product-details spad">
             <div className="container">
-                {/*{userRole === "MANAGER" || userRole === "ADMIN"*/}
-                {/*    ? <ModifyBtnDiv><Link to={`/shop-details-modify?pid=${pid}`}><Button variant={"primary"}>수정하기</Button></Link></ModifyBtnDiv>*/}
-                {/*    : ''}*/}
                 <div className="row">
-                    <ProductDetails/>
+                    <ProductDetailsModify/>
                     <ProductReviews/>
                 </div>
             </div>

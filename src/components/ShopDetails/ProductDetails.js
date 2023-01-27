@@ -2,9 +2,9 @@ import React, {createRef, useEffect, useRef, useState} from 'react';
 import {Button, Modal} from "react-bootstrap";
 import $ from 'jquery'
 import axios from "axios";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {addProductWithQty} from "../../store/cartSlice";
-import {useSearchParams} from "react-router-dom";
+import {Link, useSearchParams} from "react-router-dom";
 import ReactOwlCarousel from "react-owl-carousel";
 import styled from "styled-components";
 
@@ -20,14 +20,11 @@ const TextAreaH3 = styled.textarea`
   font-weight: 600;
   resize: none;
   overflow: hidden;
-  //border: none;
+  border: none;
 `
-const TextAreaP = styled.textarea`
-  color: #6f6f6f;
-  width: 100%;
-  resize: none;
-  overflow: hidden;
-  //border: none;
+const ModifyBtnDiv = styled.div`
+  float: right;
+
 `
 
 function ProductDetails(props) {
@@ -36,6 +33,7 @@ function ProductDetails(props) {
     // const params = new URLSearchParams(useLocation().search)
     const [params, setParams] = useSearchParams()
     const pid = params.get('pid')
+    const userRole = useSelector(store => store.user.userRole)
     const plusQuantities = () => {
         setQuantities(quantities + 1)
     }
@@ -47,39 +45,13 @@ function ProductDetails(props) {
 
     const [product, setProduct] = useState({})
     const [fileNames, setfileNames] = useState([])
-    const [name, setName] = useState('')
-    const [category, setCategory] = useState(0)
-    const [text, setText] = useState('')
-    const [discount, setDiscount] = useState(0)
-    const [dcRatio, setDcRatio] = useState(0)
-    const [originPrice, setOriginPrice] = useState(0)
-    const [price, setPrice] = useState(0)
-    const [stock, setStock] = useState(0)
-    const [origin, setOrigin] = useState('')
-    const [imageSet, setImageSet] = useState([])
-    const [reviewAvg, setReviewAvg] = useState(0)
-    const [reviewCount, setReviewCount] = useState(0)
-
-
     const getProduct = async () => {
         try {
             const response = await axios.get(`http://localhost:9000/api/product/${pid}`)
             console.log(response.data)
             console.log(response.data.fileNames)
-            const data = response.data
-            setProduct(data)
-            setName(data.name)
-            setCategory(data.category)
-            setPrice(data.price)
-            setStock(data.stock)
-            setOrigin(data.origin)
-            setfileNames(data.fileNames)
-            setDiscount(data.discount)
-            setDcRatio(data.dcRatio)
-            setOriginPrice(data.originPrice)
-            setText(data.text)
-            setReviewAvg(data.reviewAvg)
-            setReviewCount(data.reviewCount)
+            setProduct(response.data)
+            setfileNames(response.data.fileNames)
         } catch (e) {
             alert(e)
         }
@@ -112,6 +84,7 @@ function ProductDetails(props) {
     }
     useEffect(() => {
         getProduct()
+        console.log(product)
     }, [])
 
     const [carowsel, setCarowsel] = useState(false)
@@ -131,15 +104,11 @@ function ProductDetails(props) {
         setCarowsel(!carowsel)
     }, [product])
 
-    const textareaH3 = useRef();
-    const textareaP = useRef();
-    const handleResizeHeightH3 = () => {
-        textareaH3.current.style.height = 'auto'; //height 초기화
-        textareaH3.current.style.height = textareaH3.current.scrollHeight + 'px';
-    };
-    const handleResizeHeightP = () => {
-        textareaP.current.style.height = 'auto'; //height 초기화
-        textareaP.current.style.height = textareaP.current.scrollHeight + 'px';
+    const textarea = useRef();
+    console.log(textarea)
+    const handleResizeHeight = () => {
+        textarea.current.style.height = 'auto'; //height 초기화
+        textarea.current.style.height = textarea.current.scrollHeight + 'px';
     };
 
     useEffect(() => {
@@ -156,86 +125,76 @@ function ProductDetails(props) {
 
     return (
         <>
+
             <div className="col-lg-6 col-md-6">
                 <div className="product__details__pic">
-                    {/*<div className="product__details__pic__item">*/}
-                    {/*    <img*/}
-                    {/*        className="product__details__pic__item--large"*/}
-                    {/*        src={fileNames[0]}*/}
-                    {/*        alt=""*/}
-                    {/*    />*/}
-                    {/*</div>*/}
-                    {/*<ReactOwlCarousel margin={20} items={4} dots={true} smartSpeed={1200}*/}
-                    {/*                  className={"product__details__pic__slider"}>*/}
-                    <h2>이미지 첨부</h2>
-                    <input type={"file"} name={"fileNames"} multiple />
-                    {fileNames.map((img, index) => (
-                        <img src={img}
-                             key={index}
-                             alt="" />
-                    ))}
-                    {/*</ReactOwlCarousel>*/}
+                    <div className="product__details__pic__item">
+                        <img
+                            className="product__details__pic__item--large"
+                            src={fileNames[0]}
+                            alt=""
+                        />
+                    </div>
+                    <ReactOwlCarousel margin={20} items={4} dots={true} smartSpeed={1200}
+                                      className={"product__details__pic__slider"}>
+                        {fileNames.map((img, index) => (
+                            <img data-imgbigurl={img}
+                                 src={img}
+                                 key={index}
+                                 alt=""/>
+                        ))}
+                    </ReactOwlCarousel>
                 </div>
             </div>
             <div className="col-lg-6 col-md-6">
                 <div className="product__details__text">
                     <form>
-                        {/*<h3>{product.name}</h3>*/}
-                        <h3><TextAreaH3 name={"name"} rows={1} ref={textareaH3} onChange={handleResizeHeightH3}
-                                        value={name}></TextAreaH3></h3>
-                        {/*<div className="product__details__rating">*/}
-                        {/*    <span>{reviewAvg?.toFixed(1)}</span>*/}
-                        {/*    <span>({reviewCount} 개의 리뷰)</span>*/}
-                        {/*</div>*/}
-                        {/*{discount === true ? <h5 style={{color: '#dd2222'}}>{dcRatio}% 할인 중</h5> : ''}*/}
-                        할인 : <input type={"checkbox"} value={1} name={"discount"} checked={discount}/> / 할인율(%) : <input
-                        type={"text"} name={"dcRatio"} style={{width: '30px'}} value={dcRatio}/>
-
-                        {/*<div className="product__details__price">{price}원 {discount === true ?*/}
-                        {/*    <OriginPrice>{originPrice}원</OriginPrice> : ''}</div>*/}
-
-                        {discount === true ?
-                            <div>
-                                원가 : <input type={"text"} defaultValue={originPrice} style={{width: '140px'}}/><br/>
-                                가격 : <input type={"text"} defaultValue={price} style={{width: '140px'}}/>
-                            </div>
-                            :
-                            <div>
-                                원가 : <input type={"hidden"} value={price} style={{width: '140px'}}/>
-                                가격 : <input type={"text"} value={price} style={{width: '140px'}}/>
-                            </div>
-                        }
-                        <br/>
-                        제품 설명
+                        <h3><TextAreaH3 name={"title"} rows={1} ref={textarea} onChange={handleResizeHeight}
+                                        defaultValue={product.name} readOnly></TextAreaH3></h3>
+                        <div className="product__details__rating">
+                            <span>{product.reviewAvg?.toFixed(1)}</span>
+                            <span>({product.reviewCount} 개의 리뷰)</span>
+                        </div>
+                        {product.discount === true ? <h5 style={{color: '#dd2222'}}>{product.dcRatio}% 할인 중</h5> : ''}
+                        <div className="product__details__price">{product.price}원 {product.discount === true ?
+                            <OriginPrice>{product.originPrice}원</OriginPrice> : ''}</div>
                         <p>
-                            <TextAreaP rows={1} ref={textareaP} value={text} onChange={handleResizeHeightP}></TextAreaP>
+                            {product.text}
                         </p>
-                        {/*{stock > 0 ?*/}
-                        {/*    <>*/}
-                        {/*        <div className="product__details__quantity">*/}
-                        {/*            <div className="quantity">*/}
-                        {/*                <div className="pro-qty">*/}
-                        {/*                    <button><span className="dec detailqtybtn"*/}
-                        {/*                                  onClick={minusQuantities}>-</span>*/}
-                        {/*                    </button>*/}
-                        {/*                    <input type="text" value={quantities} readOnly/>*/}
-                        {/*                    <button><span className="inc detailqtybtn" onClick={plusQuantities}>+</span>*/}
-                        {/*                    </button>*/}
-                        {/*                </div>*/}
-                        {/*            </div>*/}
-                        {/*        </div>*/}
-                        {/*        <a href={"#"} className="primary-btn" onClick={handleShow}>장바구니에 담기</a>*/}
-                        {/*    </> : ''}*/}
+                        {product.stock > 0 ?
+                            <>
+                                <div className="product__details__quantity">
+                                    <div className="quantity">
+                                        <div className="pro-qty">
+                                            <button><span className="dec detailqtybtn"
+                                                          onClick={minusQuantities}>-</span>
+                                            </button>
+                                            <input type="text" value={quantities} readOnly/>
+                                            <button><span className="inc detailqtybtn" onClick={plusQuantities}>+</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href={"#"} className="primary-btn" onClick={handleShow}>장바구니에 담기</a>
+                            </> : ''}
                         <ul>
-                            <li><b>원산지</b> <input type={"text"} value={origin} style={{width: '100px'}}/></li>
-                            <li><b>재고</b><input type={"text"} value={stock} style={{width: '100px'}}/></li>
+                            <li><b>원산지</b>{product.origin}</li>
+                            <li><b>재고</b>{calcStock()}</li>
                             <li>
                                 <b>배송기간</b>
                                 <span>약 1~2일 </span>
                             </li>
-
                         </ul>
                     </form>
+                    {userRole === "MANAGER" || userRole === "ADMIN"
+                        ?
+                        <ModifyBtnDiv>
+                            <Button variant={"danger"} style={{marginBottom: '5px'}}>삭제하기</Button>
+                            <br/>
+                            <Link to={`/shop-details-modify?pid=${pid}`}><Button
+                                variant={"primary"}>수정하기</Button></Link>
+                        </ModifyBtnDiv>
+                        : ''}
                 </div>
             </div>
 
@@ -243,13 +202,12 @@ function ProductDetails(props) {
                 <Modal.Body><h5>장바구니에 담았습니다</h5></Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
-                       닫기
+                        닫기
                     </Button>
                 </Modal.Footer>
             </Modal>
         </>
-    )
-        ;
+    );
 }
 
 export default ProductDetails;

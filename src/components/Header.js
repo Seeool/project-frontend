@@ -23,6 +23,7 @@ const inactive = {
     textDecoration: 'none'
 }
 const Header = () => {
+    console.log("헤더 랜더링")
     const {cart} = useSelector(store => store.cart)
     let sum = 0
     cart.forEach((product) => {
@@ -31,6 +32,7 @@ const Header = () => {
     const isLogin = useSelector(store => store.login.isLogin)
     const name = useSelector(store => store.user.name)
     const accessToken = useSelector(store => store.login.accessToken)
+    const userRole = useSelector(store => store.user.userRole)
     const dispatch = useDispatch()
 
     const purge = async () => {
@@ -38,19 +40,31 @@ const Header = () => {
     }
 
     const getTest = async () => {
+        const authHeader = {"Authorization" : `Bearer ${accessToken}`}
         try {
             axios.defaults.withCredentials = true;
-            const response = await axios.get("http://localhost:9000/api/member/me", {headers: {Authorization: "Bearer " + accessToken}})
-            console.log(response.data)
-
+            const response = await axios.get("http://localhost:9000/api/member/me", {headers: authHeader})
         }catch (e) {
             if(e.response.data.msg === "Expired Token") {
-                const getNewToken = await axios.get("http://localhost:9000/api/token/getAccessToken")
-                const accessToken = getNewToken.data.accessToken;
-                dispatch(setLogin(accessToken))
-                return getTest()
+                try {
+                    await getNewToken()
+                    const response = await axios.get("http://localhost:9000/api/member/me")
+                }catch (e) {
+                    console.log(e)
+                }
+            }
+            else {
+                console.log(e.response.data.msg)
             }
         }
+    }
+
+    const getNewToken = async () => {
+        axios.defaults.withCredentials = true;
+        const response = await axios.get("http://localhost:9000/api/token/getAccessToken")
+        const accessToken = response.data.accessToken;
+        axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken
+        dispatch(setLogin(accessToken))
     }
 
 
@@ -68,7 +82,7 @@ const Header = () => {
                                     <ul>
                                         <li>문의 : <i className="fa fa-envelope"/> Admin@email.com</li>
                                         {isLogin
-                                        ? <li>{name}님 즐거운 쇼핑 되세요</li>
+                                        ? <li>{name}님 환영합니다 ({userRole})</li>
                                         : ''}
                                     </ul>
                                 </div>
@@ -76,7 +90,7 @@ const Header = () => {
                             <div className="col-lg-6 col-md-6">
                                 <div className="header__top__right">
                                     <div className="header__top__right__auth">
-                                        <a href="#" onClick={getTest}>테스트</a>
+                                        {/*<a href="#" onClick={getTest}>테스트</a>*/}
                                         {isLogin
                                         ? <a href="#" onClick={purge}><i className="fa fa-user"/> 로그아웃</a>
                                         : <a href="#" onClick={() => dispatch(setLoginShow(true))}><i className="fa fa-user"/> 로그인</a>

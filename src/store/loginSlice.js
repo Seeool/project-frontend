@@ -5,9 +5,6 @@ const initialState = {
     showLoginModal : false,
     isLogin : false,
     accessToken : undefined,
-    mid : undefined,
-    name : undefined,
-    fileName : undefined,
 }
 
 const loginSlice = createSlice({
