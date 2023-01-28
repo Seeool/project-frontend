@@ -15,6 +15,7 @@ import ShopDetailsModify from "./pages/ShopDetailsModify";
 import NaverOauthLogin from "./pages/SocialLoginRedirect/NaverOauthLogin";
 import KakaoOauthLogin from "./pages/SocialLoginRedirect/KakaoOauthLogin";
 import GoogleOauthLogin from "./pages/SocialLoginRedirect/GoogleOauthLogin";
+import ShopDetailsCreate from "./pages/ShopDetailsCreate";
 
 
 
@@ -31,6 +32,7 @@ function App() {
                 <Route path={"/blog"} element={<Blog/>}/>
                 <Route path={"/contact"} element={<Contact/>}/>
                 <Route path={"/shop-details"} element={<ShopDetails/>}/>
+                <Route path={"/shop-details-create"} element={<ShopDetailsCreate/>}/>
                 <Route path={"/shop-details-modify"} element={<ShopDetailsModify/>}/>
                 <Route path={"/shopping-cart"} element={<ShoppingCart/>}/>
                 <Route path={"/blog-details"} element={<BlogDetails/>}/>

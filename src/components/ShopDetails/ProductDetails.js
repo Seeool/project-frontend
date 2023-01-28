@@ -4,9 +4,11 @@ import $ from 'jquery'
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import {addProductWithQty} from "../../store/cartSlice";
-import {Link, useSearchParams} from "react-router-dom";
+import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import ReactOwlCarousel from "react-owl-carousel";
 import styled from "styled-components";
+import {setLogin} from "../../store/loginSlice";
+import {setAccount} from "../../store/userSlice";
 
 const OriginPrice = styled.span`
   font-size: 25px;
@@ -22,23 +24,34 @@ const TextAreaH3 = styled.textarea`
   overflow: hidden;
   border: none;
 `
+const TextAreaP = styled.textarea`
+  color: #6f6f6f;
+  width: 100%;
+  resize: none;
+  overflow: hidden;
+  border: none;
+`
+
 const ModifyBtnDiv = styled.div`
   float: right;
-
 `
 
 function ProductDetails(props) {
     const [quantities, setQuantities] = useState(1)
     const dispatch = useDispatch()
     // const params = new URLSearchParams(useLocation().search)
+
+    const navigate = useNavigate()
+
     const [params, setParams] = useSearchParams()
     const pid = params.get('pid')
+
     const userRole = useSelector(store => store.user.userRole)
     const plusQuantities = () => {
         setQuantities(quantities + 1)
     }
     const minusQuantities = () => {
-        if (quantities > 0) {
+        if (quantities > 1) {
             setQuantities(quantities - 1)
         }
     }
@@ -48,17 +61,13 @@ function ProductDetails(props) {
     const getProduct = async () => {
         try {
             const response = await axios.get(`http://localhost:9000/api/product/${pid}`)
-            console.log(response.data)
-            console.log(response.data.fileNames)
             setProduct(response.data)
             setfileNames(response.data.fileNames)
         } catch (e) {
-            alert(e)
+
         }
     }
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = (e) => {
+    const addToCart = (e) => {
         e.preventDefault()
         dispatch(addProductWithQty({
             id: product.pid,
@@ -67,8 +76,39 @@ function ProductDetails(props) {
             fileNames: fileNames[0],
             qty: quantities
         }))
-        setShow(true);
     }
+
+    const [deleteSuccessModalShow, setDeleteSuccessModalShow] = useState(false)
+    const deleteSuccessModalClose = () => {
+        setDeleteSuccessModalShow(false)
+        navigate("/shop-grid")
+    }
+
+    const [deleteFailureModalShow, setDeleteFailureModalShow] = useState(false)
+    const deleteFailureModalClose = () => {
+        setDeleteFailureModalShow(false)
+    }
+
+
+    const deleteProduct = async () => {
+        try {
+            const response = await axios.delete(`http://localhost:9000/api/product/authentication/${pid}`)
+            setDeleteSuccessModalShow(true)
+        } catch (e) {
+            if (e.response.data.msg === 'Expired Token') {
+                axios.defaults.withCredentials = true;
+                const response = await axios.get("http://localhost:9000/api/token/getAccessToken")
+                const accessToken = response.data.accessToken;
+                axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken
+                dispatch(setLogin(accessToken))
+                return deleteProduct()
+            }
+            if (e.response.data.message === 'Forbidden') {
+                setDeleteFailureModalShow(true)
+            }
+        }
+    }
+
     const stars = () => {
         let integer = Math.floor(product.reviewAvg)
         let decimal = product.reviewAvg - Math.floor(product.reviewAvg)
@@ -84,7 +124,6 @@ function ProductDetails(props) {
     }
     useEffect(() => {
         getProduct()
-        console.log(product)
     }, [])
 
     const [carowsel, setCarowsel] = useState(false)
@@ -99,17 +138,18 @@ function ProductDetails(props) {
             return <span style={{color: 'red'}}>품절</span>
         }
     }
+
+    const textareaH3 = useRef();
+    const textareaP = useRef();
+
     useEffect(() => {
         stars()
         setCarowsel(!carowsel)
+        textareaH3.current.style.height = 'auto'; //height 초기화
+        textareaH3.current.style.height = textareaH3.current.scrollHeight + 'px';
+        textareaP.current.style.height = 'auto'; //height 초기화
+        textareaP.current.style.height = textareaP.current.scrollHeight + 'px';
     }, [product])
-
-    const textarea = useRef();
-    console.log(textarea)
-    const handleResizeHeight = () => {
-        textarea.current.style.height = 'auto'; //height 초기화
-        textarea.current.style.height = textarea.current.scrollHeight + 'px';
-    };
 
     useEffect(() => {
         $('.product__details__pic__slider img').on('click', function () {
@@ -148,60 +188,96 @@ function ProductDetails(props) {
             </div>
             <div className="col-lg-6 col-md-6">
                 <div className="product__details__text">
-                    <form>
-                        <h3><TextAreaH3 name={"title"} rows={1} ref={textarea} onChange={handleResizeHeight}
-                                        defaultValue={product.name} readOnly></TextAreaH3></h3>
-                        <div className="product__details__rating">
-                            <span>{product.reviewAvg?.toFixed(1)}</span>
-                            <span>({product.reviewCount} 개의 리뷰)</span>
-                        </div>
-                        {product.discount === true ? <h5 style={{color: '#dd2222'}}>{product.dcRatio}% 할인 중</h5> : ''}
-                        <div className="product__details__price">{product.price}원 {product.discount === true ?
-                            <OriginPrice>{product.originPrice}원</OriginPrice> : ''}</div>
-                        <p>
-                            {product.text}
-                        </p>
-                        {product.stock > 0 ?
-                            <>
-                                <div className="product__details__quantity">
-                                    <div className="quantity">
-                                        <div className="pro-qty">
-                                            <button><span className="dec detailqtybtn"
-                                                          onClick={minusQuantities}>-</span>
-                                            </button>
-                                            <input type="text" value={quantities} readOnly/>
-                                            <button><span className="inc detailqtybtn" onClick={plusQuantities}>+</span>
-                                            </button>
-                                        </div>
+                    <h3><TextAreaH3 name={"title"} rows={1} value={product.name} readOnly ref={textareaH3}></TextAreaH3></h3>
+                    <div className="product__details__rating">
+                        <span>{product.reviewAvg?.toFixed(1)}</span>
+                        <span>({product.reviewCount} 개의 리뷰)</span>
+                    </div>
+                    {product.discount === true ? <h5 style={{color: '#dd2222'}}>{product.dcRatio}% 할인 중</h5> : ''}
+                    <div className="product__details__price">{product.price}원 {product.discount === true ?
+                        <OriginPrice>{product.originPrice}원</OriginPrice> : ''}</div>
+                    <p>
+                        <TextAreaP rows={1} value={product.text} readOnly ref={textareaP}/>
+                    </p>
+                    {product.stock > 0 ?
+                        <>
+                            <div className="product__details__quantity">
+                                <div className="quantity">
+                                    <div className="pro-qty">
+                                        <button><span className="dec detailqtybtn"
+                                                      onClick={minusQuantities}>-</span>
+                                        </button>
+                                        <input type="text" value={quantities} readOnly/>
+                                        <button><span className="inc detailqtybtn" onClick={plusQuantities}>+</span>
+                                        </button>
                                     </div>
                                 </div>
-                                <a href={"#"} className="primary-btn" onClick={handleShow}>장바구니에 담기</a>
-                            </> : ''}
-                        <ul>
-                            <li><b>원산지</b>{product.origin}</li>
-                            <li><b>재고</b>{calcStock()}</li>
-                            <li>
-                                <b>배송기간</b>
-                                <span>약 1~2일 </span>
-                            </li>
-                        </ul>
-                    </form>
+                            </div>
+                            <a href={"#"} className="primary-btn" onClick={addToCart}>장바구니에 담기</a>
+                        </> : ''}
+                    <ul>
+                        <li><b>원산지</b>{product.origin}</li>
+                        <li><b>재고</b>{calcStock()}</li>
+                        <li>
+                            <b>배송기간</b>
+                            <span>약 1~2일 </span>
+                        </li>
+                    </ul>
                     {userRole === "MANAGER" || userRole === "ADMIN"
                         ?
                         <ModifyBtnDiv>
-                            <Button variant={"danger"} style={{marginBottom: '5px'}}>삭제하기</Button>
+                            <Button variant={"danger"} style={{marginBottom: '5px'}}
+                                    onClick={deleteProduct}>삭제하기</Button>
                             <br/>
                             <Link to={`/shop-details-modify?pid=${pid}`}><Button
                                 variant={"primary"}>수정하기</Button></Link>
                         </ModifyBtnDiv>
-                        : ''}
+                        : ''
+                    }
                 </div>
             </div>
 
-            <Modal size="sm" centered show={show} onHide={handleClose}>
-                <Modal.Body><h5>장바구니에 담았습니다</h5></Modal.Body>
+            <Modal
+                show={deleteSuccessModalShow}
+                onHide={deleteSuccessModalClose}
+                keyboard={false}
+                size={"sm"}
+                centered
+            >
+                <Modal.Header>
+                    <Modal.Title>삭제 성공</Modal.Title>
+                    <Button variant="secondary" onClick={deleteSuccessModalClose}>
+                        X
+                    </Button>
+                </Modal.Header>
+                <Modal.Body>
+                    상품 목록으로 돌아갑니다.
+                </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="secondary" onClick={deleteSuccessModalClose}>
+                        닫기
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal
+                show={deleteFailureModalShow}
+                onHide={deleteFailureModalClose}
+                keyboard={false}
+                size={"sm"}
+                centered
+            >
+                <Modal.Header>
+                    <Modal.Title>삭제 실패</Modal.Title>
+                    <Button variant="secondary" onClick={deleteFailureModalClose}>
+                        X
+                    </Button>
+                </Modal.Header>
+                <Modal.Body>
+                    ADMIN만 삭제 가능
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={deleteFailureModalClose}>
                         닫기
                     </Button>
                 </Modal.Footer>

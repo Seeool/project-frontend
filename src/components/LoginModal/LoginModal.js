@@ -94,6 +94,7 @@ const LoginModal = () => {
                                 value={loginInfo.id}
                                 onChange={handleAccount}
                                 onKeyDown={enterPress}
+                                autoComplete={'off'}
                                 autoFocus
                             />
                         </Form.Group>
@@ -104,6 +105,7 @@ const LoginModal = () => {
                                 name={"pw"}
                                 value={loginInfo.pw}
                                 onKeyDown={enterPress}
+                                autoComplete={'off'}
                                 onChange={handleAccount}
                             />
                         </Form.Group>
@@ -130,7 +132,6 @@ const LoginModal = () => {
             <Modal
                 show={loginFailModalShow}
                 onHide={loginFailModalClose}
-                backdrop="static"
                 keyboard={false}
                 size={"sm"}
                 centered

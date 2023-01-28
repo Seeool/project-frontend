@@ -14,7 +14,7 @@ const Product = (props) => {
     const day = date.getDay()
 
     return (
-        <Link to={`shop-details?pid=${pid}`} className="latest-product__item">
+        <Link to={`../shop-details?pid=${pid}`} className="latest-product__item">
             <div className="latest-product__item__pic">
                 <img src={fileNames[0]} alt=""/>
             </div>

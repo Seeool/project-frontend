@@ -35,7 +35,7 @@ function ProductReviews(props) {
             setStart(data.start)
             setTotal(data.total)
         } catch (err) {
-            alert(err)
+            console.log(err)
         }
     }
 

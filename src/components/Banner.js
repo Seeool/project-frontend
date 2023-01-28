@@ -24,7 +24,15 @@ function Banner(props) {
                 $('.breadcrumb-section').show()
                 break
             case "/shop-details" :
-                setName('제품 상세')
+                setName('상품 상세')
+                $('.breadcrumb-section').show()
+                break
+            case "/shop-details-modify" :
+                setName('상품 수정')
+                $('.breadcrumb-section').show()
+                break
+            case "/shop-details-create" :
+                setName('상품 등록')
                 $('.breadcrumb-section').show()
                 break
             case "/shopping-cart" :

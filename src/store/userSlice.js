@@ -15,12 +15,6 @@ const userSlice = createSlice({
     initialState,
     reducers : {
         setAccount : (state, action) => {
-            // console.log(action.payload)
-            // state.mid = {...state, mid : action.payload.mid}
-            // state.name = {name : action.payload.name}
-            // state.fileName = {fileName : action.payload.fileName}
-            // roleSet : action.payload.roleSet}
-
             state.mid = action.payload.mid
             state.name = action.payload.name
             state.fileName = action.payload.fileName

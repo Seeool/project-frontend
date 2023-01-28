@@ -189,49 +189,49 @@ const JoinModal = () => {
                             <Form.Label>아이디 <span className={styles.joinForm} ref={idRef}>아이디는 7자 이상입니다</span>
                                 <span className={styles.joinForm} ref={idRef2}>이미 존재하는 아이디입니다.</span></Form.Label>
                             <Form.Control
-                                type="text" name={"mid"} value={account.mid} onChange={handleAccount}
+                                type="text" name={"mid"} value={account.mid} onChange={handleAccount} autoComplete={'off'}
                             />
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>비밀번호 <span className={styles.joinForm}
                                                    ref={pwRef}>비밀번호는 8자 이상입니다</span></Form.Label>
                             <Form.Control
-                                type="password" name={"pw"} value={account.pw} onChange={handleAccount}
+                                type="password" name={"pw"} value={account.pw} onChange={handleAccount} autoComplete={'off'}
                             />
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>비밀번호 확인 <span className={styles.joinForm}
                                                       ref={pw2Ref}>비밀번호가 일치하지 않습니다</span></Form.Label>
                             <Form.Control
-                                type="password" name={"pw2"} value={account.pw2} onChange={handleAccount}
+                                type="password" name={"pw2"} value={account.pw2} onChange={handleAccount} autoComplete={'off'}
                             />
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>이름 <span className={styles.joinForm}
                                                  ref={nameRef}>이름을 입력해주세요</span></Form.Label>
                             <Form.Control
-                                type="text" name={"name"} value={account.name} onChange={handleAccount}
+                                type="text" name={"name"} value={account.name} onChange={handleAccount} autoComplete={'off'}
                             />
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>이메일 <span className={styles.joinForm}
                                                   ref={emailRef}>이메일을 입력해주세요</span></Form.Label>
                             <Form.Control
-                                type="email" name={"email"} value={account.email} onChange={handleAccount}
+                                type="email" name={"email"} value={account.email} onChange={handleAccount} autoComplete={'off'}
                             />
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>연락처 <span className={styles.joinForm}
                                                   ref={phoneRef}>연락처를 입력해주세요</span></Form.Label>
                             <Form.Control
-                                type="tel" name={"phone"} value={account.phone} onChange={setPhone}
+                                type="tel" name={"phone"} value={account.phone} onChange={setPhone} autoComplete={'off'}
                             />
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>주소 <span className={styles.joinForm}
                                                  ref={addressRef}>주소를 입력해주세요</span></Form.Label>
                             <Form.Control
-                                type="text" name={"address"} value={account.address} onChange={handleAccount}
+                                type="text" name={"address"} value={account.address} onChange={handleAccount} autoComplete={'off'}
                             />
                         </Form.Group>
                     </Form>
@@ -251,7 +251,6 @@ const JoinModal = () => {
             <Modal
                 show={joinFailModalShow}
                 onHide={joinFailModalClose}
-                backdrop="static"
                 keyboard={false}
                 size={"sm"}
                 centered
@@ -276,7 +275,6 @@ const JoinModal = () => {
             <Modal
                 show={joinSuccessModalShow}
                 onHide={joinSuccessModalClose}
-                backdrop="static"
                 keyboard={false}
                 size={"sm"}
                 centered

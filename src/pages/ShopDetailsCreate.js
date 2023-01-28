@@ -3,6 +3,7 @@ import ProductReviews from "../components/ShopDetails/ProductReviews";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import ProductDetailsModify from "../components/ShopDetails/ProductDetailsModify";
 import {useSelector} from "react-redux";
+import ProductDetailsCreate from "../components/ShopDetails/ProductDetailsCreate";
 
 function ShopDetails(props) {
     const scrollRef = useRef()
@@ -21,8 +22,7 @@ function ShopDetails(props) {
         <section ref={scrollRef} className="product-details spad">
             <div className="container">
                 <div className="row">
-                    <ProductDetailsModify/>
-                    <ProductReviews/>
+                    <ProductDetailsCreate/>
                 </div>
             </div>
         </section>

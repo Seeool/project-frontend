@@ -9,6 +9,7 @@ import JoinModal from "./LoginModal/JoinModal";
 import axios, {get} from "axios";
 import {persistor} from "../index";
 import {setAccount} from "../store/userSlice";
+import PreLoader from "./PreLoader/PreLoader";
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -24,6 +25,7 @@ const inactive = {
     textDecoration: 'none'
 }
 const Header = () => {
+    const [isLoading, setIsLoading] = useState(false);
     console.log("헤더 랜더링")
     const {cart} = useSelector(store => store.cart)
     let sum = 0
@@ -53,6 +55,9 @@ const Header = () => {
         }
         catch (e) {
             console.log(e)
+            if (e.response.data.msg === "NO_REFRESH") {
+                purge()
+            }
         }
     }
     const showLoginModal = (e) => {
@@ -67,6 +72,7 @@ const Header = () => {
             console.log("로그아웃실행")
             axios.defaults.withCredentials = true;
             const response = await axios.post("http://localhost:9000/logoutProc")
+            axios.defaults.headers.common["Authorization"] = ""
             purge()
         }catch (e) {
             console.log(e)
@@ -132,7 +138,7 @@ const Header = () => {
                                     <li>
                                         <StyledLink to="#">Pages</StyledLink>
                                         <ul className="header__menu__dropdown">
-                                            <li><StyledLink to="./shop-details">Shop Details</StyledLink></li>
+                                            <li><StyledLink to="./shop-details-create">상품 등록</StyledLink></li>
                                             <li><StyledLink to="./shopping-cart">Shopping Cart</StyledLink></li>
                                             <li><StyledLink to="./blog-details">Blog Details</StyledLink></li>
                                         </ul>
@@ -156,6 +162,7 @@ const Header = () => {
             <LoginModal/>
             <JoinModal/>
             <CartModal/>
+            {isLoading ? <PreLoader/> : ''}
         </>
     );
 };
