@@ -16,6 +16,8 @@ import NaverOauthLogin from "./pages/SocialLoginRedirect/NaverOauthLogin";
 import KakaoOauthLogin from "./pages/SocialLoginRedirect/KakaoOauthLogin";
 import GoogleOauthLogin from "./pages/SocialLoginRedirect/GoogleOauthLogin";
 import ShopDetailsCreate from "./pages/ShopDetailsCreate";
+import BlogDetailsCreate from "./pages/BlogDetailsCreate";
+import BlogDetailsModify from "./pages/BlogDetailsModify";
 
 
 
@@ -36,8 +38,8 @@ function App() {
                 <Route path={"/shop-details-modify"} element={<ShopDetailsModify/>}/>
                 <Route path={"/shopping-cart"} element={<ShoppingCart/>}/>
                 <Route path={"/blog-details"} element={<BlogDetails/>}/>
-                <Route path={"/blog-details-create"} element={<BlogDetails/>}/>
-                <Route path={"/blog-details-modify"} element={<BlogDetails/>}/>
+                <Route path={"/blog-details-create"} element={<BlogDetailsCreate/>}/>
+                <Route path={"/blog-details-modify"} element={<BlogDetailsModify/>}/>
                 <Route path={"/oauthNaver/"} element={<NaverOauthLogin />}/>
                 <Route path={"/oauthKakao/"} element={<KakaoOauthLogin />}/>
                 <Route path={"/oauthGoogle/"} element={<GoogleOauthLogin />}/>

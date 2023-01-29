@@ -19,6 +19,14 @@ function Banner(props) {
                 setName('블로그')
                 $('.breadcrumb-section').show()
                 break
+            case "/blog-details-create" :
+                setName('블로그')
+                $('.breadcrumb-section').show()
+                break
+            case "/blog-details-modify" :
+                setName('블로그')
+                $('.breadcrumb-section').show()
+                break
             case "/contact" :
                 setName('Contact')
                 $('.breadcrumb-section').show()

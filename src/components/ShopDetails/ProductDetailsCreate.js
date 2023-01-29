@@ -47,18 +47,7 @@ function ProductDetails(props) {
         text: '',
     })
 
-    const textareaH3 = useRef();
-    const textareaP = useRef();
-    const handleResizeHeightH3 = (e) => {
-        setProduct({...product, [e.target.name]: e.target.value})
-        textareaH3.current.style.height = 'auto'; //height 초기화
-        textareaH3.current.style.height = textareaH3.current.scrollHeight + 'px';
-    };
-    const handleResizeHeightP = (e) => {
-        setProduct({...product, [e.target.name]: e.target.value})
-        textareaP.current.style.height = 'auto'; //height 초기화
-        textareaP.current.style.height = textareaP.current.scrollHeight + 'px';
-    };
+
     const handleValue = (e) => {
         console.log(e.target.name)
         console.log(e.target.value)
@@ -101,11 +90,6 @@ function ProductDetails(props) {
         navigate(`/shop-details?pid=${product.pid}`)
     }
 
-    const [imageUploadModalShow, setImageUploadModalShow] = useState(false)
-    const imageUploadModalClose = () => {
-        setImageUploadModalShow(false)
-    }
-
     const [createFailureModalShow, setCreateFailureModalShow] = useState(false)
     const createFailureModalClose = () => {
         setCreateFailureModalShow(false)
@@ -114,13 +98,18 @@ function ProductDetails(props) {
     const existFailureModalClose = () => {
         setExistFailureModalShow(false)
     }
+    const [imageUploadModalShow, setImageUploadModalShow] = useState(false)
+    const imageUploadModalClose = () => {
+        setImageUploadModalShow(false)
+    }
 
     const createProduct = async () => {
-
         console.log(product)
         try {
+            setIsLoading(true)
             const response = await axios.post(`http://localhost:9000/api/product/authentication/create`, product)
             setProduct({...product, pid: response.data.pid}) // 리디렉트를 위한것
+            setIsLoading(false)
             setCreateSuccessModalShow(true)
         } catch (e) {
             console.log(e)
@@ -140,6 +129,19 @@ function ProductDetails(props) {
             }
         }
     }
+
+    const textareaH3 = useRef();
+    const textareaP = useRef();
+    const handleResizeHeightH3 = (e) => {
+        setProduct({...product, [e.target.name]: e.target.value})
+        textareaH3.current.style.height = 'auto'; //height 초기화
+        textareaH3.current.style.height = textareaH3.current.scrollHeight + 'px';
+    };
+    const handleResizeHeightP = (e) => {
+        setProduct({...product, [e.target.name]: e.target.value})
+        textareaP.current.style.height = 'auto'; //height 초기화
+        textareaP.current.style.height = textareaP.current.scrollHeight + 'px';
+    };
 
     useEffect(() => {
         textareaH3.current.style.height = 'auto'; //height 초기화
@@ -189,10 +191,15 @@ function ProductDetails(props) {
     }
 
     const deleteImage = async (obj) => {
-        const response = await axios.delete(obj)
-        let array = [...imageList]
-        array = array.filter(fileName => fileName !== obj)
-        setImageList(array)
+        try {
+            const response = await axios.delete(obj)
+            let array = [...imageList]
+            array = array.filter(fileName => fileName !== obj)
+            setImageList(array)
+        }catch (e) {
+            console.log(e)
+        }
+
     }
 
     useEffect(() => {
@@ -292,11 +299,11 @@ function ProductDetails(props) {
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={uploadImage}>
-                        등록
-                    </Button>
                     <Button variant="secondary" onClick={imageUploadModalClose}>
                         닫기
+                    </Button>
+                    <Button variant="primary" onClick={uploadImage}>
+                        등록
                     </Button>
                 </Modal.Footer>
             </Modal>

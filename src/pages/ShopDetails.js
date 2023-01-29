@@ -23,9 +23,6 @@ function ShopDetails(props) {
     return (
         <section ref={scrollRef} className="product-details spad">
             <div className="container">
-                {/*{userRole === "MANAGER" || userRole === "ADMIN"*/}
-                {/*    ? <ModifyBtnDiv><Link to={`/shop-details-modify?pid=${pid}`}><Button variant={"primary"}>수정하기</Button></Link></ModifyBtnDiv>*/}
-                {/*    : ''}*/}
                 <div className="row">
                     <ProductDetails/>
                     <ProductReviews/>

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link, NavLink} from "react-router-dom";
+import {Link, NavLink, useNavigate} from "react-router-dom";
 import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
 import CartModal from "./ShoppingCart/CartModal";
@@ -13,6 +13,7 @@ import PreLoader from "./PreLoader/PreLoader";
 
 const StyledLink = styled(Link)`
   text-decoration: none;
+  color: red;
 `
 
 const active = {
@@ -37,6 +38,7 @@ const Header = () => {
     const accessToken = useSelector(store => store.login.accessToken)
     const userRole = useSelector(store => store.user.userRole)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const purge = async () => {
         await persistor.purge();
@@ -50,10 +52,9 @@ const Header = () => {
             axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken
             dispatch(setLogin(accessToken))
 
-            const account = await axios.get("http://localhost:9000/api/member/me", )
+            const account = await axios.get("http://localhost:9000/api/member/me",)
             dispatch(setAccount(account.data))
-        }
-        catch (e) {
+        } catch (e) {
             console.log(e)
             if (e.response.data.msg === "NO_REFRESH") {
                 purge()
@@ -74,14 +75,15 @@ const Header = () => {
             const response = await axios.post("http://localhost:9000/logoutProc")
             axios.defaults.headers.common["Authorization"] = ""
             purge()
-        }catch (e) {
+            navigate("/")
+        } catch (e) {
             console.log(e)
         }
     }
 
     useEffect(() => {
         getNewToken()
-    },[])
+    }, [])
 
 
     return (
@@ -95,8 +97,8 @@ const Header = () => {
                                     <ul>
                                         <li>문의 : <i className="fa fa-envelope"/> Admin@email.com</li>
                                         {isLogin
-                                        ? <li>{name}님 환영합니다 ({userRole})</li>
-                                        : ''}
+                                            ? <li>{name}님 환영합니다 ({userRole})</li>
+                                            : ''}
                                     </ul>
                                 </div>
                             </div>
@@ -104,8 +106,8 @@ const Header = () => {
                                 <div className="header__top__right">
                                     <div className="header__top__right__auth">
                                         {isLogin
-                                        ? <a href="/" onClick={logout}><i className="fa fa-user"/> 로그아웃</a>
-                                        : <a href="/" onClick={showLoginModal}><i className="fa fa-user"/> 로그인</a>
+                                            ? <a href="/" onClick={logout}><i className="fa fa-user"/> 로그아웃</a>
+                                            : <a href="/" onClick={showLoginModal}><i className="fa fa-user"/> 로그인</a>
                                         }
                                     </div>
                                 </div>
@@ -132,14 +134,19 @@ const Header = () => {
                                     <li><NavLink to="./contact"
                                                  style={({isActive}) => isActive ? active : inactive}>Contact</NavLink>
                                     </li>
-                                    <li>
-                                        <StyledLink to="#">Pages</StyledLink>
-                                        <ul className="header__menu__dropdown">
-                                            <li><StyledLink to="./shop-details-create">상품 등록</StyledLink></li>
-                                            <li><StyledLink to="./blog-details-create">블로그 등록</StyledLink></li>
-                                            <li><StyledLink to="./blog-details">Blog Details</StyledLink></li>
-                                        </ul>
-                                    </li>
+                                    {userRole === "ADMIN" || userRole === "MANAGER"
+                                        ? <li>
+                                            <StyledLink to="#"><span
+                                                style={{color: 'red'}}>관리자 전용 메뉴</span></StyledLink>
+                                            <ul className="header__menu__dropdown">
+                                                <li><StyledLink to="./shop-details-create">상품 등록</StyledLink></li>
+                                                <li><StyledLink to="./blog-details-create">블로그 등록</StyledLink></li>
+                                                <li><StyledLink to="#">회원 관리 (준비중)</StyledLink></li>
+                                            </ul>
+                                        </li>
+                                        : ''
+                                    }
+
                                 </ul>
                             </nav>
                         </div>

@@ -52,6 +52,7 @@ function ProductDetails(props) {
 
     const getProduct = async () => {
         try {
+            setIsLoading(true)
             const response = await axios.get(`http://localhost:9000/api/product/${pid}`)
             const data = response.data
             setProduct(data)
@@ -60,7 +61,7 @@ function ProductDetails(props) {
             if (data.fileNames.filter(file => file !== '/img/noImage.jpg').length === 0) {
                 setImageList([])
             }
-
+            setIsLoading(false)
         } catch (e) {
             console.log(e)
         }
@@ -131,7 +132,9 @@ function ProductDetails(props) {
     }
     const deleteProduct = async () => {
         try {
+            setIsLoading(true)
             const response = await axios.delete(`http://localhost:9000/api/product/authentication/${pid}`)
+            setIsLoading(false)
             navigate("/shop-grid")
         }catch (e) {
             if(e.response.data.msg === 'Expired Token') {
@@ -168,7 +171,9 @@ function ProductDetails(props) {
     const modifyProduct = async () => {
         console.log(product)
         try {
+            setIsLoading(true)
             const response = await axios.put(`http://localhost:9000/api/product/authentication/${pid}`, product)
+            setIsLoading(false)
             setModifySuccessModalShow(true)
         }catch (e) {
             console.log(e)
@@ -339,11 +344,11 @@ function ProductDetails(props) {
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={uploadImage}>
-                        등록
-                    </Button>
                     <Button variant="secondary" onClick={imageUploadModalClose}>
                         닫기
+                    </Button>
+                    <Button variant="primary" onClick={uploadImage}>
+                        등록
                     </Button>
                 </Modal.Footer>
             </Modal>

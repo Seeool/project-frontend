@@ -4,6 +4,7 @@ import BlogBanner from "../components/BlogDetails/BlogBanner";
 import axios from "axios";
 import {useSearchParams} from "react-router-dom";
 import BlogSection from "../components/BlogDetails/BlogSection";
+import BlogSectionModify from "../components/BlogDetails/BlogSectionModify";
 
 function BlogDetails(props) {
     const [blog, setBlog] = useState();
@@ -22,12 +23,10 @@ function BlogDetails(props) {
 
     return (
         <>
-            {blog !== undefined ? <BlogBanner blog={blog}/> : ''}
             <section className="blog-details spad">
                 <div className="container">
                     <div className="row">
-                        <BlogSideBar/>
-                        {blog !== undefined ? <BlogSection blog={blog}/> : ''}
+                        {blog !== undefined ? <BlogSectionModify blog={blog}/> : ''}
                     </div>
                 </div>
             </section>

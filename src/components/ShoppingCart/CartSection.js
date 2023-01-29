@@ -73,7 +73,7 @@ function CartSection(props) {
                         <ul>
                             <li>합계 <span>\{total}</span></li>
                         </ul>
-                        <a href="#" className="primary-btn" onClick={goToOrder}>결제하기</a>
+                        <a href="#" className="primary-btn" onClick={goToOrder}>결제하기 (준비중)</a>
                     </div>
                 </div>
             </div>

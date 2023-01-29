@@ -38,7 +38,6 @@ const ModifyBtnDiv = styled.div`
 function ProductDetails(props) {
     const [quantities, setQuantities] = useState(1)
     const dispatch = useDispatch()
-    // const params = new URLSearchParams(useLocation().search)
 
     const navigate = useNavigate()
 
