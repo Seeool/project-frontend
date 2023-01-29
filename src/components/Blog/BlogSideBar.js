@@ -44,12 +44,12 @@ function BlogSideBar(props) {
     }
     const getBlogCountByCategory = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/blog/count`)
+            const response = await axios.get(`http://seol.site:9000/api/blog/count`)
             setAll(response.data)
 
             let array = []
             for (let i = 0; i < 4; i++) {
-                const response = await axios.get(`http://localhost:9000/api/blog/count/${i}`)
+                const response = await axios.get(`http://seol.site:9000/api/blog/count/${i}`)
                 array.push(response.data)
             }
             setBeauty(array[0])

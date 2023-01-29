@@ -72,7 +72,7 @@ function BlogSection(props) {
     const createBlog = async () => {
         try {
             setIsLoading(true)
-            const response = await axios.post(`http://localhost:9000/api/blog/authentication/create`, blog)
+            const response = await axios.post(`http://seol.site:9000/api/blog/authentication/create`, blog)
             setBlog({...blog, bid: response.data.bid}) // 리디렉트를 위한것
             setCreateSuccessModalShow(true)
             setIsLoading(false)
@@ -80,7 +80,7 @@ function BlogSection(props) {
         } catch (e) {
             if (e.response.data.msg === 'Expired Token') {
                 axios.defaults.withCredentials = true;
-                const response = await axios.get("http://localhost:9000/api/token/getAccessToken")
+                const response = await axios.get("http://seol.site:9000/api/token/getAccessToken")
                 const accessToken = response.data.accessToken;
                 axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken
                 dispatch(setLogin(accessToken))
@@ -120,7 +120,7 @@ function BlogSection(props) {
             setIsLoading(true)
             const response = await axios({
                 method: "post",
-                url: "http://localhost:9000/upload",
+                url: "http://seol.site:9000/upload",
                 data: formObj,
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -171,12 +171,13 @@ function BlogSection(props) {
                             <img src={fileName} alt="" />
                         </div>
                     ))}
+                    <br />
                     카테고리 : <select onChange={setCategory}>
                     <option value={"0"}>뷰티</option>
                     <option value={"1"}>음식</option>
                     <option value={"2"}>생활/건강</option>
                     <option value={"3"}>여행</option>
-                </select> <br/>
+                </select> <br/><br/>
                     <h3>제목 : <TextAreaH3 rows={1} name={"title"} ref={textareaH3} value={blog.title} onChange={handleResizeHeightH3} /></h3>
                     <p>본문 : <StyledTextarea rows={1} name={"text"} ref={textareaP} value={blog.text} onChange={handleResizeHeightP} ></StyledTextarea></p>
 

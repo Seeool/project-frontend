@@ -104,14 +104,14 @@ function ProductDetails(props) {
     const createProduct = async () => {
         try {
             setIsLoading(true)
-            const response = await axios.post(`http://localhost:9000/api/product/authentication/create`, product)
+            const response = await axios.post(`http://seol.site:9000/api/product/authentication/create`, product)
             setProduct({...product, pid: response.data.pid}) // 리디렉트를 위한것
             setIsLoading(false)
             setCreateSuccessModalShow(true)
         } catch (e) {
             if (e.response.data.msg === 'Expired Token') {
                 axios.defaults.withCredentials = true;
-                const response = await axios.get("http://localhost:9000/api/token/getAccessToken")
+                const response = await axios.get("http://seol.site:9000/api/token/getAccessToken")
                 const accessToken = response.data.accessToken;
                 axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken
                 dispatch(setLogin(accessToken))
@@ -160,7 +160,7 @@ function ProductDetails(props) {
             setIsLoading(true)
             const response = await axios({
                 method: "post",
-                url: "http://localhost:9000/upload",
+                url: "http://seol.site:9000/upload",
                 data: formObj,
                 headers: {
                     'Content-Type': 'multipart/form-data'

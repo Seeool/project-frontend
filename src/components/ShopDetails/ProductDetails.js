@@ -62,7 +62,7 @@ function ProductDetails(props) {
     const day = date.getDate()
     const getProduct = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/product/${pid}`)
+            const response = await axios.get(`http://seol.site:9000/api/product/${pid}`)
             setProduct(response.data)
             setfileNames(response.data.fileNames)
         } catch (e) {
@@ -93,12 +93,12 @@ function ProductDetails(props) {
 
     const deleteProduct = async () => {
         try {
-            const response = await axios.delete(`http://localhost:9000/api/product/authentication/${pid}`)
+            const response = await axios.delete(`http://seol.site:9000/api/product/authentication/${pid}`)
             navigate("/shop-grid")
         } catch (e) {
             if (e.response.data.msg === 'Expired Token') {
                 axios.defaults.withCredentials = true;
-                const response = await axios.get("http://localhost:9000/api/token/getAccessToken")
+                const response = await axios.get("http://seol.site:9000/api/token/getAccessToken")
                 const accessToken = response.data.accessToken;
                 axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken
                 dispatch(setLogin(accessToken))

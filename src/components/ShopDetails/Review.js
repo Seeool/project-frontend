@@ -34,13 +34,13 @@ const Review = (props) => {
     const deleteReview = async () => {
         try {
             setIsLoading(true)
-            const response = await axios.post(`http://localhost:9000/api/review/authentication/delete`, review)
+            const response = await axios.post(`http://seol.site:9000/api/review/authentication/delete`, review)
             setIsLoading(false)
             getReviews()
         } catch (e) {
             if (e.response.data.msg === 'Expired Token') {
                 axios.defaults.withCredentials = true;
-                const response = await axios.get("http://localhost:9000/api/token/getAccessToken")
+                const response = await axios.get("http://seol.site:9000/api/token/getAccessToken")
                 const accessToken = response.data.accessToken;
                 axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken
                 dispatch(setLogin(accessToken))

@@ -39,7 +39,7 @@ function ProductReviews(props) {
 
     const getReviews = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/review/${pid}?page=${page}&size=${size}`)
+            const response = await axios.get(`http://seol.site:9000/api/review/${pid}?page=${page}&size=${size}`)
             const data = response.data
             if (data.dtoList === null) {
                 setReviews([])
@@ -108,14 +108,14 @@ function ProductReviews(props) {
     const createReview = async () => {
         try {
             setIsLoading(true)
-            const response = await axios.post(`http://localhost:9000/api/review/authentication/create`, reviewForAdd)
+            const response = await axios.post(`http://seol.site:9000/api/review/authentication/create`, reviewForAdd)
             setAddReviewModalShow(false)
             setIsLoading(false)
             getReviews()
         } catch (e) {
             if (e.response.data.msg === 'Expired Token') {
                 axios.defaults.withCredentials = true;
-                const response = await axios.get("http://localhost:9000/api/token/getAccessToken")
+                const response = await axios.get("http://seol.site:9000/api/token/getAccessToken")
                 const accessToken = response.data.accessToken;
                 axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken
                 dispatch(setLogin(accessToken))

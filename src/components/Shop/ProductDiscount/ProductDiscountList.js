@@ -3,30 +3,39 @@ import ProductDiscount from "./ProductDiscount";
 import axios from "axios";
 import ReactOwlCarousel from "react-owl-carousel";
 import {useSearchParams} from "react-router-dom";
+import PreLoader from "../../PreLoader/PreLoader";
 
 function ProductDiscountList(props) {
+    const [isLoading, setIsLoading] = useState(false)
     const [products, setProducts] = useState([])
     const [params, setParams] = useSearchParams()
     const getProducts = async () => {
         try {
+            setIsLoading(true)
             let category = params.get('category')
             let keyword = params.get('keyword')
-            if (category == null) {category = ''}
-            if (keyword == null) {keyword = ''}
-            const response = await axios.get(`http://localhost:9000/api/product/discoutList?category=${category}&keyword=${keyword}`)
+            if (category == null) {
+                category = ''
+            }
+            if (keyword == null) {
+                keyword = ''
+            }
+            const response = await axios.get(`http://seol.site:9000/api/product/discoutList?category=${category}&keyword=${keyword}`)
             setProducts(response.data)
-        }catch (e) {
+            setIsLoading(false)
+        } catch (e) {
+            setIsLoading(false)
             alert(e)
         }
     }
     useEffect(() => {
         getProducts()
-    },[params])
+    }, [params])
 
     const [carowsel, setCarowsel] = useState(false)
     useEffect(() => {
         setCarowsel(!carowsel)
-    },[products])
+    }, [products])
     return (
         <>
             <div className="product__discount">
@@ -35,13 +44,16 @@ function ProductDiscountList(props) {
                 </div>
                 <div className="row">
                     {products.length < 1 ? <h2>할인중인 상품이 없어요...</h2> : null}
-                    <ReactOwlCarousel margin={0} dots={true} responsive={{0: {items: 1}, 990: {items :2}, 1200: {items : 3} }} className={"product__discount__slider"}>
+                    <ReactOwlCarousel margin={0} dots={true}
+                                      responsive={{0: {items: 1}, 990: {items: 2}, 1200: {items: 3}}}
+                                      className={"product__discount__slider"}>
                         {products.map((product) => (
-                            <ProductDiscount key={product.pid} product={product} />
+                            <ProductDiscount key={product.pid} product={product}/>
                         ))}
                     </ReactOwlCarousel>
                 </div>
             </div>
+            {isLoading ? <PreLoader/> : ''}
         </>
     );
 }

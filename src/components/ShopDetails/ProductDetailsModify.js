@@ -53,7 +53,7 @@ function ProductDetails(props) {
     const getProduct = async () => {
         try {
             setIsLoading(true)
-            const response = await axios.get(`http://localhost:9000/api/product/${pid}`)
+            const response = await axios.get(`http://seol.site:9000/api/product/${pid}`)
             const data = response.data
             setProduct(data)
             setProduct({...data, fileNames: []})
@@ -130,13 +130,13 @@ function ProductDetails(props) {
     const deleteProduct = async () => {
         try {
             setIsLoading(true)
-            const response = await axios.delete(`http://localhost:9000/api/product/authentication/${pid}`)
+            const response = await axios.delete(`http://seol.site:9000/api/product/authentication/${pid}`)
             setIsLoading(false)
             navigate("/shop-grid")
         }catch (e) {
             if(e.response.data.msg === 'Expired Token') {
                 axios.defaults.withCredentials = true;
-                const response = await axios.get("http://localhost:9000/api/token/getAccessToken")
+                const response = await axios.get("http://seol.site:9000/api/token/getAccessToken")
                 const accessToken = response.data.accessToken;
                 axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken
                 dispatch(setLogin(accessToken))
@@ -169,13 +169,13 @@ function ProductDetails(props) {
     const modifyProduct = async () => {
         try {
             setIsLoading(true)
-            const response = await axios.put(`http://localhost:9000/api/product/authentication/${pid}`, product)
+            const response = await axios.put(`http://seol.site:9000/api/product/authentication/${pid}`, product)
             setIsLoading(false)
             setModifySuccessModalShow(true)
         }catch (e) {
             if(e.response?.data.msg === 'Expired Token') {
                 axios.defaults.withCredentials = true;
-                const response = await axios.get("http://localhost:9000/api/token/getAccessToken")
+                const response = await axios.get("http://seol.site:9000/api/token/getAccessToken")
                 const accessToken = response.data.accessToken;
                 axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken
                 dispatch(setLogin(accessToken))
@@ -214,7 +214,7 @@ function ProductDetails(props) {
             setIsLoading(true)
             const response = await axios({
                 method: "post",
-                url: "http://localhost:9000/upload",
+                url: "http://seol.site:9000/upload",
                 data: formObj,
                 headers: {
                     'Content-Type': 'multipart/form-data'

@@ -17,7 +17,7 @@ function BlogDetailsModify(props) {
     const [params, setParams] = useSearchParams()
     const bid = params.get('bid')
     const getBlog = async () => {
-        const response = await axios.get(`http://localhost:9000/api/blog/${bid}`)
+        const response = await axios.get(`http://seol.site:9000/api/blog/${bid}`)
         const data = response.data
         setBlog(data)
     }

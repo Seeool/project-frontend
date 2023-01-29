@@ -46,12 +46,12 @@ const Header = () => {
     const getNewToken = async () => {
         try {
             axios.defaults.withCredentials = true;
-            const response = await axios.get("http://localhost:9000/api/token/getAccessToken")
+            const response = await axios.get("http://seol.site:9000/api/token/getAccessToken")
             const accessToken = response.data.accessToken;
             axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken
             dispatch(setLogin(accessToken))
 
-            const account = await axios.get("http://localhost:9000/api/member/me",)
+            const account = await axios.get("http://seol.site:9000/api/member/me",)
             dispatch(setAccount(account.data))
         } catch (e) {
             if (e.response.data.msg === "NO_REFRESH") {
@@ -68,12 +68,15 @@ const Header = () => {
         e.preventDefault()
         e.stopPropagation()
         try {
+            setIsLoading(true)
             axios.defaults.withCredentials = true;
-            const response = await axios.post("http://localhost:9000/logoutProc")
+            const response = await axios.post("http://seol.site:9000/logoutProc")
             axios.defaults.headers.common["Authorization"] = ""
             purge()
+            setIsLoading(false)
             navigate("/")
         } catch (e) {
+            setIsLoading(false)
         }
     }
 

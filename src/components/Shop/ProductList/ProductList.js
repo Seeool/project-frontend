@@ -5,8 +5,10 @@ import axios from "axios";
 import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import $ from 'jquery'
 import ProductPagination from "./ProductPagination";
+import PreLoader from "../../PreLoader/PreLoader";
 
 function ProductList(props) {
+    const [isLoading, setIsLoading] = useState(false)
     const [params, setParams] = useSearchParams()
     const [products, setProducts] = useState([])
     const [size, setSize] = useState()
@@ -22,6 +24,7 @@ function ProductList(props) {
 
     const getProducts = async () => {
         try {
+            setIsLoading(true)
             let category = params.get('category')
             let keyword = params.get('keyword')
             if (category == null) {
@@ -30,7 +33,7 @@ function ProductList(props) {
             if (keyword == null) {
                 keyword = ''
             }
-            const response = await axios.get(`http://localhost:9000/api/product/list?category=${category}&keyword=${keyword}&sort=${sort}&page=${page}`)
+            const response = await axios.get(`http://seol.site:9000/api/product/list?category=${category}&keyword=${keyword}&sort=${sort}&page=${page}`)
             const data = response.data
             if (data.dtoList === null) {
                 setProducts([])
@@ -42,8 +45,10 @@ function ProductList(props) {
             setEnd(data.end)
             setStart(data.start)
             setTotal(data.total)
+            setIsLoading(false)
         } catch (err) {
             alert(err)
+            setIsLoading(false)
         }
     }
 
@@ -57,7 +62,7 @@ function ProductList(props) {
         $(e.target).siblings().removeClass("active")
         $(e.target).addClass("active")
         setPage(e.target.innerHTML)
-        scrollRef.current.scrollIntoView({behavior : 'smooth'})
+        scrollRef.current.scrollIntoView({behavior: 'smooth'})
     }
     const nextPage = (e) => {
         e.stopPropagation()
@@ -101,7 +106,7 @@ function ProductList(props) {
                     </div>
                     <div className="col-lg-4 col-md-4">
                         <div className="filter__found">
-                            {total > 0 ? <h6><span>{total}</span> 개의 상품이 있습니다.</h6> : <h6><span>상품이 없습니다</span></h6> }
+                            {total > 0 ? <h6><span>{total}</span> 개의 상품이 있습니다.</h6> : <h6><span>상품이 없습니다</span></h6>}
                         </div>
                     </div>
                 </div>
@@ -112,12 +117,13 @@ function ProductList(props) {
             <br/>
             <div className="row">
                 {products.length > 0 ? products.map((product) => (
-                    <Product key={product.pid} product={product} />
+                    <Product key={product.pid} product={product}/>
                 )) : null}
             </div>
             {products.length > 0 ?
                 <ProductPagination start={start} page={page} end={end} prev={prev} next={next} movePage={movePage}
                                    nextPage={nextPage} prevPage={prevPage} products={products}/> : null}
+            {isLoading ? <PreLoader/> : ''}
         </>
     );
 }

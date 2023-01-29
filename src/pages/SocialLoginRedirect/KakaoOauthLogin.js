@@ -14,12 +14,12 @@ const NaverOauthLogin = () => {
     const login = async () => {
         try {
             axios.defaults.withCredentials = true;
-            const response = await axios.get(`http://localhost:9000/login/oauth2/code/kakao?code=${code}`)
+            const response = await axios.get(`http://seol.site:9000/login/oauth2/code/kakao?code=${code}`)
             const accessToken = response.data.accessToken;
             axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken
             dispatch(setLogin(accessToken))
 
-            const account = await axios.get("http://localhost:9000/api/member/me", {headers: {Authorization: "Bearer " + accessToken}})
+            const account = await axios.get("http://seol.site:9000/api/member/me", {headers: {Authorization: "Bearer " + accessToken}})
             dispatch(setAccount(account.data))
             navigate('/')
         } catch (e) {

@@ -57,14 +57,14 @@ function BlogSection(props) {
     const deleteBlog = async () => {
         try {
             setIsLoading(true)
-            await axios.post("http://localhost:9000/api/blog/authentication/delete", props.blog)
+            await axios.post("http://seol.site:9000/api/blog/authentication/delete", props.blog)
             setDeleteConfirmModalShow(false)
             setIsLoading(false)
             navigate('/blog')
         } catch (e) {
             if (e.response.data.msg === 'Expired Token') {
                 axios.defaults.withCredentials = true;
-                const response = await axios.get("http://localhost:9000/api/token/getAccessToken")
+                const response = await axios.get("http://seol.site:9000/api/token/getAccessToken")
                 const accessToken = response.data.accessToken;
                 axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken
                 dispatch(setLogin(accessToken))

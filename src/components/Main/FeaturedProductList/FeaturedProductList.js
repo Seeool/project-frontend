@@ -3,22 +3,28 @@ import FeaturedProduct from "./FeaturedProduct";
 import {Button, Modal} from "react-bootstrap";
 import axios from "axios";
 import $ from 'jquery'
+import PreLoader from "../../PreLoader/PreLoader";
 
 const FeaturedProductList = () => {
+    const [isLoading, setIsLoading] = useState(false)
     const [products, setProducts] = useState([])
     const [categories, setCategories] = useState([])
     const categoryNames = ["과일","정육/계란","밀키트","냉장/냉동/간편식","통조림/즉석밥/면","쌀/잡곡","베이커리","장/양념/소스","우유/유제품","채소","건강식품"]
     const getProducts = async () => {
         try {
-            const response = await axios.get("http://localhost:9000/api/product/featuredList")
+            setIsLoading(true)
+
+            const response = await axios.get("http://seol.site:9000/api/product/featuredList")
             const data = response.data
             setProducts(data)
             let categorySet = new Set(Array.from(data.map((product) => {
                 return product.category
             })).sort())
             setCategories(Array.from(categorySet))
+            setIsLoading(false)
         } catch (err) {
             alert(err)
+            setIsLoading(false)
         }
 
     }
@@ -67,6 +73,7 @@ const FeaturedProductList = () => {
                     </div>
                 </div>
             </section>
+            {isLoading ? <PreLoader/> : ''}
         </>
     );
 };

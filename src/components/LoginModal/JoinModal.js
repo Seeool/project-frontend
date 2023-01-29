@@ -66,7 +66,7 @@ const JoinModal = () => {
         try {
             setIsLoading(true)
             axios.defaults.withCredentials = true;
-            const response = await axios.post("http://localhost:9000/memberJoin", account)
+            const response = await axios.post("http://seol.site:9000/memberJoin", account)
             setJoinSuccessModalShow(true)
             setIsLoading(false)
             setAccount({})
