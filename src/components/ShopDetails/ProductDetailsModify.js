@@ -1,10 +1,11 @@
 import React, {createRef, useEffect, useRef, useState} from 'react';
-import {Button, Modal} from "react-bootstrap";
+import {Button, Form, Modal} from "react-bootstrap";
 import axios from "axios";
 import {useDispatch} from "react-redux";
 import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import styled from "styled-components";
 import {setLogin} from "../../store/loginSlice";
+import PreLoader from "../PreLoader/PreLoader";
 
 const TextAreaH3 = styled.textarea`
   width: 100%;
@@ -21,8 +22,12 @@ const TextAreaP = styled.textarea`
 const ModifyBtnDiv = styled.div`
   float: right;
 `
-
+const ImageRemoveBtn = styled.button`
+  position: absolute;
+  left: 225px;
+`
 function ProductDetails(props) {
+    const [isLoading, setIsLoading] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -50,6 +55,12 @@ function ProductDetails(props) {
             const response = await axios.get(`http://localhost:9000/api/product/${pid}`)
             const data = response.data
             setProduct(data)
+            setProduct({...data, fileNames: []})
+            setImageList([...imageList, ...data.fileNames])
+            if (data.fileNames.filter(file => file !== '/img/noImage.jpg').length === 0) {
+                setImageList([])
+            }
+
         } catch (e) {
             console.log(e)
         }
@@ -108,11 +119,11 @@ function ProductDetails(props) {
         setProduct({...product, category: e.target.value})
     }
 
-    const [deleteSuccessModalShow, setDeleteSuccessModalShow] = useState(false)
-    const deleteSuccessModalClose = () => {
-        setDeleteSuccessModalShow(false)
-        navigate("/shop-grid")
+    const [deleteConfirmModalShow, setDeleteConfirmModalShow] = useState(false)
+    const deleteConfirmModalClose = () => {
+        setDeleteConfirmModalShow(false)
     }
+
 
     const [deleteFailureModalShow, setDeleteFailureModalShow] = useState(false)
     const deleteFailureModalClose = () => {
@@ -121,7 +132,7 @@ function ProductDetails(props) {
     const deleteProduct = async () => {
         try {
             const response = await axios.delete(`http://localhost:9000/api/product/authentication/${pid}`)
-            setDeleteSuccessModalShow(true)
+            navigate("/shop-grid")
         }catch (e) {
             if(e.response.data.msg === 'Expired Token') {
                 axios.defaults.withCredentials = true;
@@ -132,6 +143,7 @@ function ProductDetails(props) {
                 return deleteProduct()
             }
             if (e.response.data.message === 'Forbidden') {
+                setDeleteConfirmModalShow(false)
                 setDeleteFailureModalShow(true)
             }
         }
@@ -148,6 +160,11 @@ function ProductDetails(props) {
         setModifyFailureModalShow(false)
     }
 
+    const [imageUploadModalShow, setImageUploadModalShow] = useState(false)
+    const imageUploadModalClose = () => {
+        setImageUploadModalShow(false)
+    }
+
     const modifyProduct = async () => {
         console.log(product)
         try {
@@ -155,7 +172,7 @@ function ProductDetails(props) {
             setModifySuccessModalShow(true)
         }catch (e) {
             console.log(e)
-            if(e.response.data.msg === 'Expired Token') {
+            if(e.response?.data.msg === 'Expired Token') {
                 axios.defaults.withCredentials = true;
                 const response = await axios.get("http://localhost:9000/api/token/getAccessToken")
                 const accessToken = response.data.accessToken;
@@ -163,8 +180,13 @@ function ProductDetails(props) {
                 dispatch(setLogin(accessToken))
                 return modifyProduct()
             }
-            if (e.response.data.message === 'Forbidden') {
+            if (e.response?.data.message === 'Forbidden') {
                 setModifyFailureModalShow(true)
+            }
+        }
+        finally {
+            for (const deletedImage of imageDeleteList) {
+                await axios.delete(deletedImage)
             }
         }
     }
@@ -176,19 +198,72 @@ function ProductDetails(props) {
         textareaP.current.style.height = textareaP.current.scrollHeight + 'px';
     }, [product]);
 
+    const [imageList, setImageList] = useState([])
+    const [imageDeleteList, setImageDeleteList] = useState([])
+    const uploadImage = async () => {
+        const formObj = new FormData
+        const fileInput = document.querySelector(".fileUploader")
+        console.log(fileInput.files)
+
+        const files = fileInput.files
+        for (let i = 0; i < files.length; i++) {
+            formObj.append("files", files[i])
+        }
+        try {
+            setIsLoading(true)
+            const response = await axios({
+                method: "post",
+                url: "http://localhost:9000/upload",
+                data: formObj,
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            let array = []
+            for (const uploadResult of response.data) {
+                array.push(uploadResult.link)
+            }
+            setImageList([...imageList, ...array])
+            setIsLoading(false)
+            setImageUploadModalShow(false)
+        } catch (e) {
+            console.log(e)
+            if (e.message === "Network Error") {
+                alert("1MB이하의 이미지를 업로드해주세요")
+            } else {
+                alert(e)
+            }
+            setIsLoading(false)
+            setImageUploadModalShow(false)
+        }
+    }
+
+    const deleteImage = async (obj) => {
+        setImageDeleteList([...imageDeleteList, obj])
+        let array = [...imageList]
+        array = array.filter(fileName => fileName !== obj)
+        setImageList(array)
+    }
+
+    useEffect(() => {
+        setProduct({...product, fileNames: imageList})
+    },[imageList])
 
     return (
         <>
             <div className="col-lg-6 col-md-6">
                 <div className="product__details__pic">
                     <h2>이미지 첨부</h2>
-                    <input type={"file"} name={"fileNames"} multiple/>
-                    {product.fileNames.map((img, index) => (
-                        <img src={img}
-                             key={index}
-                             alt=""
-                             style={{width: '250px'}}
-                        />
+                    <Button variant={"primary"} onClick={() => setImageUploadModalShow(true)}>이미지 첨부</Button>
+                    <br/>
+                    {imageList.map((fileName, index) => (
+                        <div key={index} style={{display: 'inline-block', position: 'relative'}}>
+                            <ImageRemoveBtn onClick={() => deleteImage(fileName)}>X</ImageRemoveBtn>
+                            <img src={fileName}
+                                 alt=""
+                                 style={{width: '250px', height: '250px', objectFit: 'cover'}}
+                            />
+                        </div>
                     ))}
                 </div>
             </div>
@@ -237,12 +312,41 @@ function ProductDetails(props) {
                     <ModifyBtnDiv>
                         <Link to={`/shop-details?pid=${pid}`} ><Button variant={"secondary"} style={{marginBottom : '5px'}}>이전으로</Button></Link>
                         <br />
-                        <Button variant={"danger"} style={{marginBottom : '5px'}} onClick={deleteProduct}>삭제하기</Button>
+                        <Button variant={"danger"} style={{marginBottom : '5px'}} onClick={() => setDeleteConfirmModalShow(true)}>삭제하기</Button>
                         <br />
                         <Button variant={"primary"} onClick={modifyProduct}>수정완료</Button>
                     </ModifyBtnDiv>
                 </div>
             </div>
+
+            <Modal
+                show={imageUploadModalShow}
+                onHide={imageUploadModalClose}
+                keyboard={false}
+                size={"sm"}
+                centered
+            >
+                <Modal.Header>
+                    <Modal.Title>이미지 등록</Modal.Title>
+                    <Button variant="secondary" onClick={imageUploadModalClose}>
+                        X
+                    </Button>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form.Group controlId="formFile" className="mb-3">
+                        <Form.Control className={"fileUploader"} name={"fileNames"} type="file" accept='image/*'
+                                      multiple/>
+                    </Form.Group>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={uploadImage}>
+                        등록
+                    </Button>
+                    <Button variant="secondary" onClick={imageUploadModalClose}>
+                        닫기
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
             <Modal
                 show={modifySuccessModalShow}
@@ -293,24 +397,27 @@ function ProductDetails(props) {
 
 
             <Modal
-                show={deleteSuccessModalShow}
-                onHide={deleteSuccessModalClose}
+                show={deleteConfirmModalShow}
+                onHide={deleteConfirmModalClose}
                 keyboard={false}
                 size={"sm"}
                 centered
             >
                 <Modal.Header>
-                    <Modal.Title>삭제 성공</Modal.Title>
-                    <Button variant="secondary" onClick={deleteSuccessModalClose}>
+                    <Modal.Title>삭제하시겠습니까?</Modal.Title>
+                    <Button variant="secondary" onClick={deleteConfirmModalClose}>
                         X
                     </Button>
                 </Modal.Header>
                 <Modal.Body>
-                    상품 목록으로 돌아갑니다.
+                    삭제 후 상품 목록으로 돌아갑니다.
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={deleteSuccessModalClose}>
+                    <Button variant="secondary" onClick={deleteConfirmModalClose}>
                         닫기
+                    </Button>
+                    <Button variant="danger" onClick={deleteProduct}>
+                        삭제
                     </Button>
                 </Modal.Footer>
             </Modal>
@@ -337,6 +444,8 @@ function ProductDetails(props) {
                     </Button>
                 </Modal.Footer>
             </Modal>
+
+            {isLoading ? <PreLoader/> : ''}
         </>
     )
         ;

@@ -7,7 +7,6 @@ const Product = (props) => {
     const date = new Date(regDate)
     const year = date.getFullYear()
     const month = date.getMonth() + 1
-    const day = date.getDay()
 
     return (
         <Link to={`shop-details?pid=${pid}`} className="latest-product__item">

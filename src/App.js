@@ -36,6 +36,8 @@ function App() {
                 <Route path={"/shop-details-modify"} element={<ShopDetailsModify/>}/>
                 <Route path={"/shopping-cart"} element={<ShoppingCart/>}/>
                 <Route path={"/blog-details"} element={<BlogDetails/>}/>
+                <Route path={"/blog-details-create"} element={<BlogDetails/>}/>
+                <Route path={"/blog-details-modify"} element={<BlogDetails/>}/>
                 <Route path={"/oauthNaver/"} element={<NaverOauthLogin />}/>
                 <Route path={"/oauthKakao/"} element={<KakaoOauthLogin />}/>
                 <Route path={"/oauthGoogle/"} element={<GoogleOauthLogin />}/>

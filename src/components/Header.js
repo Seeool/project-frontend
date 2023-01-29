@@ -15,7 +15,6 @@ const StyledLink = styled(Link)`
   text-decoration: none;
 `
 
-
 const active = {
     color: '#7fad39',
     textDecoration: 'none'
@@ -34,6 +33,7 @@ const Header = () => {
     })
     const isLogin = useSelector(store => store.login.isLogin)
     const name = useSelector(store => store.user.name)
+    const fileName = useSelector(store => store.user.fileName)
     const accessToken = useSelector(store => store.login.accessToken)
     const userRole = useSelector(store => store.user.userRole)
     const dispatch = useDispatch()
@@ -86,9 +86,6 @@ const Header = () => {
 
     return (
         <>
-            {/*<div id="preloder">*/}
-            {/*    <div className="loader"></div>*/}
-            {/*</div>*/}
             <header className="header">
                 <div className="header__top">
                     <div className="container">
@@ -139,7 +136,7 @@ const Header = () => {
                                         <StyledLink to="#">Pages</StyledLink>
                                         <ul className="header__menu__dropdown">
                                             <li><StyledLink to="./shop-details-create">상품 등록</StyledLink></li>
-                                            <li><StyledLink to="./shopping-cart">Shopping Cart</StyledLink></li>
+                                            <li><StyledLink to="./blog-details-create">블로그 등록</StyledLink></li>
                                             <li><StyledLink to="./blog-details">Blog Details</StyledLink></li>
                                         </ul>
                                     </li>

@@ -22,7 +22,6 @@ function ShopDetails(props) {
             <div className="container">
                 <div className="row">
                     <ProductDetailsModify/>
-                    <ProductReviews/>
                 </div>
             </div>
         </section>

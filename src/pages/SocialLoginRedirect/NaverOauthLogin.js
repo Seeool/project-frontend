@@ -11,7 +11,6 @@ const NaverOauthLogin = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate();
     const code = new URL(window.location.href).searchParams.get("code")
-    console.log("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ")
     const login = async () => {
         try {
             axios.defaults.withCredentials = true;

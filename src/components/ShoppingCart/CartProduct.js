@@ -32,7 +32,7 @@ function CartProduct(props) {
         <tr>
             <td className="shoping__cart__item">
                 <Link to={`/shop-details?pid=${id}`}>
-                    <img src={fileNames} alt=""/>
+                    <img src={fileNames} alt="" style={{objectFit: 'cover'}}/>
                     <h5>{name}</h5>
                 </Link>
             </td>

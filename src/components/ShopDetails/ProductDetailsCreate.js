@@ -1,11 +1,12 @@
 import React, {createRef, useEffect, useRef, useState} from 'react';
-import {Button, Modal} from "react-bootstrap";
+import {Button, Form, Modal} from "react-bootstrap";
 import axios from "axios";
 import {useDispatch} from "react-redux";
 import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import styled from "styled-components";
 import {setLogin} from "../../store/loginSlice";
 import styles from "../LoginModal/style.module.css";
+import PreLoader from "../PreLoader/PreLoader";
 
 const TextAreaH3 = styled.textarea`
   width: 100%;
@@ -22,8 +23,12 @@ const TextAreaP = styled.textarea`
 const ModifyBtnDiv = styled.div`
   float: right;
 `
-
+const ImageRemoveBtn = styled.button`
+  position: absolute;
+  left: 225px;
+`
 function ProductDetails(props) {
+    const [isLoading, setIsLoading] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -96,6 +101,11 @@ function ProductDetails(props) {
         navigate(`/shop-details?pid=${product.pid}`)
     }
 
+    const [imageUploadModalShow, setImageUploadModalShow] = useState(false)
+    const imageUploadModalClose = () => {
+        setImageUploadModalShow(false)
+    }
+
     const [createFailureModalShow, setCreateFailureModalShow] = useState(false)
     const createFailureModalClose = () => {
         setCreateFailureModalShow(false)
@@ -106,10 +116,11 @@ function ProductDetails(props) {
     }
 
     const createProduct = async () => {
+
         console.log(product)
         try {
             const response = await axios.post(`http://localhost:9000/api/product/authentication/create`, product)
-            setProduct({...product, pid: response.data.pid})
+            setProduct({...product, pid: response.data.pid}) // 리디렉트를 위한것
             setCreateSuccessModalShow(true)
         } catch (e) {
             console.log(e)
@@ -138,18 +149,71 @@ function ProductDetails(props) {
     }, [product]);
 
 
+    const [imageList, setImageList] = useState([])
+    const uploadImage = async () => {
+        const formObj = new FormData
+        const fileInput = document.querySelector(".fileUploader")
+        console.log(fileInput.files)
+
+        const files = fileInput.files
+        for (let i = 0; i < files.length; i++) {
+            formObj.append("files", files[i])
+        }
+        try {
+            setIsLoading(true)
+            const response = await axios({
+                method: "post",
+                url: "http://localhost:9000/upload",
+                data: formObj,
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            let array = []
+            for (const uploadResult of response.data) {
+                array.push(uploadResult.link)
+            }
+            setImageList([...imageList, ...array])
+            setIsLoading(false)
+            setImageUploadModalShow(false)
+        } catch (e) {
+            console.log(e)
+            if (e.message === "Network Error") {
+                alert("1MB이하의 이미지를 업로드해주세요")
+            } else {
+                alert(e)
+            }
+            setIsLoading(false)
+            setImageUploadModalShow(false)
+        }
+    }
+
+    const deleteImage = async (obj) => {
+        const response = await axios.delete(obj)
+        let array = [...imageList]
+        array = array.filter(fileName => fileName !== obj)
+        setImageList(array)
+    }
+
+    useEffect(() => {
+        setProduct({...product, fileNames: imageList})
+    },[imageList])
+
     return (
         <>
             <div className="col-lg-6 col-md-6">
                 <div className="product__details__pic">
                     <h2>이미지 첨부</h2>
-                    <input type={"file"} name={"fileNames"} multiple/>
-                    {product.fileNames.map((img, index) => (
-                        <img src={img}
-                             key={index}
-                             alt=""
-                             style={{width: '250px'}}
-                        />
+                    <Button variant={"primary"} onClick={() => setImageUploadModalShow(true)}>이미지 첨부</Button>
+                    <br/>
+                    {imageList.map((fileName, index) => (
+                        <div key={index} style={{display: 'inline-block', position: 'relative'}}>
+                            <ImageRemoveBtn onClick={() => deleteImage(fileName)}>X</ImageRemoveBtn>
+                            <img src={fileName}
+                                 alt=""
+                                 style={{width: '250px', height: '250px', objectFit: 'cover'}}
+                            />
+                        </div>
                     ))}
                 </div>
             </div>
@@ -207,6 +271,36 @@ function ProductDetails(props) {
                     </ModifyBtnDiv>
                 </div>
             </div>
+
+            <Modal
+                show={imageUploadModalShow}
+                onHide={imageUploadModalClose}
+                keyboard={false}
+                size={"sm"}
+                centered
+            >
+                <Modal.Header>
+                    <Modal.Title>이미지 등록</Modal.Title>
+                    <Button variant="secondary" onClick={imageUploadModalClose}>
+                        X
+                    </Button>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form.Group controlId="formFile" className="mb-3">
+                        <Form.Control className={"fileUploader"} name={"fileNames"} type="file" accept='image/*'
+                                      multiple/>
+                    </Form.Group>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={uploadImage}>
+                        등록
+                    </Button>
+                    <Button variant="secondary" onClick={imageUploadModalClose}>
+                        닫기
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
 
             <Modal
                 show={createSuccessModalShow}
@@ -276,6 +370,8 @@ function ProductDetails(props) {
                     </Button>
                 </Modal.Footer>
             </Modal>
+
+            {isLoading ? <PreLoader/> : ''}
         </>
     )
         ;

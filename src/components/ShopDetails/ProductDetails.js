@@ -8,7 +8,6 @@ import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import ReactOwlCarousel from "react-owl-carousel";
 import styled from "styled-components";
 import {setLogin} from "../../store/loginSlice";
-import {setAccount} from "../../store/userSlice";
 
 const OriginPrice = styled.span`
   font-size: 25px;
@@ -58,11 +57,16 @@ function ProductDetails(props) {
 
     const [product, setProduct] = useState({})
     const [fileNames, setfileNames] = useState([])
+    const date = new Date(product.regDate)
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+    const day = date.getDate()
     const getProduct = async () => {
         try {
             const response = await axios.get(`http://localhost:9000/api/product/${pid}`)
             setProduct(response.data)
             setfileNames(response.data.fileNames)
+            console.log(response.data)
         } catch (e) {
 
         }
@@ -78,10 +82,9 @@ function ProductDetails(props) {
         }))
     }
 
-    const [deleteSuccessModalShow, setDeleteSuccessModalShow] = useState(false)
-    const deleteSuccessModalClose = () => {
-        setDeleteSuccessModalShow(false)
-        navigate("/shop-grid")
+    const [deleteConfirmModalShow, setDeleteConfirmModalShow] = useState(false)
+    const deleteConfirmModalClose = () => {
+        setDeleteConfirmModalShow(false)
     }
 
     const [deleteFailureModalShow, setDeleteFailureModalShow] = useState(false)
@@ -93,7 +96,7 @@ function ProductDetails(props) {
     const deleteProduct = async () => {
         try {
             const response = await axios.delete(`http://localhost:9000/api/product/authentication/${pid}`)
-            setDeleteSuccessModalShow(true)
+            navigate("/shop-grid")
         } catch (e) {
             if (e.response.data.msg === 'Expired Token') {
                 axios.defaults.withCredentials = true;
@@ -104,6 +107,7 @@ function ProductDetails(props) {
                 return deleteProduct()
             }
             if (e.response.data.message === 'Forbidden') {
+                setDeleteConfirmModalShow(false)
                 setDeleteFailureModalShow(true)
             }
         }
@@ -115,7 +119,7 @@ function ProductDetails(props) {
         if (decimal >= 0.5) {
             $(".product__details__rating").prepend('<i class="fa fa-star"></i>')
         }
-        if (decimal < 0.5) {
+        if (decimal !== 0 && decimal < 0.5) {
             $(".product__details__rating").prepend('<i class="fa fa-star-half-o"></i>')
         }
         for (let i = 0; i < integer; i++) {
@@ -163,6 +167,7 @@ function ProductDetails(props) {
         });
     }, [carowsel])
 
+
     return (
         <>
 
@@ -188,7 +193,8 @@ function ProductDetails(props) {
             </div>
             <div className="col-lg-6 col-md-6">
                 <div className="product__details__text">
-                    <h3><TextAreaH3 name={"title"} rows={1} value={product.name} readOnly ref={textareaH3}></TextAreaH3></h3>
+                    <h3><TextAreaH3 name={"title"} rows={1} value={product.name} readOnly ref={textareaH3}></TextAreaH3>
+                    </h3>
                     <div className="product__details__rating">
                         <span>{product.reviewAvg?.toFixed(1)}</span>
                         <span>({product.reviewCount} 개의 리뷰)</span>
@@ -216,6 +222,7 @@ function ProductDetails(props) {
                             <a href={"#"} className="primary-btn" onClick={addToCart}>장바구니에 담기</a>
                         </> : ''}
                     <ul>
+                        <li><b>등록일</b>{year}년 {month}월 {day}일</li>
                         <li><b>원산지</b>{product.origin}</li>
                         <li><b>재고</b>{calcStock()}</li>
                         <li>
@@ -227,7 +234,7 @@ function ProductDetails(props) {
                         ?
                         <ModifyBtnDiv>
                             <Button variant={"danger"} style={{marginBottom: '5px'}}
-                                    onClick={deleteProduct}>삭제하기</Button>
+                                    onClick={() => setDeleteConfirmModalShow(true)}>삭제하기</Button>
                             <br/>
                             <Link to={`/shop-details-modify?pid=${pid}`}><Button
                                 variant={"primary"}>수정하기</Button></Link>
@@ -238,24 +245,27 @@ function ProductDetails(props) {
             </div>
 
             <Modal
-                show={deleteSuccessModalShow}
-                onHide={deleteSuccessModalClose}
+                show={deleteConfirmModalShow}
+                onHide={deleteConfirmModalClose}
                 keyboard={false}
                 size={"sm"}
                 centered
             >
                 <Modal.Header>
-                    <Modal.Title>삭제 성공</Modal.Title>
-                    <Button variant="secondary" onClick={deleteSuccessModalClose}>
+                    <Modal.Title>삭제하시겠습니까?</Modal.Title>
+                    <Button variant="secondary" onClick={deleteConfirmModalClose}>
                         X
                     </Button>
                 </Modal.Header>
                 <Modal.Body>
-                    상품 목록으로 돌아갑니다.
+                    삭제 후 상품 목록으로 돌아갑니다.
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={deleteSuccessModalClose}>
+                    <Button variant="secondary" onClick={deleteConfirmModalClose}>
                         닫기
+                    </Button>
+                    <Button variant="danger" onClick={deleteProduct}>
+                        삭제
                     </Button>
                 </Modal.Footer>
             </Modal>
