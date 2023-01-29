@@ -23,7 +23,6 @@ const NaverOauthLogin = () => {
             dispatch(setAccount(account.data))
             navigate('/')
         } catch (e) {
-            console.log(e)
         }
     }
 

@@ -4,21 +4,17 @@ import {useNavigate, useSearchParams} from "react-router-dom";
 import ProductDetailsModify from "../components/ShopDetails/ProductDetailsModify";
 import {useSelector} from "react-redux";
 
-function ShopDetails(props) {
-    const scrollRef = useRef()
-    const [params, setParams] = useSearchParams()
-    const pid = params.get("pid")
+function ShopDetailsModify(props) {
     const userRole = useSelector(store => store.user.userRole)
     const navigate = useNavigate()
-
     useEffect(() => {
         if (userRole !== "ADMIN" && userRole !== "MANAGER") {
-            navigate(`/shop-details?pid=${pid}`)
+            navigate("/")
         }
-        scrollRef.current.scrollIntoView({behivor : 'smooth'})
-    },[userRole])
+    },[])
+
     return (
-        <section ref={scrollRef} className="product-details spad">
+        <section className="product-details spad">
             <div className="container">
                 <div className="row">
                     <ProductDetailsModify/>
@@ -28,4 +24,4 @@ function ShopDetails(props) {
     );
 }
 
-export default ShopDetails;
+export default ShopDetailsModify;

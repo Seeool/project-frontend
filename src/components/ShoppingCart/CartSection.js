@@ -10,7 +10,6 @@ import {setLoginShow} from "../../store/loginSlice";
 
 function CartSection(props) {
     const [cookies, setCookie] = useCookies(['cart'])
-    console.log('CartSection 리렌더링')
 
     const {cart} = useSelector(store => store.cart)
 

@@ -78,7 +78,6 @@ function BlogSection(props) {
             setIsLoading(false)
 
         } catch (e) {
-            console.log(e)
             if (e.response.data.msg === 'Expired Token') {
                 axios.defaults.withCredentials = true;
                 const response = await axios.get("http://localhost:9000/api/token/getAccessToken")
@@ -87,9 +86,10 @@ function BlogSection(props) {
                 dispatch(setLogin(accessToken))
                 return createBlog()
             }
-            if (e.response.data.message === 'Forbidden') {
+            if (e.response.data.error === 'Forbidden') {
                 setCreateFailureModalShow(true)
             }
+            setIsLoading(false)
         }
     }
     const [createSuccessModalShow, setCreateSuccessModalShow] = useState(false)
@@ -111,7 +111,6 @@ function BlogSection(props) {
     const uploadImage = async () => {
         const formObj = new FormData
         const fileInput = document.querySelector(".fileUploader")
-        console.log(fileInput.files)
 
         const files = fileInput.files
         for (let i = 0; i < files.length; i++) {
@@ -135,7 +134,6 @@ function BlogSection(props) {
             setIsLoading(false)
             setImageUploadModalShow(false)
         } catch (e) {
-            console.log(e)
             if (e.message === "Network Error") {
                 alert("1MB이하의 이미지를 업로드해주세요")
             } else {
@@ -152,7 +150,6 @@ function BlogSection(props) {
             array = array.filter(fileName => fileName !== obj)
             setImageList(array)
         }catch (e) {
-            console.log(e)
         }
 
     }

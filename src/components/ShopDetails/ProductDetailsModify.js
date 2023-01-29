@@ -63,7 +63,6 @@ function ProductDetails(props) {
             }
             setIsLoading(false)
         } catch (e) {
-            console.log(e)
         }
     }
 
@@ -84,8 +83,6 @@ function ProductDetails(props) {
         textareaP.current.style.height = textareaP.current.scrollHeight + 'px';
     };
     const handleValue = (e) => {
-        console.log(e.target.name)
-        console.log(e.target.value)
         setProduct({...product, [e.target.name] : e.target.value})
     }
     const discountCheck = (e) => {
@@ -145,10 +142,11 @@ function ProductDetails(props) {
                 dispatch(setLogin(accessToken))
                 return deleteProduct()
             }
-            if (e.response.data.message === 'Forbidden') {
+            if (e.response.data.error === 'Forbidden') {
                 setDeleteConfirmModalShow(false)
                 setDeleteFailureModalShow(true)
             }
+            setIsLoading(false)
         }
     }
 
@@ -169,14 +167,12 @@ function ProductDetails(props) {
     }
 
     const modifyProduct = async () => {
-        console.log(product)
         try {
             setIsLoading(true)
             const response = await axios.put(`http://localhost:9000/api/product/authentication/${pid}`, product)
             setIsLoading(false)
             setModifySuccessModalShow(true)
         }catch (e) {
-            console.log(e)
             if(e.response?.data.msg === 'Expired Token') {
                 axios.defaults.withCredentials = true;
                 const response = await axios.get("http://localhost:9000/api/token/getAccessToken")
@@ -185,9 +181,10 @@ function ProductDetails(props) {
                 dispatch(setLogin(accessToken))
                 return modifyProduct()
             }
-            if (e.response?.data.message === 'Forbidden') {
+            if (e.response?.data.error === 'Forbidden') {
                 setModifyFailureModalShow(true)
             }
+            setIsLoading(false)
         }
         finally {
             for (const deletedImage of imageDeleteList) {
@@ -208,7 +205,6 @@ function ProductDetails(props) {
     const uploadImage = async () => {
         const formObj = new FormData
         const fileInput = document.querySelector(".fileUploader")
-        console.log(fileInput.files)
 
         const files = fileInput.files
         for (let i = 0; i < files.length; i++) {
@@ -232,7 +228,6 @@ function ProductDetails(props) {
             setIsLoading(false)
             setImageUploadModalShow(false)
         } catch (e) {
-            console.log(e)
             if (e.message === "Network Error") {
                 alert("1MB이하의 이미지를 업로드해주세요")
             } else {

@@ -9,6 +9,7 @@ import {Button, Form, Modal} from "react-bootstrap";
 import ReactStars from "react-rating-stars-component/dist/react-stars";
 import {setLogin} from "../../store/loginSlice";
 import styled from "styled-components";
+import PreLoader from "../PreLoader/PreLoader";
 
 const TextAreaP = styled.textarea`
   color: #6f6f6f;
@@ -18,7 +19,7 @@ const TextAreaP = styled.textarea`
 `
 
 function ProductReviews(props) {
-
+    const [isLoading, setIsLoading] = useState(false)
     const dispatch = useDispatch()
     const isLogin = useSelector(store => store.login.isLogin)
     const mid = useSelector(store => store.user.mid)
@@ -40,7 +41,6 @@ function ProductReviews(props) {
         try {
             const response = await axios.get(`http://localhost:9000/api/review/${pid}?page=${page}&size=${size}`)
             const data = response.data
-            console.log(data)
             if (data.dtoList === null) {
                 setReviews([])
             } else {
@@ -52,7 +52,6 @@ function ProductReviews(props) {
             setStart(data.start)
             setTotal(data.total)
         } catch (err) {
-            console.log(err)
         }
     }
 
@@ -88,8 +87,6 @@ function ProductReviews(props) {
         filledIcon: <i className="fa fa-star" style={{marginRight: '1px'}}/>,
         onChange: newValue => {
             setReviewForAdd({...reviewForAdd, grade: newValue})
-            console.log(newValue)
-            console.log(reviewForAdd.grade)
         }
     }
 
@@ -110,11 +107,12 @@ function ProductReviews(props) {
     };
     const createReview = async () => {
         try {
+            setIsLoading(true)
             const response = await axios.post(`http://localhost:9000/api/review/authentication/create`, reviewForAdd)
             setAddReviewModalShow(false)
+            setIsLoading(false)
             getReviews()
         } catch (e) {
-            console.log(e)
             if (e.response.data.msg === 'Expired Token') {
                 axios.defaults.withCredentials = true;
                 const response = await axios.get("http://localhost:9000/api/token/getAccessToken")
@@ -123,9 +121,10 @@ function ProductReviews(props) {
                 dispatch(setLogin(accessToken))
                 return createReview()
             }
-            if (e.response.data.message === 'Forbidden') {
+            if (e.response.data.error === 'Forbidden') {
                 // setCreateFailureModalShow(true)
             }
+            setIsLoading(false)
         }
     }
 
@@ -204,7 +203,7 @@ function ProductReviews(props) {
                 </Modal.Footer>
             </Modal>
 
-
+            {isLoading ? <PreLoader/> : ''}
 
 
         </>

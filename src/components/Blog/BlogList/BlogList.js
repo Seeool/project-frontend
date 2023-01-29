@@ -25,11 +25,6 @@ function BlogList(props) {
         if (category === null) {category = ''}
         let keyword = params.get('keyword')
         if (keyword === null) {keyword = ''}
-        console.log("keyword : ",keyword)
-        console.log("category: ",category)
-        console.log("sort : ",sort)
-        console.log("page : ",page)
-        console.log("size : ",size)
         const response = await axios.get(`http://localhost:9000/api/blog/list?category=${category}&keyword=${keyword}&sort=${sort}&page=${page}`)
         const data = response.data
         if (data.dtoList === null) {
@@ -37,7 +32,6 @@ function BlogList(props) {
         } else {
             setBlogs(data.dtoList)
         }
-        console.log(data)
         setPrev(data.prev)
         setNext(data.next)
         setEnd(data.end)
@@ -67,7 +61,6 @@ function BlogList(props) {
     }
 
     useEffect(() => {
-        console.log("getBlogs 실행")
         getBlogs()
     },[params, page, sort])
 

@@ -17,7 +17,6 @@ const ProductPaginationBottom = (props) => {
 
     const [render, setRender] = useState(false)
     const test = () => {
-        console.log("test 실행됨")
         setRender(!render)
     }
 

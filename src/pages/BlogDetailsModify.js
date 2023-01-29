@@ -1,19 +1,24 @@
 import React, {useEffect, useRef, useState} from 'react';
-import BlogSideBar from "../components/BlogDetails/BlogSideBar";
-import BlogBanner from "../components/BlogDetails/BlogBanner";
 import axios from "axios";
-import {useSearchParams} from "react-router-dom";
-import BlogSection from "../components/BlogDetails/BlogSection";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import BlogSectionModify from "../components/BlogDetails/BlogSectionModify";
+import {useSelector} from "react-redux";
 
-function BlogDetails(props) {
+function BlogDetailsModify(props) {
+    const userRole = useSelector(store => store.user.userRole)
+    const navigate = useNavigate()
+    useEffect(() => {
+        if (userRole !== "ADMIN" && userRole !== "MANAGER") {
+            navigate("/")
+        }
+    },[])
+
     const [blog, setBlog] = useState();
     const [params, setParams] = useSearchParams()
     const bid = params.get('bid')
     const getBlog = async () => {
         const response = await axios.get(`http://localhost:9000/api/blog/${bid}`)
         const data = response.data
-        console.log(data)
         setBlog(data)
     }
 
@@ -34,4 +39,4 @@ function BlogDetails(props) {
     );
 }
 
-export default BlogDetails;
+export default BlogDetailsModify;

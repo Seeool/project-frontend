@@ -31,7 +31,6 @@ const FeaturedProductList = () => {
             $('.featured__controls li').removeClass('active');
             $(this).addClass('active');
             let filter = $(this).data('filter')
-            console.log(filter)
             if ($(this).data('filter') === '*') {
                 $('.featured__filter').find('.mix').fadeIn()
             }

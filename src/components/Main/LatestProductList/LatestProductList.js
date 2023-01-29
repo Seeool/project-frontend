@@ -4,14 +4,11 @@ import axios from "axios";
 import ReactOwlCarousel from "react-owl-carousel";
 
 function LatestProductList(props) {
-    console.log("신상품 리렌더링")
-
     const [products, setProducts] = useState([])
     const getProducts = async () => {
         try {
             const response = await axios.get("http://localhost:9000/api/product/latestList")
             setProducts(response.data)
-            console.log(response.data)
         }catch (e) {
             alert(e)
         }

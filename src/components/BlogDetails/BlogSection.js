@@ -30,7 +30,6 @@ function BlogSection(props) {
     const [isLoading, setIsLoading] = useState(false)
     const {title, text, fileName, mid, memberFileName, roleSet, category, bid} = props.blog
     const categories = ["뷰티", "음식", "생활/건강", "여행"]
-    console.log(roleSet)
     let role
     if (roleSet.includes("USER")) {
         role = "USER"
@@ -63,7 +62,6 @@ function BlogSection(props) {
             setIsLoading(false)
             navigate('/blog')
         } catch (e) {
-            console.log(e)
             if (e.response.data.msg === 'Expired Token') {
                 axios.defaults.withCredentials = true;
                 const response = await axios.get("http://localhost:9000/api/token/getAccessToken")
@@ -72,10 +70,11 @@ function BlogSection(props) {
                 dispatch(setLogin(accessToken))
                 return deleteBlog()
             }
-            if (e.response.data.message === 'Forbidden') {
+            if (e.response.data.error === 'Forbidden') {
                 setDeleteConfirmModalShow(false)
                 setDeleteFailureModalShow(true)
             }
+            setIsLoading(false)
         }
     }
 

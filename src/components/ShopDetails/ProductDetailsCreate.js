@@ -49,8 +49,6 @@ function ProductDetails(props) {
 
 
     const handleValue = (e) => {
-        console.log(e.target.name)
-        console.log(e.target.value)
         setProduct({...product, [e.target.name]: e.target.value})
     }
     const discountCheck = (e) => {
@@ -104,7 +102,6 @@ function ProductDetails(props) {
     }
 
     const createProduct = async () => {
-        console.log(product)
         try {
             setIsLoading(true)
             const response = await axios.post(`http://localhost:9000/api/product/authentication/create`, product)
@@ -112,7 +109,6 @@ function ProductDetails(props) {
             setIsLoading(false)
             setCreateSuccessModalShow(true)
         } catch (e) {
-            console.log(e)
             if (e.response.data.msg === 'Expired Token') {
                 axios.defaults.withCredentials = true;
                 const response = await axios.get("http://localhost:9000/api/token/getAccessToken")
@@ -121,12 +117,13 @@ function ProductDetails(props) {
                 dispatch(setLogin(accessToken))
                 return createProduct()
             }
-            if (e.response.data.message === 'Forbidden') {
+            if (e.response.data.error === 'Forbidden') {
                 setCreateFailureModalShow(true)
             }
             if (e.response.data === "exist") {
                 setExistFailureModalShow(true)
             }
+            setIsLoading(false)
         }
     }
 
@@ -155,8 +152,6 @@ function ProductDetails(props) {
     const uploadImage = async () => {
         const formObj = new FormData
         const fileInput = document.querySelector(".fileUploader")
-        console.log(fileInput.files)
-
         const files = fileInput.files
         for (let i = 0; i < files.length; i++) {
             formObj.append("files", files[i])
@@ -179,7 +174,6 @@ function ProductDetails(props) {
             setIsLoading(false)
             setImageUploadModalShow(false)
         } catch (e) {
-            console.log(e)
             if (e.message === "Network Error") {
                 alert("1MB이하의 이미지를 업로드해주세요")
             } else {
@@ -197,7 +191,6 @@ function ProductDetails(props) {
             array = array.filter(fileName => fileName !== obj)
             setImageList(array)
         }catch (e) {
-            console.log(e)
         }
 
     }

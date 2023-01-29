@@ -26,7 +26,6 @@ const inactive = {
 }
 const Header = () => {
     const [isLoading, setIsLoading] = useState(false);
-    console.log("헤더 랜더링")
     const {cart} = useSelector(store => store.cart)
     let sum = 0
     cart.forEach((product) => {
@@ -55,7 +54,6 @@ const Header = () => {
             const account = await axios.get("http://localhost:9000/api/member/me",)
             dispatch(setAccount(account.data))
         } catch (e) {
-            console.log(e)
             if (e.response.data.msg === "NO_REFRESH") {
                 purge()
             }
@@ -70,14 +68,12 @@ const Header = () => {
         e.preventDefault()
         e.stopPropagation()
         try {
-            console.log("로그아웃실행")
             axios.defaults.withCredentials = true;
             const response = await axios.post("http://localhost:9000/logoutProc")
             axios.defaults.headers.common["Authorization"] = ""
             purge()
             navigate("/")
         } catch (e) {
-            console.log(e)
         }
     }
 

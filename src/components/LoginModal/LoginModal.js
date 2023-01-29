@@ -67,7 +67,6 @@ const LoginModal = () => {
             setIsLoading(false)
 
         } catch (err) {
-            console.log(err.response.data)
             if (err.response.data.error === "BadCredentials") {
                 setLoginFailModalShow(true)
             }

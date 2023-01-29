@@ -5,6 +5,7 @@ import {Button, Modal} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
 import {setLogin} from "../../store/loginSlice";
+import PreLoader from "../PreLoader/PreLoader";
 
 const HeaderDiv = styled.div`
   display: flex;
@@ -19,6 +20,7 @@ const TextAreaP = styled.textarea`
   border: none;
 `
 const Review = (props) => {
+    const [isLoading, setIsLoading] = useState(false)
     const {review, getReviews} = props
     const textareaP = useRef()
     const loginId = useSelector(store => store.user.mid)
@@ -31,8 +33,9 @@ const Review = (props) => {
     }
     const deleteReview = async () => {
         try {
-            console.log(review)
+            setIsLoading(true)
             const response = await axios.post(`http://localhost:9000/api/review/authentication/delete`, review)
+            setIsLoading(false)
             getReviews()
         } catch (e) {
             if (e.response.data.msg === 'Expired Token') {
@@ -43,9 +46,10 @@ const Review = (props) => {
                 dispatch(setLogin(accessToken))
                 return deleteReview()
             }
-            if (e.response.data.message === 'Forbidden') {
+            if (e.response.data.error === 'Forbidden') {
                 alert(e)
             }
+            setIsLoading(false)
         }
     }
 
@@ -88,6 +92,8 @@ const Review = (props) => {
                     </Button>
                 </Modal.Footer>
             </Modal>
+
+            {isLoading ? <PreLoader/> : ''}
         </>
     );
 };

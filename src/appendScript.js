@@ -1,7 +1,6 @@
 import React from 'react';
 
 const appendScript = (src) => {
-    console.log("스크립트 재삽입")
     const script = document.createElement("script")
     script.src = src;
     script.async = false

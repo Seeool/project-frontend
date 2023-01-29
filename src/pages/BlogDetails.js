@@ -12,7 +12,6 @@ function BlogDetails(props) {
     const getBlog = async () => {
         const response = await axios.get(`http://localhost:9000/api/blog/${bid}`)
         const data = response.data
-        console.log(data)
         setBlog(data)
     }
 

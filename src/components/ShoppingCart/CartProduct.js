@@ -9,10 +9,7 @@ function CartProduct(props) {
     const {id, name, price, qty, fileNames} = props.cartProduct
     const dispatch = useDispatch()
 
-    console.log("파일이름 확인하기"+fileNames)
-
     const plusQty = () => {
-        console.log("plusQty 실행")
         dispatch(plusProduct({id : id}))
         props.setRenderChange(props.renderChange + 1)
     }

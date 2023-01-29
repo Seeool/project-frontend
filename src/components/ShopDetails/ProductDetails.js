@@ -65,7 +65,6 @@ function ProductDetails(props) {
             const response = await axios.get(`http://localhost:9000/api/product/${pid}`)
             setProduct(response.data)
             setfileNames(response.data.fileNames)
-            console.log(response.data)
         } catch (e) {
 
         }
@@ -105,7 +104,7 @@ function ProductDetails(props) {
                 dispatch(setLogin(accessToken))
                 return deleteProduct()
             }
-            if (e.response.data.message === 'Forbidden') {
+            if (e.response.data.error === 'Forbidden') {
                 setDeleteConfirmModalShow(false)
                 setDeleteFailureModalShow(true)
             }
