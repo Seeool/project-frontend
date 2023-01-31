@@ -262,7 +262,7 @@ function ProductDetails(props) {
                         <ul>
                             <li><b>원산지</b><input type={"text"} name={"origin"} onChange={handleValue}
                                                  value={product.origin} style={{width: '100px'}}/></li>
-                            <li><b>재고</b><input type={"text"} name={"stock"} onChange={handleValue}
+                            <li><b>재고</b><input type={"text"} name={"stock"} onChange={handleNumber}
                                                 value={product.stock} style={{width: '100px'}}/></li>
                         </ul>
                     </form>
