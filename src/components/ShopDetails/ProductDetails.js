@@ -8,6 +8,7 @@ import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import ReactOwlCarousel from "react-owl-carousel";
 import styled from "styled-components";
 import {setLogin} from "../../store/loginSlice";
+import PreLoader from "../PreLoader/PreLoader";
 
 const OriginPrice = styled.span`
   font-size: 25px;
@@ -36,6 +37,7 @@ const ModifyBtnDiv = styled.div`
 `
 
 function ProductDetails(props) {
+    const [isLoading, setIsLoading] = useState(false)
     const [quantities, setQuantities] = useState(1)
     const dispatch = useDispatch()
 
@@ -62,11 +64,14 @@ function ProductDetails(props) {
     const day = date.getDate()
     const getProduct = async () => {
         try {
+            setIsLoading(true)
             const response = await axios.get(`http://seol.site:9000/api/product/${pid}`)
             setProduct(response.data)
             setfileNames(response.data.fileNames)
+            setIsLoading(false)
         } catch (e) {
-
+            console.log(e)
+            setIsLoading(false)
         }
     }
     const addToCart = (e) => {
@@ -93,7 +98,9 @@ function ProductDetails(props) {
 
     const deleteProduct = async () => {
         try {
+            setIsLoading(true)
             const response = await axios.delete(`http://seol.site:9000/api/product/authentication/${pid}`)
+            setIsLoading(false)
             navigate("/shop-grid")
         } catch (e) {
             if (e.response.data.msg === 'Expired Token') {
@@ -108,6 +115,7 @@ function ProductDetails(props) {
                 setDeleteConfirmModalShow(false)
                 setDeleteFailureModalShow(true)
             }
+            setIsLoading(false)
         }
     }
 
@@ -290,6 +298,8 @@ function ProductDetails(props) {
                     </Button>
                 </Modal.Footer>
             </Modal>
+
+            {isLoading ? <PreLoader/> : ''}
         </>
     );
 }
